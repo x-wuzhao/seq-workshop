@@ -1,0 +1,1111 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>序列工坊 · 中心法则交互式工作台</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230E7C7B'/%3E%3Cpath d='M9 6c0 5 14 5 14 10s-14 5-14 10' stroke='white' stroke-width='2' fill='none'/%3E%3Cpath d='M23 6c0 5-14 5-14 10s14 5 14 10' stroke='%23A7E0DE' stroke-width='2' fill='none'/%3E%3Cg stroke='white' stroke-width='1.4'%3E%3Cline x1='12' y1='9' x2='20' y2='9'/%3E%3Cline x1='11' y1='14' x2='21' y2='14'/%3E%3Cline x1='11' y1='18' x2='21' y2='18'/%3E%3Cline x1='12' y1='23' x2='20' y2='23'/%3E%3C/g%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://miaoda.feishu.cn/fonts/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+:root{
+  --ink:#122E2C;
+  --ink-soft:#3E5C59;
+  --paper:#F3F7F6;
+  --card:#FFFFFF;
+  --teal:#0E7C7B;
+  --teal-dark:#0A5C5B;
+  --teal-deep:#0D2B2A;
+  --teal-soft:#DFEEEE;
+  --amber:#B9781B;
+  --amber-soft:#F7ECD8;
+  --line:#D7E3E1;
+  --red:#C43E3E;
+  --bA:#2E8B4F;
+  --bT:#D64545;
+  --bG:#D98A16;
+  --bC:#2F7DC1;
+  --shadow:0 1px 2px rgba(13,43,42,.05),0 6px 18px rgba(13,43,42,.06);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Noto Sans SC',"Microsoft YaHei",sans-serif;
+  background:var(--paper);color:var(--ink);
+  line-height:1.65;font-size:15px;
+  -webkit-font-smoothing:antialiased;
+}
+.mono{font-family:'JetBrains Mono',Consolas,"Courier New",monospace;}
+.wrap{max-width:1080px;margin:0 auto;padding:0 22px;}
+
+/* ===== HERO ===== */
+.hero{
+  position:relative;overflow:hidden;
+  background:var(--teal-deep);
+  color:#EAF5F4;padding:58px 0 54px;
+}
+.hero::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(13,43,42,.15),rgba(13,43,42,.55));
+  pointer-events:none;
+}
+.hero-inner{position:relative;z-index:2}
+.hero h1{font-size:40px;font-weight:900;letter-spacing:2px;line-height:1.2}
+.hero .sub{margin-top:12px;font-size:17px;font-weight:300;color:#BFE0DD;max-width:620px}
+.hero .flow{
+  margin-top:24px;display:flex;flex-wrap:wrap;align-items:center;gap:10px;
+  font-size:13.5px;color:#9FCFCB;
+}
+.hero .flow .step{
+  border:1px solid rgba(167,224,222,.35);border-radius:20px;
+  padding:4px 14px;color:#D9EEEC;background:rgba(167,224,222,.08);
+}
+.hero .flow .arr{color:#6FA9A5}
+.hero-track{
+  position:absolute;z-index:1;left:0;right:0;bottom:0;top:0;
+  display:flex;align-items:center;white-space:nowrap;
+  font-family:'JetBrains Mono',monospace;font-size:15px;
+  opacity:.16;overflow:hidden;
+}
+.hero-track .lane{display:inline-block;padding-right:40px;animation:slide 60s linear infinite}
+@keyframes slide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){.hero-track .lane{animation:none}}
+
+/* ===== 输入区 ===== */
+.input-section{margin:-30px auto 0;position:relative;z-index:5}
+.input-card{
+  background:var(--card);border-radius:14px;box-shadow:var(--shadow);
+  border:1px solid var(--line);padding:22px;
+}
+.input-card label{font-weight:700;font-size:15px;display:block;margin-bottom:10px}
+.input-card label small{font-weight:400;color:var(--ink-soft);margin-left:8px}
+textarea#seq-input{
+  width:100%;min-height:150px;resize:vertical;
+  border:1px solid var(--line);border-radius:10px;
+  padding:14px;font-family:'JetBrains Mono',Consolas,monospace;font-size:13.5px;
+  line-height:1.7;color:var(--ink);background:#FBFDFD;outline:none;
+}
+textarea#seq-input:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(14,124,123,.12)}
+.controls{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+.btn{
+  font-family:inherit;font-size:14.5px;font-weight:500;cursor:pointer;
+  border-radius:9px;padding:10px 22px;border:1px solid transparent;
+  transition:background .15s,border-color .15s,transform .05s;
+}
+.btn:active{transform:translateY(1px)}
+.btn-primary{background:var(--teal);color:#fff}
+.btn-primary:hover{background:var(--teal-dark)}
+.btn-ghost{background:#fff;color:var(--teal);border-color:var(--teal)}
+.btn-ghost:hover{background:var(--teal-soft)}
+.btn-text{background:transparent;color:var(--ink-soft);border-color:var(--line)}
+.btn-text:hover{background:#F0F4F3}
+.msg{margin-top:12px;font-size:13.5px;border-radius:8px;padding:9px 13px;display:none}
+.msg.warn{display:block;background:#FCF3E4;color:#8A5A14;border:1px solid #EED9B2}
+.msg.err{display:block;background:#FBEAEA;color:#923232;border:1px solid #F0C9C9}
+.msg.info{display:block;background:var(--teal-soft);color:var(--teal-dark);border:1px solid #C4DEDC}
+
+/* ===== 结果区 ===== */
+#results{margin-top:34px;padding-bottom:10px}
+#results[hidden]{display:none}
+.panel{
+  background:var(--card);border:1px solid var(--line);border-radius:14px;
+  box-shadow:var(--shadow);padding:22px 24px;margin-bottom:22px;
+}
+.panel h2{
+  font-size:17px;font-weight:700;margin-bottom:4px;display:flex;align-items:center;gap:9px;
+}
+.panel h2 .tag{
+  font-size:11.5px;font-weight:500;color:var(--teal-dark);background:var(--teal-soft);
+  border-radius:5px;padding:2px 8px;letter-spacing:.5px;
+}
+.panel .hint{font-size:13px;color:var(--ink-soft);margin-bottom:16px}
+
+/* 统计卡片 */
+.stats-main{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:14px}
+.stats-base{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.stat{
+  background:var(--card);border:1px solid var(--line);border-radius:12px;
+  padding:15px 17px;
+}
+.stat .k{font-size:12.5px;color:var(--ink-soft)}
+.stat .v{font-size:24px;font-weight:700;margin-top:3px;font-family:'JetBrains Mono',monospace}
+.stat .v small{font-size:13px;font-weight:400;color:var(--ink-soft);margin-left:2px}
+.stat.base-A{border-top:3px solid var(--bA)}
+.stat.base-T{border-top:3px solid var(--bT)}
+.stat.base-G{border-top:3px solid var(--bG)}
+.stat.base-C{border-top:3px solid var(--bC)}
+.stat.base-A .v{color:var(--bA)}.stat.base-T .v{color:var(--bT)}
+.stat.base-G .v{color:var(--bG)}.stat.base-C .v{color:var(--bC)}
+
+/* 序列展示 */
+.seq-line{
+  font-family:'JetBrains Mono',monospace;font-size:14px;line-height:2.1;
+  word-break:break-all;background:#FBFDFD;border:1px solid var(--line);
+  border-radius:9px;padding:13px 15px;letter-spacing:.4px;
+}
+.seq-block{margin-bottom:16px}
+.seq-block:last-child{margin-bottom:0}
+.seq-block .lab{
+  font-size:13px;font-weight:700;margin-bottom:6px;display:flex;
+  justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;
+}
+.seq-block .lab .desc{font-weight:400;color:var(--ink-soft);font-size:12.5px}
+.bA{color:var(--bA)}.bT{color:var(--bT)}.bG{color:var(--bG)}.bC{color:var(--bC)}.bU{color:#C95E2E}
+.sep{display:inline-block;width:9px}
+.collapsed{max-height:132px;overflow:hidden;position:relative}
+.collapsed::after{
+  content:"";position:absolute;left:0;right:0;bottom:0;height:46px;
+  background:linear-gradient(transparent,#FBFDFD);
+}
+.expand-link{
+  display:inline-block;margin-top:8px;font-size:13px;color:var(--teal);
+  cursor:pointer;background:none;border:none;font-family:inherit;padding:0;
+}
+.expand-link:hover{text-decoration:underline}
+
+/* 翻译框 */
+.frame-row{
+  border:1px solid var(--line);border-radius:10px;padding:13px 15px;margin-bottom:11px;
+}
+.frame-row.best{border-color:#E2C48A;background:#FDF9F0}
+.frame-head{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px;font-size:13px}
+.frame-name{font-weight:700;font-family:'JetBrains Mono',monospace;background:var(--teal-deep);color:#fff;border-radius:5px;padding:2px 9px;font-size:12px}
+.frame-row.best .frame-name{background:var(--amber)}
+.frame-meta{color:var(--ink-soft);font-size:12.5px}
+.orf-badge{font-size:11.5px;color:var(--amber);background:var(--amber-soft);border-radius:5px;padding:2px 8px;font-weight:500}
+.prot-line{font-family:'JetBrains Mono',monospace;font-size:13.5px;line-height:2;word-break:break-all;letter-spacing:.3px}
+.orf-hi{background:#F3E0B5;border-radius:3px;padding:1px 1px}
+.aaM{color:var(--amber);font-weight:600}
+.aaStop{color:var(--red);font-weight:700}
+
+/* 图表 */
+.charts-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.chart-box{width:100%;height:320px}
+#chartAA{height:400px}
+
+/* 教学区 */
+#learn{margin-top:8px}
+#learn > h2{font-size:20px;font-weight:700;margin-bottom:16px}
+details.learn-item{
+  background:var(--card);border:1px solid var(--line);border-radius:11px;
+  margin-bottom:11px;overflow:hidden;
+}
+details.learn-item summary{
+  cursor:pointer;padding:14px 18px;font-weight:700;font-size:15px;
+  list-style:none;display:flex;align-items:center;gap:11px;
+}
+details.learn-item summary::-webkit-details-marker{display:none}
+details.learn-item summary::before{
+  content:"";width:9px;height:9px;border:2px solid var(--teal);border-left:0;border-bottom:0;
+  transform:rotate(45deg);transition:transform .2s;flex:none;margin-top:-3px;
+}
+details.learn-item[open] summary::before{transform:rotate(135deg);margin-top:2px}
+details.learn-item .body{padding:0 18px 16px;color:var(--ink-soft);font-size:14px}
+details.learn-item .body p{margin-bottom:8px}
+details.learn-item .body strong{color:var(--ink)}
+
+footer{
+  margin-top:40px;background:var(--teal-deep);color:#9FC6C2;padding:26px 0;
+  font-size:13px;
+}
+footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+
+/* ===== 酶切位点 ===== */
+.enz-toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:14px}
+.enz-toolbar select{
+  font-family:inherit;font-size:13.5px;padding:8px 10px;border:1px solid var(--line);
+  border-radius:8px;background:#fff;color:var(--ink);outline:none;
+}
+.enz-map{
+  background:#FBFDFD;border:1px solid var(--line);border-radius:9px;
+  padding:16px 14px 12px;margin-bottom:16px;overflow-x:auto;
+}
+.enz-map svg{display:block;min-width:560px;width:100%;height:120px}
+.enz-table{width:100%;border-collapse:collapse;font-size:13px}
+.enz-table th,.enz-table td{
+  border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top;
+}
+.enz-table th{background:#F0F5F4;font-weight:700;white-space:nowrap}
+.enz-table td .pos{display:inline-block;margin:1px 3px 1px 0;font-family:'JetBrains Mono',monospace;font-size:12px;background:var(--teal-soft);color:var(--teal-dark);border-radius:4px;padding:0 6px}
+.enz-table td.site{font-family:'JetBrains Mono',monospace;white-space:nowrap}
+.enz-table .cutmark{color:var(--red);font-weight:700}
+.empty-note{font-size:13.5px;color:var(--ink-soft);padding:8px 0}
+
+/* ===== 序列比对 ===== */
+.align-input{
+  width:100%;min-height:80px;resize:vertical;border:1px solid var(--line);border-radius:9px;
+  padding:11px 13px;font-family:'JetBrains Mono',monospace;font-size:13px;background:#FBFDFD;outline:none;
+}
+.align-input:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(14,124,123,.12)}
+.align-params{display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin:12px 0}
+.align-params label{font-size:13px;color:var(--ink-soft)}
+.align-params select{font-family:inherit;font-size:13px;padding:6px 8px;border:1px solid var(--line);border-radius:7px;background:#fff}
+.align-stats{display:flex;flex-wrap:wrap;gap:18px;margin-bottom:12px;font-size:13.5px}
+.align-stats b{font-family:'JetBrains Mono',monospace}
+.align-view{
+  font-family:'JetBrains Mono',monospace;font-size:13px;line-height:1.9;
+  background:#FBFDFD;border:1px solid var(--line);border-radius:9px;
+  padding:13px 15px;word-break:break-all;letter-spacing:.3px;
+}
+.match{color:var(--bA)}.mismatch{color:var(--bT)}.gapch{color:#9AA8A6}
+
+/* ===== 密码子频率 ===== */
+.codon-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.codon-cell{
+  border:1px solid var(--line);border-radius:8px;padding:7px 9px;font-size:12px;
+  display:flex;justify-content:space-between;align-items:center;gap:6px;background:#fff;
+}
+.codon-cell .c{font-family:'JetBrains Mono',monospace;font-weight:600}
+.codon-cell .a{font-family:'JetBrains Mono',monospace;color:var(--ink-soft)}
+.codon-cell .f{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--ink-soft)}
+.codon-aahead{
+  grid-column:1/-1;font-size:12.5px;font-weight:700;color:var(--teal-dark);
+  margin-top:6px;border-bottom:1px dashed var(--line);padding-bottom:3px;
+}
+
+/* ===== 响应式 ===== */
+@media (max-width:860px){
+  .charts-grid{grid-template-columns:1fr}
+  .stats-base{grid-template-columns:repeat(2,1fr)}
+  .stats-main{grid-template-columns:repeat(3,1fr)}
+  .codon-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width:600px){
+  .hero{padding:42px 0 46px}
+  .hero h1{font-size:30px}
+  .stats-main{grid-template-columns:1fr}
+  .panel{padding:18px 16px}
+  .chart-box{height:280px}
+  .btn{padding:9px 16px;font-size:14px}
+}
+</style>
+</head>
+<body>
+
+<!-- ===== HERO ===== -->
+<header class="hero">
+  <div class="hero-track" aria-hidden="true">
+    <span class="lane" id="heroLane"></span>
+  </div>
+  <div class="wrap hero-inner">
+    <h1>序列工坊</h1>
+    <p class="sub">把一段 DNA 粘贴进来，亲眼看着它反向互补、转录成 mRNA、再翻译成蛋白质——分子生物学的中心法则，在这里可以用手去拨。</p>
+    <div class="flow">
+      <span class="step">1 输入 DNA</span><span class="arr">→</span>
+      <span class="step">2 互补与转录</span><span class="arr">→</span>
+      <span class="step">3 六框翻译</span><span class="arr">→</span>
+      <span class="step">4 可视化</span>
+    </div>
+  </div>
+</header>
+
+<!-- ===== 输入 ===== -->
+<section class="wrap input-section">
+  <div class="input-card">
+    <label for="seq-input">DNA 序列 <small>支持直接粘贴，也支持 FASTA 格式（以 &gt; 开头的说明行会自动忽略）</small></label>
+    <textarea id="seq-input" spellcheck="false" placeholder="例如：ATGGCCATTGTAATGGGCCGCTGAAAGGGTGCCCGATAG..."></textarea>
+    <div class="controls">
+      <button class="btn btn-primary" id="btnAnalyze">开始分析</button>
+      <button class="btn btn-ghost" id="btnSample">加载示例序列</button>
+      <button class="btn btn-text" id="btnClear">清空</button>
+    </div>
+    <div class="msg" id="inputMsg"></div>
+  </div>
+</section>
+
+<!-- ===== 结果 ===== -->
+<main class="wrap" id="results" hidden>
+
+  <div class="stats-main">
+    <div class="stat"><div class="k">序列长度</div><div class="v" id="stLen">0<small> bp</small></div></div>
+    <div class="stat"><div class="k">GC 含量</div><div class="v" id="stGC">0<small> %</small></div></div>
+    <div class="stat"><div class="k">AT 含量</div><div class="v" id="stAT">0<small> %</small></div></div>
+    <div class="stat"><div class="k">解链温度 Tm</div><div class="v" id="stTm">0<small> °C</small></div></div>
+    <div class="stat"><div class="k">分子量（单链）</div><div class="v" id="stMW">0<small> kDa</small></div></div>
+  </div>
+  <div class="stats-base">
+    <div class="stat base-A"><div class="k">A 腺嘌呤</div><div class="v" id="stA">0</div></div>
+    <div class="stat base-T"><div class="k">T 胸腺嘧啶</div><div class="v" id="stT">0</div></div>
+    <div class="stat base-G"><div class="k">G 鸟嘌呤</div><div class="v" id="stG">0</div></div>
+    <div class="stat base-C"><div class="k">C 胞嘧啶</div><div class="v" id="stC">0</div></div>
+  </div>
+
+  <section class="panel" style="margin-top:22px">
+    <h2>反向互补与转录 <span class="tag">中心法则 · 第一步</span></h2>
+    <p class="hint">DNA 双链反向平行，碱基互补配对（A–T、C–G）；转录时以模板链合成 mRNA，序列与编码链一致，仅 T 换成 U。</p>
+    <div class="seq-block">
+      <div class="lab"><span>输入序列（编码链 5'→3'）</span><span class="desc" id="lenInput"></span></div>
+      <div class="seq-line" id="seqInputShow"></div>
+      <button class="expand-link" data-target="seqInputShow" hidden>展开全部</button>
+    </div>
+    <div class="seq-block">
+      <div class="lab"><span>反向互补链（3'→5' 互补，显示为 5'→3'）</span></div>
+      <div class="seq-line" id="seqRevShow"></div>
+      <button class="expand-link" data-target="seqRevShow" hidden>展开全部</button>
+    </div>
+    <div class="seq-block">
+      <div class="lab"><span>mRNA（转录产物）</span><span class="desc">T 已替换为 U</span></div>
+      <div class="seq-line" id="seqMrnaShow"></div>
+      <button class="expand-link" data-target="seqMrnaShow" hidden>展开全部</button>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>六框翻译与开放阅读框 <span class="tag">中心法则 · 第二步</span></h2>
+    <p class="hint">从三个不同位置起读，同一条序列能读出三种完全不同的蛋白质；再加上反向互补链的三种，共六个读码框。开放阅读框（ORF）从起始密码子 ATG 开始，到终止密码子（TAA/TAG/TGA）结束。</p>
+    <div id="framesBox"></div>
+  </section>
+
+  <section class="panel">
+    <h2>限制性酶切位点分析 <span class="tag">基因工程</span></h2>
+    <p class="hint">限制性内切酶识别特定序列并在固定位置切开双链。下表列出在你的序列（含互补链）上检测到的全部切点，<span class="enz-table cutmark">^</span> 标记切割位置。</p>
+    <div class="enz-toolbar">
+      <label style="font-size:13.5px">显示范围：
+        <select id="enzFilter">
+          <option value="all">全部常见酶（含无切点）</option>
+          <option value="found" selected>仅显示有切点的酶</option>
+        </select>
+      </label>
+    </div>
+    <div class="enz-map" id="enzMap"></div>
+    <div id="enzTableBox"></div>
+  </section>
+
+  <section class="panel">
+    <h2>双序列全局比对 <span class="tag">Needleman–Wunsch</span></h2>
+    <p class="hint">把两条序列逐位对齐，允许插入空位（-），使总得分最高。这是判断序列同源性的基础算法。</p>
+    <label style="font-size:13px;font-weight:700;display:block;margin-bottom:6px">第二条序列</label>
+    <textarea class="align-input" id="alignInput2" spellcheck="false" placeholder="粘贴要与上方序列比对的第二条 DNA..."></textarea>
+    <div class="align-params">
+      <label>匹配 <select id="pMatch"><option selected>+1</option><option>+2</option></select></label>
+      <label>错配 <select id="pMismatch"><option selected>-1</option><option>-2</option></select></label>
+      <label>空位 <select id="pGap"><option>-1</option><option selected>-2</option></select></label>
+      <button class="btn btn-primary" id="btnAlign" style="padding:7px 18px">开始比对</button>
+    </div>
+    <div id="alignResult"></div>
+  </section>
+
+  <section class="panel">
+    <h2>密码子使用频率 <span class="tag">Codon Usage</span></h2>
+    <p class="hint" id="codonHint">统计最长 ORF 中 64 种密码子的出现次数与每千个密码子的频率——不同物种有明显的密码子使用偏好。</p>
+    <div class="codon-grid" id="codonGrid"></div>
+  </section>
+
+  <div class="charts-grid">
+    <section class="panel" style="margin-bottom:0">
+      <h2>GC 含量沿序列分布</h2>
+      <p class="hint">GC 之间有三个氢键，GC 含量越高，局部双链越稳定。</p>
+      <div class="chart-box" id="chartGC"></div>
+    </section>
+    <section class="panel" style="margin-bottom:0">
+      <h2>氨基酸组成</h2>
+      <p class="hint" id="aaHint">基于最长 ORF 翻译产物统计。</p>
+      <div class="chart-box" id="chartAA"></div>
+    </section>
+  </div>
+
+</main>
+
+<!-- ===== 教学说明 ===== -->
+<section class="wrap" id="learn" style="margin-top:38px">
+  <h2>这些结果都是什么意思？</h2>
+  <details class="learn-item">
+    <summary>为什么先要算"反向互补"？</summary>
+    <div class="body">
+      <p>DNA 是双链，两条链<strong>方向相反、碱基互补</strong>：一条链 5'→3' 走，另一条就 3'→5' 走；A 永远对着 T，C 永远对着 G。</p>
+      <p>所以拿到一条序列后，先把每个碱基换成它的互补碱基（A↔T、C↔G），再整个倒过来，就得到了另一条链按 5'→3' 书写的样子。</p>
+    </div>
+  </details>
+  <details class="learn-item">
+    <summary>"转录"到底发生了什么？</summary>
+    <div class="body">
+      <p>转录是以 DNA 为模板合成信使 RNA（mRNA）的过程。mRNA 的序列与 DNA 的<strong>编码链（正义链）几乎一样，唯一区别是 T 全部换成 U</strong>（尿嘧啶）。</p>
+      <p>真正做模板的是反向互补链，但因为碱基互补，最终产物读出来恰好等于编码链 T→U。</p>
+    </div>
+  </details>
+  <details class="learn-item">
+    <summary>三个碱基怎么决定一个氨基酸？</summary>
+    <div class="body">
+      <p>mRNA 上<strong>每连续三个碱基组成一个"密码子"</strong>，对应一个氨基酸。比如 AUG 对应甲硫氨酸（M），也是翻译开始的信号；UAA、UAG、UGA 不对应氨基酸，是"停止"信号。</p>
+      <p>这套对应关系叫<strong>遗传密码表</strong>，几乎所有生物通用——这也是为什么一个简单工具就能完成翻译。</p>
+    </div>
+  </details>
+  <details class="learn-item">
+    <summary>为什么要读六个框？ORF 又是什么？</summary>
+    <div class="body">
+      <p>序列上没有天然的"分隔符"。从第 1 个、第 2 个还是第 3 个碱基开始三个一组，<strong>错开一个位置，读出来的氨基酸就完全不同</strong>，这叫三个读码框；反向互补链同样有三个，合计六个。</p>
+      <p>开放阅读框（ORF）是一段<strong>从起始密码子 ATG 开始、中间没有终止密码子、最后撞上终止密码子</strong>的连续片段，它很可能对应一个真实的蛋白质。找基因，很大程度上就是在六个框里找 ORF。</p>
+    </div>
+  </details>
+  <details class="learn-item">
+    <summary>GC 含量为什么重要？</summary>
+    <div class="body">
+      <p>A 和 T 之间有两个氢键，<strong>G 和 C 之间有三个氢键</strong>。GC 含量高的区域双链结合更紧、更耐热，PCR 引物设计、DNA 解链温度都要参考它。</p>
+      <p>不同物种的基因组 GC 含量有明显差异，所以 GC 分布也是判断序列来源和异常区段的线索。</p>
+    </div>
+  </details>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>序列工坊 · 中心法则交互式工作台</span>
+    <span>所有计算均在你的浏览器本地完成，序列不会被上传</span>
+  </div>
+</footer>
+
+<!-- ECharts：本地 assets 优先；缺失时 document.write 回退 jsDelivr；再失败由 renderCharts 动态尝试 cdnjs -->
+<script src="assets/echarts.min.js"></script>
+<script>
+if(typeof echarts==='undefined'){
+  document.write('<script src="https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js"><\/script>');
+}
+</script>
+<script>
+/* =========================================================
+   一、数据：遗传密码表 / 氨基酸名 / 示例序列
+   ========================================================= */
+
+// 标准遗传密码表（DNA 密码子 → 氨基酸单字母；* 为终止密码子）
+var CODON = {
+  TTT:'F',TTC:'F',TTA:'L',TTG:'L',
+  TCT:'S',TCC:'S',TCA:'S',TCG:'S',
+  TAT:'Y',TAC:'Y',TAA:'*',TAG:'*',
+  TGT:'C',TGC:'C',TGA:'*',TGG:'W',
+  CTT:'L',CTC:'L',CTA:'L',CTG:'L',
+  CCT:'P',CCC:'P',CCA:'P',CCG:'P',
+  CAT:'H',CAC:'H',CAA:'Q',CAG:'Q',
+  CGT:'R',CGC:'R',CGA:'R',CGG:'R',
+  ATT:'I',ATC:'I',ATA:'I',ATG:'M',
+  ACT:'T',ACC:'T',ACA:'T',ACG:'T',
+  AAT:'N',AAC:'N',AAA:'K',AAG:'K',
+  AGT:'S',AGC:'S',AGA:'R',AGG:'R',
+  GTT:'V',GTC:'V',GTA:'V',GTG:'V',
+  GCT:'A',GCC:'A',GCA:'A',GCG:'A',
+  GAT:'D',GAC:'D',GAA:'E',GAG:'E',
+  GGT:'G',GGC:'G',GGA:'G',GGG:'G'
+};
+
+// 氨基酸单字母 → 中文名
+var AA_NAME = {
+  A:'丙氨酸',R:'精氨酸',N:'天冬酰胺',D:'天冬氨酸',C:'半胱氨酸',
+  E:'谷氨酸',Q:'谷氨酰胺',G:'甘氨酸',H:'组氨酸',I:'异亮氨酸',
+  L:'亮氨酸',K:'赖氨酸',M:'甲硫氨酸',F:'苯丙氨酸',P:'脯氨酸',
+  S:'丝氨酸',T:'苏氨酸',W:'色氨酸',Y:'酪氨酸',V:'缬氨酸'
+};
+var AA_ORDER = ['A','R','N','D','C','E','Q','G','H','I','L','K','M','F','P','S','T','W','Y','V'];
+
+// 示例蛋白（刻意覆盖全部 20 种氨基酸），再反推出一段教学用"示例基因"
+var SAMPLE_PROTEIN =
+  'MKTAYIAKQRQISFVKNDCEGHLMPSTWY'+
+  'VDERKHNQLGAIVWCFYSTPNDEMQRKLH'+
+  'GAVIFWCYSTPDENQRKLMHGAIVWCFYS'+
+  'TPDENQRKLMHGAIVWCFYSTPDENQRK'+
+  'LMHGAIVWCFYSTP';
+var AA_TO_CODON = {
+  A:['GCA','GCC'],R:['CGT'],N:['AAC'],D:['GAT','GAC'],C:['TGC'],
+  E:['GAA','GAG'],Q:['CAA'],G:['GGT','GGC'],H:['CAT'],I:['ATT'],
+  L:['CTG','TTG'],K:['AAA'],M:['ATG'],F:['TTT'],P:['CCA','CCG'],
+  S:['TCT','AGC'],T:['ACA','ACC'],W:['TGG'],Y:['TAT'],V:['GTT','GTG']
+};
+function buildSampleDNA(){
+  var prot=SAMPLE_PROTEIN,codons=[];
+  for(var i=0;i<prot.length;i++){
+    var opts=AA_TO_CODON[prot.charAt(i)];
+    codons.push(opts[i%opts.length]);
+  }
+  // 在不改变氨基酸的前提下，用相邻密码子组合嵌入常见酶切位点：
+  // S(AGC)+F(TTT)=AGCT(AluI)；V(GTC)+D(GAC)=GTCGAC(SalI)；S(AGT)+T(ACT)=AGTACT(ScaI)
+  for(var j=0;j+1<prot.length;j++){
+    var a=prot.charAt(j),b=prot.charAt(j+1);
+    if(a==='S'&&b==='F'){codons[j]='AGC';codons[j+1]='TTT';}
+    else if(a==='V'&&b==='D'){codons[j]='GTC';codons[j+1]='GAC';}
+    else if(a==='S'&&b==='T'){codons[j]='AGT';codons[j+1]='ACT';}
+  }
+  return codons.join('')+'TAA';
+}
+var SAMPLE_DNA = buildSampleDNA();
+
+/* =========================================================
+   二、生信核心算法（纯函数）
+   ========================================================= */
+
+// 解析输入：剥离 FASTA 标题行与空白，统计被忽略的非法字符
+function parseInput(raw){
+  var lines=raw.split(/\r?\n/), kept=[], removed=0, hadFasta=false;
+  for(var i=0;i<lines.length;i++){
+    var line=lines[i].trim();
+    if(line.charAt(0)==='>'){hadFasta=true;continue;}
+    var up=line.toUpperCase();
+    for(var j=0;j<up.length;j++){
+      var ch=up.charAt(j);
+      if(ch==='A'||ch==='T'||ch==='C'||ch==='G'){kept.push(ch);}
+      else if(ch==='U'){kept.push('T');}      // 误粘 RNA 时自动转换
+      else if(/\s/.test(ch)){/* 忽略空白 */}
+      else{removed++;}
+    }
+  }
+  return {seq:kept.join(''),removed:removed,hadFasta:hadFasta};
+}
+
+function baseCounts(seq){
+  var c={A:0,T:0,C:0,G:0};
+  for(var i=0;i<seq.length;i++){c[seq.charAt(i)]++;}
+  return c;
+}
+
+// 反向互补：互补配对后整体反转
+function reverseComplement(seq){
+  var map={A:'T',T:'A',C:'G',G:'C'}, out='';
+  for(var i=seq.length-1;i>=0;i--){out+=map[seq.charAt(i)];}
+  return out;
+}
+
+// 转录：编码链 T → U
+function transcribe(seq){return seq.replace(/T/g,'U');}
+
+// 按指定读码框（0/1/2）翻译
+function translateFrame(seq,frame){
+  var p='';
+  for(var i=frame;i+3<=seq.length;i+=3){
+    p+=(CODON[seq.substr(i,3)]||'X');
+  }
+  return p;
+}
+
+// 在指定读码框内寻找全部 ORF（ATG → 终止密码子）
+function findORFs(seq,frame){
+  var orfs=[],i=frame;
+  while(i+3<=seq.length){
+    if(seq.substr(i,3)==='ATG'){
+      var start=i,j=i,prot='',stopped=false;
+      while(j+3<=seq.length){
+        var aa=CODON[seq.substr(j,3)]||'X';
+        if(aa==='*'){stopped=true;j+=3;break;}
+        prot+=aa;j+=3;
+      }
+      if(stopped){orfs.push({start:start,end:j,len:(j-start)/3,prot:prot});}
+      i=j;
+    }else{i+=3;}
+  }
+  return orfs;
+}
+
+// GC 含量滑窗
+function gcWindows(seq){
+  var n=seq.length;
+  var win=n<200?Math.max(20,Math.floor(n/10)):100;
+  var step=Math.max(1,Math.floor(win/2));
+  var pts=[],totalGC=0;
+  for(var i=0;i+win<=n;i+=step){
+    var gc=0;
+    for(var j=i;j<i+win;j++){var ch=seq.charAt(j);if(ch==='G'||ch==='C')gc++;}
+    pts.push({pos:i+Math.floor(win/2)+1,gc:+(gc/win*100).toFixed(1)});
+    totalGC+=gc;
+  }
+  return {pts:pts,win:win,step:step};
+}
+
+/* =========================================================
+   二（补）、限制性酶切 / 序列比对 / 物理参数
+   ========================================================= */
+
+// 限制酶：[名称, 识别序列(支持简并碱基), 编码链切点(在第 n 个碱基后切)]
+var ENZYMES = [
+  ['EcoRI','GAATTC',1],['BamHI','GGATCC',1],['HindIII','AAGCTT',1],
+  ['XbaI','TCTAGA',1],['SalI','GTCGAC',1],['PstI','CTGCAG',5],
+  ['SmaI','CCCGGG',3],['KpnI','GGTACC',5],['SacI','GAGCTC',5],
+  ['NotI','GCGGCCGC',2],['XhoI','CTCGAG',1],['NcoI','CCATGG',1],
+  ['NdeI','CATATG',2],['BglII','AGATCT',1],['SpeI','ACTAGT',1],
+  ['ApaI','GGGCCC',5],['HaeIII','GGCC',2],['AluI','AGCT',2],
+  ['TaqI','TCGA',1],['Sau3AI','GATC',1],['DraI','TTTAAA',3],
+  ['EcoRV','GATATC',3],['AflII','CTTAAG',1],['AscI','GGCGCGCC',2],
+  ['SphI','GCATGC',5],['NheI','GCTAGC',1],['StuI','AGGCCT',3],
+  ['BspHI','TCATGA',1],['MspI','CCGG',1],['HpaI','GTTAAC',3],
+  ['ScaI','AGTACT',3],['AatII','GACGTC',5]
+];
+
+// 简并碱基及其互补
+var DEGEN = {R:['A','G'],Y:['C','T'],S:['G','C'],W:['A','T'],K:['G','T'],M:['A','C'],
+  B:['C','G','T'],D:['A','G','T'],H:['A','C','T'],V:['A','C','G'],N:['A','C','G','T']};
+var DEG_COMP = {R:'Y',Y:'R',S:'S',W:'W',K:'M',M:'K',B:'V',V:'B',D:'H',H:'D',N:'N',
+  A:'T',T:'A',C:'G',G:'C'};
+
+function baseMatch(p,ch){
+  if(p===ch)return true;
+  var d=DEGEN[p];
+  if(d){for(var i=0;i<d.length;i++)if(d[i]===ch)return true;}
+  return false;
+}
+function siteAt(seq,pos,site){
+  for(var i=0;i<site.length;i++){
+    if(pos+i>=seq.length||!baseMatch(site.charAt(i),seq.charAt(pos+i)))return false;
+  }
+  return true;
+}
+function rcPattern(p){
+  var out='';
+  for(var i=p.length-1;i>=0;i--)out+=(DEG_COMP[p.charAt(i)]||'N');
+  return out;
+}
+
+// 扫描一种酶的全部识别位点与切点
+function scanEnzyme(seq,enz){
+  var site=enz[1],L=site.length,c1=enz[2],c2=L-c1,rcs=rcPattern(site),hits=[];
+  for(var i=0;i+L<=seq.length;i++){
+    if(siteAt(seq,i,site))hits.push({start:i,cut:i+c1});
+    if(rcs!==site&&siteAt(seq,i,rcs))hits.push({start:i,cut:i+c2,rc:true});
+  }
+  hits.sort(function(a,b){return a.cut-b.cut});
+  return hits;
+}
+function analyzeEnzymes(seq){
+  var res=[];
+  for(var e=0;e<ENZYMES.length;e++){
+    res.push({enz:ENZYMES[e],hits:scanEnzyme(seq,ENZYMES[e])});
+  }
+  res.sort(function(a,b){return b.hits.length-a.hits.length;});
+  return res;
+}
+
+// Needleman–Wunsch 全局比对
+function nwAlign(a,b,sc,mm,gap){
+  var n=a.length,m=b.length;
+  if(!n||!m)return null;
+  var F=[],T=[];
+  for(var i=0;i<=n;i++){F.push(new Array(m+1));T.push(new Array(m+1));}
+  F[0][0]=0;
+  for(var x=1;x<=n;x++){F[x][0]=x*gap;T[x][0]=1;}
+  for(var y=1;y<=m;y++){F[0][y]=y*gap;T[0][y]=2;}
+  for(var ii=1;ii<=n;ii++){
+    for(var jj=1;jj<=m;jj++){
+      var s=(a.charAt(ii-1)===b.charAt(jj-1))?sc:mm;
+      var d=F[ii-1][jj-1]+s,u=F[ii-1][jj]+gap,l=F[ii][jj-1]+gap;
+      var best=d,bt=0;
+      if(u>best){best=u;bt=1;}
+      if(l>best){best=l;bt=2;}
+      F[ii][jj]=best;T[ii][jj]=bt;
+    }
+  }
+  var aa='',bb='',mid='',ci=n,cj=m;
+  while(ci>0||cj>0){
+    var t=T[ci][cj];
+    if(t===0){
+      var ca=a.charAt(ci-1),cb=b.charAt(cj-1);
+      aa=ca+aa;bb=cb+bb;mid=(ca===cb?'|':'·')+mid;ci--;cj--;
+    }else if(t===1){
+      aa=a.charAt(ci-1)+aa;bb='-'+bb;mid=' '+mid;ci--;
+    }else{
+      aa='-'+aa;bb=b.charAt(cj-1)+bb;mid=' '+mid;cj--;
+    }
+  }
+  var matchN=0;
+  for(var z=0;z<mid.length;z++)if(mid.charAt(z)==='|')matchN++;
+  return {a:aa,b:bb,mid:mid,score:F[n][m],match:matchN,len:mid.length};
+}
+
+// 解链温度（短序列 Wallace 规则；长序列经验公式）
+function calcTm(c,n){
+  if(n<14)return 4*(c.G+c.C)+2*(c.A+c.T);
+  return +(64.9+41*((c.G+c.C-16.4)/n)).toFixed(1);
+}
+// 单链分子量（Da，近似）
+function calcMW(c){
+  return c.A*313.2+c.T*304.2+c.G*329.2+c.C*289.2-61;
+}
+
+/* =========================================================
+   三、渲染与交互
+   ========================================================= */
+
+// HERO 碱基滚动轨道
+(function(){
+  var base='ATCG',txt='';
+  for(var i=0;i<500;i++){
+    var ch=base.charAt(Math.floor(Math.random()*4));
+    txt+='<span class="b'+ch+'">'+ch+'</span>';
+  }
+  var lane=document.getElementById('heroLane');
+  lane.innerHTML=txt+txt;
+})();
+
+var charts={gc:null,aa:null};
+
+function setMsg(cls,html){
+  var m=document.getElementById('inputMsg');
+  m.className='msg '+cls;m.innerHTML=html;
+}
+function clearMsg(){var m=document.getElementById('inputMsg');m.className='msg';m.innerHTML='';}
+
+// 碱基序列 → 彩色 HTML（每 10 个碱基留间隔，便于数位）
+function seqHTML(seq,isRNA){
+  var h='';
+  for(var i=0;i<seq.length;i++){
+    if(i>0&&i%10===0)h+='<span class="sep"></span>';
+    var ch=seq.charAt(i);
+    var cls=isRNA?(ch==='U'?'bU':'b'+ch):'b'+ch;
+    h+='<span class="'+cls+'">'+ch+'</span>';
+  }
+  return h;
+}
+
+function aaChar(ch){
+  if(ch==='*')return '<span class="aaStop">*</span>';
+  if(ch==='M')return '<span class="aaM">M</span>';
+  return ch;
+}
+function protPart(prot,a,b){
+  var s='';
+  for(var i=a;i<b;i++)s+=aaChar(prot.charAt(i));
+  return s;
+}
+
+// 构建单个读码框数据
+function buildFrame(s,sign,f){
+  var prot=translateFrame(s,f);
+  var orfs=findORFs(s,f),best=null;
+  for(var i=0;i<orfs.length;i++){if(!best||orfs[i].len>best.len)best=orfs[i];}
+  var html='';
+  if(best){
+    var si=(best.start-f)/3,ei=si+best.len;
+    html+=protPart(prot,0,si);
+    html+='<span class="orf-hi">'+protPart(prot,si,ei)+'</span>';
+    html+=protPart(prot,ei,prot.length);
+  }else{
+    html+=protPart(prot,0,prot.length);
+  }
+  return {label:sign+(f+1),prot:prot,best:best,html:html,codons:prot.length};
+}
+
+// 长序列折叠
+function setupCollapse(lineEl,btnEl){
+  if(lineEl.scrollHeight>150){
+    lineEl.classList.add('collapsed');btnEl.hidden=false;
+  }else{
+    lineEl.classList.remove('collapsed');btnEl.hidden=true;
+  }
+}
+
+function renderResults(seq){
+  var rev=reverseComplement(seq),mrna=transcribe(seq);
+  var counts=baseCounts(seq);
+  var gcPct=((counts.G+counts.C)/seq.length*100),atPct=100-gcPct;
+
+  // 统计卡
+  document.getElementById('stLen').innerHTML=seq.length+'<small> bp</small>';
+  document.getElementById('stGC').innerHTML=gcPct.toFixed(1)+'<small> %</small>';
+  document.getElementById('stAT').innerHTML=atPct.toFixed(1)+'<small> %</small>';
+  document.getElementById('stA').textContent=counts.A;
+  document.getElementById('stT').textContent=counts.T;
+  document.getElementById('stG').textContent=counts.G;
+  document.getElementById('stC').textContent=counts.C;
+  var tm=calcTm(counts,seq.length),mwDa=calcMW(counts);
+  document.getElementById('stTm').innerHTML=tm+'<small> °C</small>';
+  document.getElementById('stMW').innerHTML=(mwDa/1000).toFixed(1)+'<small> kDa</small>';
+
+  // 序列展示
+  document.getElementById('lenInput').textContent='共 '+seq.length+' bp';
+  var line1=document.getElementById('seqInputShow');
+  var line2=document.getElementById('seqRevShow');
+  var line3=document.getElementById('seqMrnaShow');
+  line1.innerHTML=seqHTML(seq,false);
+  line2.innerHTML=seqHTML(rev,false);
+  line3.innerHTML=seqHTML(mrna,true);
+  setupCollapse(line1,line1.nextElementSibling);
+  setupCollapse(line2,line2.nextElementSibling);
+  setupCollapse(line3,line3.nextElementSibling);
+
+  // 六框
+  var defs=[
+    {s:seq,sign:'+',f:0},{s:seq,sign:'+',f:1},{s:seq,sign:'+',f:2},
+    {s:rev,sign:'-',f:0},{s:rev,sign:'-',f:1},{s:rev,sign:'-',f:2}
+  ];
+  var frames=[];
+  for(var i=0;i<defs.length;i++){frames.push(buildFrame(defs[i].s,defs[i].sign,defs[i].f));}
+  var gBest=null,gIdx=-1;
+  for(var j=0;j<frames.length;j++){
+    if(frames[j].best&&(!gBest||frames[j].best.len>gBest.len)){gBest=frames[j].best;gIdx=j;}
+  }
+  var box=document.getElementById('framesBox');box.innerHTML='';
+  for(var k=0;k<frames.length;k++){
+    var fr=frames[k];
+    var row=document.createElement('div');
+    row.className='frame-row'+(k===gIdx?' best':'');
+    var head='<div class="frame-head"><span class="frame-name">'+fr.label+'</span>';
+    head+='<span class="frame-meta">本框共翻译 '+fr.codons+' 个密码子</span>';
+    if(fr.best){
+      head+='<span class="orf-badge">'+(k===gIdx?'最长 ORF · ':'ORF · ')+(fr.best.len-1)+' 个氨基酸</span>';
+    }else{
+      head+='<span class="frame-meta">未检测到完整 ORF（ATG→终止）</span>';
+    }
+    head+='</div>';
+    row.innerHTML=head+'<div class="prot-line">'+fr.html+'</div>';
+    box.appendChild(row);
+  }
+
+  // 氨基酸组成：优先最长 ORF，否则取最长框翻译
+  var protForAA;
+  if(gBest){protForAA=gBest.prot;}
+  else{
+    protForAA=frames[0].prot;
+    for(var m=1;m<frames.length;m++){if(frames[m].prot.length>protForAA.length)protForAA=frames[m].prot;}
+  }
+  var aaCounts={};
+  for(var z=0;z<AA_ORDER.length;z++){aaCounts[AA_ORDER[z]]=0;}
+  for(var q=0;q<protForAA.length;q++){
+    var c2=protForAA.charAt(q);
+    if(aaCounts[c2]!==undefined)aaCounts[c2]++;
+  }
+  document.getElementById('aaHint').textContent=gBest?
+    '基于最长 ORF（'+gBest.prot.length+' 个氨基酸）翻译产物统计。':
+    '未发现完整 ORF，基于最长读码框的翻译产物统计。';
+
+  // 酶切位点 + 密码子频率
+  lastSeq=seq;lastEnz=analyzeEnzymes(seq);
+  renderEnzMap(seq,lastEnz);
+  renderEnzTable(seq,lastEnz,document.getElementById('enzFilter').value);
+  renderCodonGrid(seq,gBest);
+
+  document.getElementById('results').hidden=false;
+  renderCharts(seq,gcPct,aaCounts);
+}
+
+var lastSeq='',lastEnz=null;
+
+// 酶切线性图谱（SVG，悬停显示酶名与位置）
+function renderEnzMap(seq,res){
+  var W=620,H=118,x0=46,x1=W-22,y=56;
+  function X(pos){return x0+(pos/seq.length)*(x1-x0);}
+  var svg='<svg viewBox="0 0 '+W+' '+H+'" xmlns="http://www.w3.org/2000/svg">';
+  var ts=[0,.25,.5,.75,1],nHits=0;
+  for(var i=0;i<ts.length;i++){
+    var tpos=Math.round(ts[i]*seq.length),tx=X(tpos);
+    svg+='<line x1="'+tx+'" y1="'+y+'" x2="'+tx+'" y2="'+(y+5)+'" stroke="#3E5C59"/>';
+    svg+='<text x="'+tx+'" y="'+(y+19)+'" font-size="10" text-anchor="middle" fill="#3E5C59">'+tpos+'</text>';
+  }
+  svg+='<line x1="'+x0+'" y1="'+y+'" x2="'+x1+'" y2="'+y+'" stroke="#0E7C7B" stroke-width="2"/>';
+  for(var r=0;r<res.length;r++){
+    for(var h=0;h<res[r].hits.length;h++){
+      var hit=res[r].hits[h],cx=X(hit.cut);
+      svg+='<line x1="'+cx+'" y1="'+(y-11)+'" x2="'+cx+'" y2="'+(y+11)+'" stroke="#C43E3E"><title>'+res[r].enz[0]+' · 切点 '+hit.cut+' bp</title></line>';
+      nHits++;
+    }
+  }
+  svg+='</svg>';
+  document.getElementById('enzMap').innerHTML=nHits?svg:'<p class="empty-note">未检测到任何酶切位点。</p>';
+}
+
+// 酶切结果表格
+function renderEnzTable(seq,res,filter){
+  var box=document.getElementById('enzTableBox');
+  var rows=(filter==='found')?res.filter(function(r){return r.hits.length>0;}):res;
+  if(filter==='found'&&!rows.length){box.innerHTML='<p class="empty-note">未检测到常见酶的切点。</p>';return;}
+  var h='<table class="enz-table"><thead><tr>'+
+    '<th style="width:11%">酶</th><th style="width:14%">识别序列</th><th style="width:9%">切点数</th>'+
+    '<th style="width:36%">切点位置 (bp)</th><th style="width:30%">片段长度 (bp)</th></tr></thead><tbody>';
+  for(var i=0;i<rows.length;i++){
+    var r=rows[i],site=r.enz[1],c1=r.enz[2];
+    var siteDisp=site.substr(0,c1)+'<span class="cutmark">^</span>'+site.substr(c1);
+    var posHtml='',fragHtml='';
+    if(!r.hits.length){posHtml='—';fragHtml='—';}
+    else{
+      var prev=0;
+      for(var k=0;k<r.hits.length;k++){
+        posHtml+='<span class="pos">'+r.hits[k].cut+'</span>';
+        fragHtml+='<span class="pos">'+(r.hits[k].cut-prev)+'</span>';
+        prev=r.hits[k].cut;
+      }
+      fragHtml+='<span class="pos">'+(seq.length-prev)+'</span>';
+    }
+    h+='<tr><td><b>'+r.enz[0]+'</b></td><td class="site">'+siteDisp+'</td><td>'+r.hits.length+
+      '</td><td>'+posHtml+'</td><td>'+fragHtml+'</td></tr>';
+  }
+  box.innerHTML=h+'</tbody></table>';
+}
+
+// 密码子使用频率（按氨基酸分组，热力底色，频率以‰计）
+function renderCodonGrid(seq,gBest){
+  var region=gBest?seq.substring(gBest.start,gBest.end):seq.substring(0,seq.length-(seq.length%3));
+  var counts={},total=0;
+  for(var i=0;i+3<=region.length;i+=3){
+    var c=region.substr(i,3);
+    if(c.length===3&&/^[ATCG]{3}$/.test(c)){counts[c]=(counts[c]||0)+1;total++;}
+  }
+  var h='';
+  for(var a=0;a<AA_ORDER.length;a++){
+    var aa=AA_ORDER[a];
+    h+='<div class="codon-aahead">'+aa+' '+AA_NAME[aa]+'</div>';
+    for(var key in CODON){
+      if(CODON[key]===aa){
+        var n=counts[key]||0,per=total?(n/total*1000):0;
+        var op=Math.min(.45,per/1000*1.5);
+        h+='<div class="codon-cell" style="background:rgba(14,124,123,'+op.toFixed(2)+')">'+
+          '<span class="c">'+key+'</span><span class="a">'+n+'</span><span class="f">'+per.toFixed(1)+'‰</span></div>';
+      }
+    }
+  }
+  document.getElementById('codonGrid').innerHTML=h;
+}
+
+function loadScriptSrc(src,onok,onfail){
+  var s=document.createElement('script');
+  s.src=src;s.onload=onok;s.onerror=onfail;
+  document.head.appendChild(s);
+}
+function renderCharts(seq,avgGC,aaCounts){
+  if(typeof echarts==='undefined'){
+    loadScriptSrc('https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.1/echarts.min.js',
+      function(){doChartsRender(seq,avgGC,aaCounts);},
+      function(){
+        var g=document.getElementById('chartGC'),a=document.getElementById('chartAA');
+        g.innerHTML='<p style="padding:30px;color:#3E5C59;font-size:13px">图表库未加载（当前可能离线），上方文字与序列结果不受影响。</p>';
+        a.innerHTML='<p style="padding:30px;color:#3E5C59;font-size:13px">图表库未加载（当前可能离线），上方文字与序列结果不受影响。</p>';
+      });
+    return;
+  }
+  doChartsRender(seq,avgGC,aaCounts);
+}
+
+function doChartsRender(seq,avgGC,aaCounts){
+  var gcBox=document.getElementById('chartGC'),aaBox=document.getElementById('chartAA');
+  if(charts.gc){charts.gc.dispose();}
+  if(charts.aa){charts.aa.dispose();}
+  charts.gc=echarts.init(gcBox);
+  charts.aa=echarts.init(aaBox);
+
+  var w=gcWindows(seq),lineData=[];
+  for(var i=0;i<w.pts.length;i++){lineData.push([w.pts[i].pos,w.pts[i].gc]);}
+  charts.gc.setOption({
+    tooltip:{trigger:'axis',triggerOn:'click',renderMode:'richText',confine:true,
+      formatter:function(p){return '位置 '+p[0].data[0]+' bp'+String.fromCharCode(10)+'GC 含量 '+p[0].data[1]+'%';}},
+    grid:{left:8,right:18,top:24,bottom:6,containLabel:true},
+    xAxis:{type:'value',name:'位置 (bp)',min:0,nameGap:6},
+    yAxis:{type:'value',name:'GC %',min:0,max:100},
+    series:[{
+      type:'line',smooth:true,symbol:'circle',symbolSize:4,data:lineData,
+      areaStyle:{opacity:.08},
+      markLine:{silent:true,symbol:'none',lineStyle:{type:'dashed'},
+        data:[{yAxis:+avgGC.toFixed(1),label:{formatter:'平均 '+avgGC.toFixed(1)+'%'}}]}
+    }]
+  });
+
+  var rows=[];
+  for(var k=0;k<AA_ORDER.length;k++){
+    if(aaCounts[AA_ORDER[k]]>0)rows.push({aa:AA_ORDER[k],n:aaCounts[AA_ORDER[k]]});
+  }
+  rows.sort(function(a,b){return a.n-b.n;});
+  var cats=[],vals=[];
+  for(var r=0;r<rows.length;r++){cats.push(rows[r].aa);vals.push(rows[r].n);}
+  charts.aa.setOption({
+    tooltip:{trigger:'axis',axisPointer:{type:'shadow'},triggerOn:'click',renderMode:'richText',confine:true,
+      formatter:function(p){var aa=p[0].name;return aa+' '+AA_NAME[aa]+String.fromCharCode(10)+p[0].value+' 个';}},
+    grid:{left:8,right:30,top:14,bottom:6,containLabel:true},
+    xAxis:{type:'value',minInterval:1},
+    yAxis:{type:'category',data:cats,axisLabel:{fontSize:12,fontWeight:600,interval:0}},
+    series:[{type:'bar',data:vals,barMaxWidth:15,label:{show:true,position:'right',formatter:'{c}'}}]
+  });
+}
+
+window.addEventListener('resize',function(){
+  if(charts.gc)charts.gc.resize();
+  if(charts.aa)charts.aa.resize();
+});
+
+// 展开 / 收起
+document.addEventListener('click',function(e){
+  var b=e.target;
+  if(b&&b.classList&&b.classList.contains('expand-link')){
+    var t=document.getElementById(b.getAttribute('data-target'));
+    var isC=t.classList.contains('collapsed');
+    t.classList.toggle('collapsed');
+    b.textContent=isC?'收起':'展开全部';
+  }
+});
+
+function analyze(){
+  var raw=document.getElementById('seq-input').value;
+  var parsed=parseInput(raw);
+  if(!parsed.seq){
+    setMsg('err','请先粘贴一段 DNA 序列，或点击“加载示例序列”快速体验。');
+    document.getElementById('results').hidden=true;
+    return;
+  }
+  var notes=[];
+  if(raw.toUpperCase().indexOf('U')>=0)notes.push('检测到 RNA（含 U），已按 U→T 转为 DNA 处理');
+  if(parsed.removed>0)notes.push('已自动忽略 '+parsed.removed+' 个非法字符（仅接受 A/T/C/G）');
+  if(parsed.seq.length<30)notes.push('序列较短（'+parsed.seq.length+' bp），翻译与 GC 曲线仅供参考');
+  if(notes.length)setMsg('warn',notes.join('；')+'。');else clearMsg();
+  renderResults(parsed.seq);
+  document.getElementById('results').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+document.getElementById('btnAnalyze').addEventListener('click',analyze);
+document.getElementById('btnSample').addEventListener('click',function(){
+  document.getElementById('seq-input').value=SAMPLE_DNA;
+  analyze();
+});
+document.getElementById('btnClear').addEventListener('click',function(){
+  document.getElementById('seq-input').value='';
+  document.getElementById('alignInput2').value='';
+  document.getElementById('alignResult').innerHTML='';
+  clearMsg();
+  document.getElementById('results').hidden=true;
+});
+
+// 酶切表格筛选
+document.getElementById('enzFilter').addEventListener('change',function(){
+  if(lastEnz)renderEnzTable(lastSeq,lastEnz,this.value);
+});
+
+// 比对序列着色
+function colorDNA(s){
+  var h='';
+  for(var i=0;i<s.length;i++){
+    var ch=s.charAt(i);
+    if(ch==='-')h+='<span class="gapch">-</span>';
+    else h+='<span class="b'+ch+'">'+ch+'</span>';
+  }
+  return h;
+}
+function colorMid(s){
+  var h='';
+  for(var i=0;i<s.length;i++){
+    var ch=s.charAt(i);
+    if(ch==='|')h+='<span class="match">|</span>';
+    else if(ch==='·')h+='<span class="mismatch">·</span>';
+    else h+=ch;
+  }
+  return h;
+}
+
+// 双序列全局比对
+document.getElementById('btnAlign').addEventListener('click',function(){
+  var out=document.getElementById('alignResult');
+  var p1=parseInput(document.getElementById('seq-input').value);
+  var p2=parseInput(document.getElementById('alignInput2').value);
+  if(!p1.seq||!p2.seq){
+    out.innerHTML='<p class="empty-note">需要两条序列才能比对：请确认上方主序列与第二条序列都已填写。</p>';
+    return;
+  }
+  if(p1.seq.length>1200||p2.seq.length>1200){
+    out.innerHTML='<p class="empty-note">为保证浏览器流畅，本工具比对长度上限为 1200 bp，当前序列超出。</p>';
+    return;
+  }
+  var sc=+document.getElementById('pMatch').value;
+  var mm=+document.getElementById('pMismatch').value;
+  var gp=+document.getElementById('pGap').value;
+  var r=nwAlign(p1.seq,p2.seq,sc,mm,gp);
+  var identity=(r.match/r.len*100);
+  var gaps=(r.a.match(/-/g)||[]).length;
+  var h='<div class="align-stats">'+
+    '<span>比对得分 <b>'+r.score+'</b></span>'+
+    '<span>一致位点 <b>'+r.match+'</b></span>'+
+    '<span>空位数 <b>'+gaps+'</b></span>'+
+    '<span>序列相似度 <b>'+identity.toFixed(1)+'%</b></span></div>';
+  h+='<div class="align-view">'+
+    '<div>'+colorDNA(r.a)+'</div>'+
+    '<div>'+colorMid(r.mid)+'</div>'+
+    '<div>'+colorDNA(r.b)+'</div></div>';
+  out.innerHTML=h;
+});
+</script>
+</body>
+</html>
