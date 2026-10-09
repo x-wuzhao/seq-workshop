@@ -25,7 +25,33 @@
   --bG:#D98A16;
   --bC:#2F7DC1;
   --shadow:0 1px 2px rgba(13,43,42,.05),0 6px 18px rgba(13,43,42,.06);
+  --field:#FBFDFD;
+  --th:#F0F5F4;
+  --nav-h:52px;
+  --gel-bg:#070d0b;
 }
+/* ===== 深色模式 ===== */
+[data-theme="dark"]{
+  --ink:#DCE8E5;
+  --ink-soft:#8FA5A1;
+  --paper:#0C1312;
+  --card:#141E1C;
+  --teal:#2BA3A1;
+  --teal-dark:#3DB8B5;
+  --teal-soft:#15302F;
+  --amber:#D9A44A;
+  --amber-soft:#2E2513;
+  --line:#26322F;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 18px rgba(0,0,0,.25);
+  --field:#0E1615;
+  --th:#1A2624;
+  --gel-bg:#040807;
+}
+[data-theme="dark"] .btn-ghost{background:var(--card);color:var(--teal)}
+[data-theme="dark"] .codon-cell{background:var(--card)}
+[data-theme="dark"] .enz-toolbar select,
+[data-theme="dark"] .align-params select{background:var(--card);color:var(--ink)}
+[data-theme="dark"] .collapsed::after{background:linear-gradient(transparent,var(--field))}
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{
@@ -82,7 +108,7 @@ textarea#seq-input{
   width:100%;min-height:150px;resize:vertical;
   border:1px solid var(--line);border-radius:10px;
   padding:14px;font-family:'JetBrains Mono',Consolas,monospace;font-size:13.5px;
-  line-height:1.7;color:var(--ink);background:#FBFDFD;outline:none;
+  line-height:1.7;color:var(--ink);background:var(--field);outline:none;
 }
 textarea#seq-input:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(14,124,123,.12)}
 .controls{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
@@ -139,7 +165,7 @@ textarea#seq-input:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(14,1
 /* 序列展示 */
 .seq-line{
   font-family:'JetBrains Mono',monospace;font-size:14px;line-height:2.1;
-  word-break:break-all;background:#FBFDFD;border:1px solid var(--line);
+  word-break:break-all;background:var(--field);border:1px solid var(--line);
   border-radius:9px;padding:13px 15px;letter-spacing:.4px;
 }
 .seq-block{margin-bottom:16px}
@@ -154,7 +180,7 @@ textarea#seq-input:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(14,1
 .collapsed{max-height:132px;overflow:hidden;position:relative}
 .collapsed::after{
   content:"";position:absolute;left:0;right:0;bottom:0;height:46px;
-  background:linear-gradient(transparent,#FBFDFD);
+  background:linear-gradient(transparent,var(--field));
 }
 .expand-link{
   display:inline-block;margin-top:8px;font-size:13px;color:var(--teal);
@@ -216,7 +242,7 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
   border-radius:8px;background:#fff;color:var(--ink);outline:none;
 }
 .enz-map{
-  background:#FBFDFD;border:1px solid var(--line);border-radius:9px;
+  background:var(--field);border:1px solid var(--line);border-radius:9px;
   padding:16px 14px 12px;margin-bottom:16px;overflow-x:auto;
 }
 .enz-map svg{display:block;min-width:560px;width:100%;height:120px}
@@ -224,7 +250,7 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
 .enz-table th,.enz-table td{
   border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top;
 }
-.enz-table th{background:#F0F5F4;font-weight:700;white-space:nowrap}
+.enz-table th{background:var(--th);font-weight:700;white-space:nowrap}
 .enz-table td .pos{display:inline-block;margin:1px 3px 1px 0;font-family:'JetBrains Mono',monospace;font-size:12px;background:var(--teal-soft);color:var(--teal-dark);border-radius:4px;padding:0 6px}
 .enz-table td.site{font-family:'JetBrains Mono',monospace;white-space:nowrap}
 .enz-table .cutmark{color:var(--red);font-weight:700}
@@ -233,7 +259,7 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
 /* ===== 序列比对 ===== */
 .align-input{
   width:100%;min-height:80px;resize:vertical;border:1px solid var(--line);border-radius:9px;
-  padding:11px 13px;font-family:'JetBrains Mono',monospace;font-size:13px;background:#FBFDFD;outline:none;
+  padding:11px 13px;font-family:'JetBrains Mono',monospace;font-size:13px;background:var(--field);outline:none;
 }
 .align-input:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(14,124,123,.12)}
 .align-params{display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin:12px 0}
@@ -243,7 +269,7 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
 .align-stats b{font-family:'JetBrains Mono',monospace}
 .align-view{
   font-family:'JetBrains Mono',monospace;font-size:13px;line-height:1.9;
-  background:#FBFDFD;border:1px solid var(--line);border-radius:9px;
+  background:var(--field);border:1px solid var(--line);border-radius:9px;
   padding:13px 15px;word-break:break-all;letter-spacing:.3px;
 }
 .match{color:var(--bA)}.mismatch{color:var(--bT)}.gapch{color:#9AA8A6}
@@ -262,24 +288,128 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
   margin-top:6px;border-bottom:1px dashed var(--line);padding-bottom:3px;
 }
 
+/* ===== 顶部固定导航 ===== */
+.topnav{
+  position:fixed;top:0;left:0;right:0;height:var(--nav-h);z-index:100;
+  background:var(--teal-deep);border-bottom:1px solid rgba(167,224,222,.12);
+  display:flex;align-items:center;
+}
+.topnav .wrap{display:flex;align-items:center;gap:6px;width:100%;max-width:1080px;margin:0 auto;padding:0 22px;}
+.topnav .brand{
+  font-weight:900;font-size:17px;color:#EAF5F4;text-decoration:none;letter-spacing:1px;
+  display:flex;align-items:center;gap:8px;margin-right:14px;white-space:nowrap;
+}
+.topnav .brand svg{flex:none}
+.topnav .links{display:flex;gap:2px;flex:1;overflow-x:auto;scrollbar-width:none}
+.topnav .links::-webkit-scrollbar{display:none}
+.topnav .links a{
+  font-size:13px;color:#A9C9C5;text-decoration:none;padding:6px 11px;border-radius:7px;
+  white-space:nowrap;transition:background .15s,color .15s;
+}
+.topnav .links a:hover{background:rgba(167,224,222,.12);color:#EAF5F4}
+.topnav .actions{display:flex;align-items:center;gap:8px;margin-left:8px}
+.theme-btn{
+  width:36px;height:36px;border-radius:8px;border:1px solid rgba(167,224,222,.2);
+  background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  color:#C9E3E0;flex:none;
+}
+.theme-btn:hover{background:rgba(167,224,222,.12)}
+.theme-btn .icon-moon{display:block}.theme-btn .icon-sun{display:none}
+[data-theme="dark"] .theme-btn .icon-moon{display:none}
+[data-theme="dark"] .theme-btn .icon-sun{display:block}
+body{padding-top:var(--nav-h)}
+.hero{margin-top:calc(-1 * var(--nav-h));padding-top:calc(58px + var(--nav-h))}
+
+/* 回到顶部 */
+.to-top{
+  position:fixed;right:24px;bottom:24px;width:44px;height:44px;border-radius:11px;
+  background:var(--teal);color:#fff;border:none;cursor:pointer;z-index:90;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 4px 14px rgba(13,43,42,.3);
+  opacity:0;pointer-events:none;transition:opacity .2s;
+}
+.to-top.show{opacity:1;pointer-events:auto}
+.to-top:hover{background:var(--teal-dark)}
+
+/* ===== 蛋白质理化性质 ===== */
+.prot-props{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.prot-prop{
+  background:var(--field);border:1px solid var(--line);border-radius:11px;padding:14px 16px;
+}
+.prot-prop .k{font-size:12.5px;color:var(--ink-soft)}
+.prot-prop .v{font-size:22px;font-weight:700;margin-top:4px;font-family:'JetBrains Mono',monospace}
+.prot-prop .v small{font-size:12px;font-weight:400;color:var(--ink-soft);margin-left:2px}
+.prot-prop .d{font-size:11.5px;color:var(--ink-soft);margin-top:5px;line-height:1.5}
+
+/* ===== 虚拟凝胶电泳 ===== */
+.gel-toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:14px}
+.gel-toolbar select{
+  font-family:inherit;font-size:13.5px;padding:8px 10px;border:1px solid var(--line);
+  border-radius:8px;background:var(--card);color:var(--ink);outline:none;
+}
+.gel-box{
+  background:var(--gel-bg);border-radius:11px;padding:18px 20px;overflow-x:auto;
+  border:1px solid var(--line);
+}
+.gel-box svg{display:block;min-width:420px;width:100%;height:300px}
+.gel-lane-label{fill:var(--ink-soft);font-size:12px;font-family:inherit}
+.gel-band{fill:#7FE8B4;opacity:.85}
+.gel-band.bright{fill:#A8F5C9;opacity:.95}
+.gel-lane-line{stroke:rgba(127,232,180,.12);stroke-width:1}
+.gel-size-tag{fill:#9FC6C2;font-size:10.5px;font-family:'JetBrains Mono',monospace}
+
 /* ===== 响应式 ===== */
 @media (max-width:860px){
   .charts-grid{grid-template-columns:1fr}
   .stats-base{grid-template-columns:repeat(2,1fr)}
   .stats-main{grid-template-columns:repeat(3,1fr)}
   .codon-grid{grid-template-columns:repeat(2,1fr)}
+  .prot-props{grid-template-columns:repeat(2,1fr)}
 }
 @media (max-width:600px){
-  .hero{padding:42px 0 46px}
+  .hero{padding:calc(42px + var(--nav-h)) 0 46px}
   .hero h1{font-size:30px}
   .stats-main{grid-template-columns:1fr}
+  .prot-props{grid-template-columns:1fr}
   .panel{padding:18px 16px}
   .chart-box{height:280px}
   .btn{padding:9px 16px;font-size:14px}
+  .topnav .brand{margin-right:6px;font-size:15px}
+  .topnav .brand .brand-text{display:none}
 }
 </style>
 </head>
 <body>
+
+<!-- ===== 顶部导航 ===== -->
+<nav class="topnav" id="top">
+  <div class="wrap">
+    <a class="brand" href="#top">
+      <svg width="22" height="22" viewBox="0 0 32 32"><rect width="32" height="32" rx="7" fill="#0E7C7B"/><path d="M9 6c0 5 14 5 14 10s-14 5-14 10" stroke="white" stroke-width="2" fill="none"/><path d="M23 6c0 5-14 5-14 10s14 5 14 10" stroke="#A7E0DE" stroke-width="2" fill="none"/></svg>
+      <span class="brand-text">序列工坊</span>
+    </a>
+    <div class="links">
+      <a href="#nav-complement">互补转录</a>
+      <a href="#nav-frames">六框翻译</a>
+      <a href="#nav-protein">蛋白性质</a>
+      <a href="#nav-enzyme">酶切位点</a>
+      <a href="#nav-align">序列比对</a>
+      <a href="#nav-codon">密码子</a>
+      <a href="#nav-charts">可视化</a>
+    </div>
+    <div class="actions">
+      <button class="theme-btn" id="btnTheme" title="切换深色 / 浅色">
+        <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- 回到顶部 -->
+<button class="to-top" id="toTop" title="回到顶部">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></svg>
+</button>
 
 <!-- ===== HERO ===== -->
 <header class="hero">
@@ -329,7 +459,7 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
     <div class="stat base-C"><div class="k">C 胞嘧啶</div><div class="v" id="stC">0</div></div>
   </div>
 
-  <section class="panel" style="margin-top:22px">
+  <section class="panel" id="nav-complement" style="margin-top:22px">
     <h2>反向互补与转录 <span class="tag">中心法则 · 第一步</span></h2>
     <p class="hint">DNA 双链反向平行，碱基互补配对（A–T、C–G）；转录时以模板链合成 mRNA，序列与编码链一致，仅 T 换成 U。</p>
     <div class="seq-block">
@@ -349,13 +479,24 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
     </div>
   </section>
 
-  <section class="panel">
+  <section class="panel" id="nav-frames">
     <h2>六框翻译与开放阅读框 <span class="tag">中心法则 · 第二步</span></h2>
     <p class="hint">从三个不同位置起读，同一条序列能读出三种完全不同的蛋白质；再加上反向互补链的三种，共六个读码框。开放阅读框（ORF）从起始密码子 ATG 开始，到终止密码子（TAA/TAG/TGA）结束。</p>
     <div id="framesBox"></div>
   </section>
 
-  <section class="panel">
+  <section class="panel" id="nav-protein">
+    <h2>蛋白质理化性质 <span class="tag">ProtParam</span></h2>
+    <p class="hint">基于最长 ORF 翻译产物，预测等电点、分子量、亲水性与芳香性，算法参照 ExPASy ProtParam。</p>
+    <div class="prot-props">
+      <div class="prot-prop"><div class="k">等电点 pI</div><div class="v" id="ppPI">-</div><div class="d">净电荷为零时的 pH</div></div>
+      <div class="prot-prop"><div class="k">蛋白质分子量</div><div class="v" id="ppMW">-</div><div class="d">残基质量 + 末端水 18.02</div></div>
+      <div class="prot-prop"><div class="k">GRAVY 亲水性</div><div class="v" id="ppGRAVY">-</div><div class="d">Kyte–Doolittle 均值，正值疏水</div></div>
+      <div class="prot-prop"><div class="k">芳香性</div><div class="v" id="ppArom">-</div><div class="d">F / Y / W 芳香族占比</div></div>
+    </div>
+  </section>
+
+  <section class="panel" id="nav-enzyme">
     <h2>限制性酶切位点分析 <span class="tag">基因工程</span></h2>
     <p class="hint">限制性内切酶识别特定序列并在固定位置切开双链。下表列出在你的序列（含互补链）上检测到的全部切点，<span class="enz-table cutmark">^</span> 标记切割位置。</p>
     <div class="enz-toolbar">
@@ -368,9 +509,15 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
     </div>
     <div class="enz-map" id="enzMap"></div>
     <div id="enzTableBox"></div>
+    <div class="gel-toolbar" style="margin-top:18px">
+      <label style="font-size:13.5px">虚拟凝胶电泳，选择一种酶：
+        <select id="gelEnzSelect"></select>
+      </label>
+    </div>
+    <div class="gel-box" id="gelBox"></div>
   </section>
 
-  <section class="panel">
+  <section class="panel" id="nav-align">
     <h2>双序列全局比对 <span class="tag">Needleman–Wunsch</span></h2>
     <p class="hint">把两条序列逐位对齐，允许插入空位（-），使总得分最高。这是判断序列同源性的基础算法。</p>
     <label style="font-size:13px;font-weight:700;display:block;margin-bottom:6px">第二条序列</label>
@@ -384,13 +531,13 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
     <div id="alignResult"></div>
   </section>
 
-  <section class="panel">
+  <section class="panel" id="nav-codon">
     <h2>密码子使用频率 <span class="tag">Codon Usage</span></h2>
     <p class="hint" id="codonHint">统计最长 ORF 中 64 种密码子的出现次数与每千个密码子的频率——不同物种有明显的密码子使用偏好。</p>
     <div class="codon-grid" id="codonGrid"></div>
   </section>
 
-  <div class="charts-grid">
+  <div class="charts-grid" id="nav-charts">
     <section class="panel" style="margin-bottom:0">
       <h2>GC 含量沿序列分布</h2>
       <p class="hint">GC 之间有三个氢键，GC 含量越高，局部双链越稳定。</p>
@@ -712,6 +859,62 @@ function calcMW(c){
   return c.A*313.2+c.T*304.2+c.G*329.2+c.C*289.2-61;
 }
 
+/* ===== 蛋白质理化性质（参照 ExPASy ProtParam）===== */
+// 氨基酸残基平均分子量（Da）
+var AA_RES_MW = {
+  A:71.0788,R:156.1875,N:114.1038,D:115.0886,C:103.1388,
+  E:129.1155,Q:128.1307,G:57.0519,H:137.1411,I:113.1594,
+  L:113.1594,K:128.1741,M:131.1926,F:147.1766,P:97.1167,
+  S:87.0782,T:101.1051,W:186.2132,Y:163.1760,V:99.1326
+};
+// Kyte–Doolittle 疏水指数
+var AA_HYDRO = {
+  A:1.8,R:-4.5,N:-3.5,D:-3.5,C:2.5,E:-3.5,Q:-3.5,G:-0.4,
+  H:-3.2,I:4.5,L:3.8,K:-3.9,M:1.9,F:2.8,P:-1.6,S:-0.8,
+  T:-0.7,W:-0.9,Y:-1.3,V:4.2
+};
+// 可电离基团 pKa（Bjellqvist / ProtParam 口径）
+var PKA_POS = {Nterm:7.7,K:10.0,R:12.0,H:6.0};
+var PKA_NEG = {Cterm:3.55,D:4.05,E:4.45,C:8.3,Y:10.0};
+
+// 给定 pH 下蛋白质净电荷
+function protCharge(pH, n){
+  var pos = 1/(1+Math.pow(10,pH-PKA_POS.Nterm))
+    + (n.K||0)/(1+Math.pow(10,pH-PKA_POS.K))
+    + (n.R||0)/(1+Math.pow(10,pH-PKA_POS.R))
+    + (n.H||0)/(1+Math.pow(10,pH-PKA_POS.H));
+  var neg = 1/(1+Math.pow(10,PKA_NEG.Cterm-pH))
+    + (n.D||0)/(1+Math.pow(10,PKA_NEG.D-pH))
+    + (n.E||0)/(1+Math.pow(10,PKA_NEG.E-pH))
+    + (n.C||0)/(1+Math.pow(10,PKA_NEG.C-pH))
+    + (n.Y||0)/(1+Math.pow(10,PKA_NEG.Y-pH));
+  return pos - neg;
+}
+// 二分法求等电点
+function calcPI(n){
+  var lo=0,hi=14;
+  for(var i=0;i<60;i++){
+    var mid=(lo+hi)/2;
+    if(protCharge(mid,n)>0)lo=mid;else hi=mid;
+  }
+  return (lo+hi)/2;
+}
+// 蛋白质理化性质主函数，prot 为氨基酸序列（不含终止符）
+function calcProtProps(prot){
+  var n={},len=0,mw=0,hydro=0;
+  for(var i=0;i<prot.length;i++){
+    var a=prot.charAt(i);
+    if(AA_RES_MW[a]===undefined)continue;  // 跳过终止符等
+    n[a]=(n[a]||0)+1;len++;
+    mw+=AA_RES_MW[a];
+    hydro+=AA_HYDRO[a];
+  }
+  mw+=18.015;  // 末端水
+  var pI=calcPI(n);
+  var aromatic=((n.F||0)+(n.Y||0)+(n.W||0))/len;
+  return {pI:pI,mw:mw,gravy:hydro/len,aromatic:aromatic,len:len};
+}
+
 /* =========================================================
    三、渲染与交互
    ========================================================= */
@@ -728,6 +931,10 @@ function calcMW(c){
 })();
 
 var charts={gc:null,aa:null};
+var lastChartArgs=null;
+function isDarkTheme(){return document.documentElement.getAttribute('data-theme')==='dark';}
+function chartAxisColor(){return isDarkTheme()?'#9FB6B2':'#3E5C59';}
+function chartSplitColor(){return isDarkTheme()?'rgba(167,224,222,.13)':'rgba(13,43,42,.09)';}
 
 function setMsg(cls,html){
   var m=document.getElementById('inputMsg');
@@ -858,10 +1065,18 @@ function renderResults(seq){
     '基于最长 ORF（'+gBest.prot.length+' 个氨基酸）翻译产物统计。':
     '未发现完整 ORF，基于最长读码框的翻译产物统计。';
 
+  // 蛋白质理化性质
+  var props=calcProtProps(protForAA);
+  document.getElementById('ppPI').textContent=props.pI.toFixed(2);
+  document.getElementById('ppMW').innerHTML=(props.mw/1000).toFixed(2)+'<small> kDa</small>';
+  document.getElementById('ppGRAVY').textContent=props.gravy.toFixed(3);
+  document.getElementById('ppArom').innerHTML=(props.aromatic*100).toFixed(1)+'<small> %</small>';
+
   // 酶切位点 + 密码子频率
   lastSeq=seq;lastEnz=analyzeEnzymes(seq);
   renderEnzMap(seq,lastEnz);
   renderEnzTable(seq,lastEnz,document.getElementById('enzFilter').value);
+  setupGel(seq,lastEnz);
   renderCodonGrid(seq,gBest);
 
   document.getElementById('results').hidden=false;
@@ -921,6 +1136,88 @@ function renderEnzTable(seq,res,filter){
   box.innerHTML=h+'</tbody></table>';
 }
 
+/* ===== 虚拟凝胶电泳 ===== */
+// 计算某酶切后的片段长度
+function enzymeFragments(seqLen,hits){
+  var cuts=[];
+  for(var i=0;i<hits.length;i++)cuts.push(hits[i].cut);
+  cuts.sort(function(a,b){return a-b;});
+  var frags=[],prev=0;
+  for(var j=0;j<cuts.length;j++){frags.push(cuts[j]-prev);prev=cuts[j];}
+  frags.push(seqLen-prev);
+  return frags;
+}
+var GEL_MARKER=[500,400,300,200,150,100,50];  // bp ladder
+
+function renderGel(seq,res,enzName){
+  var target=null;
+  for(var i=0;i<res.length;i++){if(res[i].enz[0]===enzName){target=res[i];break;}}
+  if(!target)return;
+  var frags=enzymeFragments(seq.length,target.hits);
+
+  var W=480,H=300,xMarker=140,xSample=330,laneW=92;
+  var yTop=50,yBot=268;
+  var bpMax=GEL_MARKER[0],bpMin=GEL_MARKER[GEL_MARKER.length-1];
+  function Y(bp){
+    var b=bp;if(b>bpMax)b=bpMax;if(b<bpMin)b=bpMin;
+    return yTop+(Math.log(bpMax)-Math.log(b))/(Math.log(bpMax)-Math.log(bpMin))*(yBot-yTop);
+  }
+
+  var h='<svg viewBox="0 0 '+W+' '+H+'" xmlns="http://www.w3.org/2000/svg">';
+  // 点样孔
+  h+='<rect x="'+(xMarker-laneW/2+8)+'" y="32" width="'+(laneW-16)+'" height="10" rx="2" fill="#0d1a16" stroke="rgba(127,232,180,.25)"/>';
+  h+='<rect x="'+(xSample-laneW/2+8)+'" y="32" width="'+(laneW-16)+'" height="10" rx="2" fill="#0d1a16" stroke="rgba(127,232,180,.25)"/>';
+  // lane 边框线
+  var edges=[xMarker,xSample];
+  for(var e=0;e<2;e++){
+    var xc=edges[e];
+    h+='<line class="gel-lane-line" x1="'+(xc-laneW/2)+'" y1="'+yTop+'" x2="'+(xc-laneW/2)+'" y2="'+yBot+'"/>';
+    h+='<line class="gel-lane-line" x1="'+(xc+laneW/2)+'" y1="'+yTop+'" x2="'+(xc+laneW/2)+'" y2="'+yBot+'"/>';
+  }
+  // lane 标签
+  h+='<text class="gel-lane-label" x="'+xMarker+'" y="22" text-anchor="middle">Marker</text>';
+  h+='<text class="gel-lane-label" x="'+xSample+'" y="22" text-anchor="middle">'+enzName+' 酶切</text>';
+  // Marker 条带 + 长度标签
+  for(var m=0;m<GEL_MARKER.length;m++){
+    var bp=GEL_MARKER[m],y=Y(bp);
+    h+='<rect class="gel-band bright" x="'+(xMarker-laneW/2+10)+'" y="'+(y-2.5)+'" width="'+(laneW-20)+'" height="5" rx="2"/>';
+    h+='<text class="gel-size-tag" x="'+(xMarker-laneW/2-6)+'" y="'+(y+3.5)+'" text-anchor="end">'+bp+'</text>';
+  }
+  // 样本条带（相同长度合并，条带数越多越亮；标签自动避让）
+  var seen={};
+  for(var f=0;f<frags.length;f++){var fl=frags[f];seen[fl]=(seen[fl]||0)+1;}
+  var bands=[];
+  for(var key in seen){bands.push({size:+key,y:Y(+key),n:seen[key]});}
+  bands.sort(function(a,b){return a.y-b.y;});
+  var tagX=xSample+laneW/2+6,prevTagY=-99;
+  for(var bi=0;bi<bands.length;bi++){
+    var bd=bands[bi],op=0.65+Math.min(bd.n,3)*0.12;
+    h+='<rect class="gel-band" x="'+(xSample-laneW/2+10)+'" y="'+(bd.y-2.5)+'" width="'+(laneW-20)+'" height="5" rx="2" opacity="'+op+'"/>';
+    var ty=bd.y+3.5;
+    if(ty-prevTagY<13)ty=prevTagY+13;
+    prevTagY=ty;
+    if(Math.abs(ty-(bd.y+3.5))>1.5){
+      h+='<line x1="'+(tagX-2)+'" y1="'+bd.y+'" x2="'+(tagX-2)+'" y2="'+(ty-4)+'" stroke="rgba(159,198,194,.55)" stroke-width=".8"/>';
+    }
+    h+='<text class="gel-size-tag" x="'+tagX+'" y="'+ty+'" text-anchor="start">'+bd.size+'</text>';
+  }
+  h+='</svg>';
+  document.getElementById('gelBox').innerHTML=h;
+}
+
+// 初始化凝胶下拉并渲染
+function setupGel(seq,res){
+  var sel=document.getElementById('gelEnzSelect');
+  sel.innerHTML='';
+  var found=res.filter(function(r){return r.hits.length>0;});
+  for(var i=0;i<found.length;i++){
+    var opt=document.createElement('option');
+    opt.value=found[i].enz[0];opt.textContent=found[i].enz[0]+'（'+found[i].hits.length+' 切点）';
+    sel.appendChild(opt);
+  }
+  if(found.length)renderGel(seq,res,found[0].enz[0]);
+}
+
 // 密码子使用频率（按氨基酸分组，热力底色，频率以‰计）
 function renderCodonGrid(seq,gBest){
   var region=gBest?seq.substring(gBest.start,gBest.end):seq.substring(0,seq.length-(seq.length%3));
@@ -951,6 +1248,7 @@ function loadScriptSrc(src,onok,onfail){
   document.head.appendChild(s);
 }
 function renderCharts(seq,avgGC,aaCounts){
+  lastChartArgs={seq:seq,avgGC:avgGC,aaCounts:aaCounts};
   if(typeof echarts==='undefined'){
     loadScriptSrc('https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.1/echarts.min.js',
       function(){doChartsRender(seq,avgGC,aaCounts);},
@@ -970,20 +1268,26 @@ function doChartsRender(seq,avgGC,aaCounts){
   if(charts.aa){charts.aa.dispose();}
   charts.gc=echarts.init(gcBox);
   charts.aa=echarts.init(aaBox);
+  var ac=chartAxisColor(),sc=chartSplitColor();
 
   var w=gcWindows(seq),lineData=[];
   for(var i=0;i<w.pts.length;i++){lineData.push([w.pts[i].pos,w.pts[i].gc]);}
   charts.gc.setOption({
+    animation:false,
     tooltip:{trigger:'axis',triggerOn:'click',renderMode:'richText',confine:true,
       formatter:function(p){return '位置 '+p[0].data[0]+' bp'+String.fromCharCode(10)+'GC 含量 '+p[0].data[1]+'%';}},
-    grid:{left:8,right:18,top:24,bottom:6,containLabel:true},
-    xAxis:{type:'value',name:'位置 (bp)',min:0,nameGap:6},
-    yAxis:{type:'value',name:'GC %',min:0,max:100},
+    grid:{left:8,right:24,top:18,bottom:6,containLabel:true},
+    xAxis:{type:'value',name:'位置 (bp)',min:0,nameLocation:'middle',nameGap:28,
+      axisLabel:{color:ac},axisLine:{lineStyle:{color:ac}},nameTextStyle:{color:ac},
+      splitLine:{lineStyle:{color:sc}}},
+    yAxis:{type:'value',min:0,max:100,
+      axisLabel:{color:ac},axisLine:{lineStyle:{color:ac}},
+      splitLine:{lineStyle:{color:sc}}},
     series:[{
       type:'line',smooth:true,symbol:'circle',symbolSize:4,data:lineData,
       areaStyle:{opacity:.08},
       markLine:{silent:true,symbol:'none',lineStyle:{type:'dashed'},
-        data:[{yAxis:+avgGC.toFixed(1),label:{formatter:'平均 '+avgGC.toFixed(1)+'%'}}]}
+        data:[{yAxis:+avgGC.toFixed(1),label:{formatter:'平均 '+avgGC.toFixed(1)+'%',position:'insideStartTop',color:ac}}]}
     }]
   });
 
@@ -995,12 +1299,17 @@ function doChartsRender(seq,avgGC,aaCounts){
   var cats=[],vals=[];
   for(var r=0;r<rows.length;r++){cats.push(rows[r].aa);vals.push(rows[r].n);}
   charts.aa.setOption({
+    animation:false,
     tooltip:{trigger:'axis',axisPointer:{type:'shadow'},triggerOn:'click',renderMode:'richText',confine:true,
       formatter:function(p){var aa=p[0].name;return aa+' '+AA_NAME[aa]+String.fromCharCode(10)+p[0].value+' 个';}},
     grid:{left:8,right:30,top:14,bottom:6,containLabel:true},
-    xAxis:{type:'value',minInterval:1},
-    yAxis:{type:'category',data:cats,axisLabel:{fontSize:12,fontWeight:600,interval:0}},
-    series:[{type:'bar',data:vals,barMaxWidth:15,label:{show:true,position:'right',formatter:'{c}'}}]
+    xAxis:{type:'value',minInterval:1,
+      axisLabel:{color:ac},axisLine:{lineStyle:{color:ac}},
+      splitLine:{lineStyle:{color:sc}}},
+    yAxis:{type:'category',data:cats,axisLabel:{fontSize:12,fontWeight:600,interval:0,color:ac},
+      axisLine:{lineStyle:{color:ac}}},
+    series:[{type:'bar',data:vals,barMaxWidth:15,
+      label:{show:true,position:'right',formatter:'{c}',color:ac}}]
   });
 }
 
@@ -1050,9 +1359,37 @@ document.getElementById('btnClear').addEventListener('click',function(){
   document.getElementById('results').hidden=true;
 });
 
+// 深色模式切换（localStorage 持久化）
+(function(){
+  var root=document.documentElement;
+  var saved=localStorage.getItem('seq-theme');
+  if(saved==='dark')root.setAttribute('data-theme','dark');
+  document.getElementById('btnTheme').addEventListener('click',function(){
+    var isDark=root.getAttribute('data-theme')==='dark';
+    if(isDark){root.removeAttribute('data-theme');localStorage.setItem('seq-theme','light');}
+    else{root.setAttribute('data-theme','dark');localStorage.setItem('seq-theme','dark');}
+    if(!document.getElementById('results').hidden && typeof echarts!=='undefined' && lastChartArgs){
+      doChartsRender(lastChartArgs.seq,lastChartArgs.avgGC,lastChartArgs.aaCounts);
+    }
+  });
+})();
+
+// 回到顶部按钮
+(function(){
+  var btn=document.getElementById('toTop');
+  window.addEventListener('scroll',function(){
+    if(window.scrollY>420)btn.classList.add('show');else btn.classList.remove('show');
+  });
+  btn.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});
+})();
+
 // 酶切表格筛选
 document.getElementById('enzFilter').addEventListener('change',function(){
   if(lastEnz)renderEnzTable(lastSeq,lastEnz,this.value);
+});
+// 凝胶酶选择
+document.getElementById('gelEnzSelect').addEventListener('change',function(){
+  if(lastEnz)renderGel(lastSeq,lastEnz,this.value);
 });
 
 // 比对序列着色
