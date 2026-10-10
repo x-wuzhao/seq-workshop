@@ -46,12 +46,20 @@
   --field:#0E1615;
   --th:#1A2624;
   --gel-bg:#040807;
+  --bA:#4DB87A;
+  --bT:#FF6B6B;
+  --bG:#FFB84D;
+  --bC:#5BA3E6;
 }
 [data-theme="dark"] .btn-ghost{background:var(--card);color:var(--teal)}
 [data-theme="dark"] .codon-cell{background:var(--card)}
 [data-theme="dark"] .enz-toolbar select,
 [data-theme="dark"] .align-params select{background:var(--card);color:var(--ink)}
 [data-theme="dark"] .collapsed::after{background:linear-gradient(transparent,var(--field))}
+[data-theme="dark"] .frame-row.best{border-color:#2A6B68;background:#0F2A28}
+[data-theme="dark"] .frame-row.best .prot-line{color:var(--ink)}
+[data-theme="dark"] .orf-hi{background:#1A4A47;color:var(--ink)}
+[data-theme="dark"] .orf-badge{background:var(--teal-soft);color:var(--teal-dark)}
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{
@@ -377,6 +385,192 @@ body{padding-top:var(--nav-h)}
   .topnav .brand{margin-right:6px;font-size:15px}
   .topnav .brand .brand-text{display:none}
 }
+
+/* ===== 新增功能样式 ===== */
+
+/* 导出按钮 */
+.export-bar{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.btn-sm{font-size:12.5px;padding:6px 14px;border-radius:7px}
+
+/* 中心法则动画 */
+.dogma-stage{
+  background:var(--field);border:1px solid var(--line);border-radius:12px;
+  padding:24px 20px;min-height:280px;position:relative;overflow:hidden;
+}
+.dogma-controls{display:flex;gap:10px;align-items:center;margin-top:16px;flex-wrap:wrap}
+.dogma-step-indicator{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+.dogma-dot{
+  width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-size:12px;font-weight:700;background:var(--line);color:var(--ink-soft);transition:all .3s;
+  cursor:pointer;user-select:none;
+}
+.dogma-dot:hover{background:var(--teal-soft);color:var(--teal-dark)}
+.dogma-dot.active{background:var(--teal);color:#fff;transform:scale(1.15)}
+.dogma-dot.done{background:var(--teal-soft);color:var(--teal-dark)}
+.dogma-content{font-size:15px;line-height:1.8;min-height:120px;transition:opacity .3s ease}
+.dogma-content .highlight{background:var(--amber-soft);padding:1px 6px;border-radius:4px;font-weight:700;color:var(--amber)}
+.dogma-visual{
+  font-family:'JetBrains Mono',monospace;font-size:14px;line-height:2.2;
+  background:var(--card);border:1px solid var(--line);border-radius:8px;
+  padding:14px 16px;margin-top:14px;letter-spacing:1px;transition:opacity .3s ease;
+}
+.dogma-visual .pulse{animation:pulse 1s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.dogma-fade{opacity:0 !important}
+.dogma-auto-playing{animation:dogmaGlow 2s ease-in-out infinite}
+@keyframes dogmaGlow{0%,100%{box-shadow:0 0 0 0 rgba(14,124,123,0)}50%{box-shadow:0 0 0 4px rgba(14,124,123,.15)}}
+
+/* 突变模拟器 */
+.mut-toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:16px}
+.mut-toolbar label{font-size:13.5px;font-weight:500}
+.mut-toolbar select,.mut-toolbar input[type=number]{
+  padding:7px 10px;border:1px solid var(--line);border-radius:7px;
+  font-family:inherit;font-size:13.5px;background:var(--field);color:var(--ink);
+}
+.mut-result-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:16px}
+@media(max-width:720px){.mut-result-grid{grid-template-columns:1fr}}
+.mut-compare{
+  background:var(--field);border:1px solid var(--line);border-radius:10px;padding:14px 16px;
+}
+.mut-compare h4{font-size:13px;color:var(--ink-soft);margin-bottom:8px;font-weight:500}
+.mut-compare .seq{font-family:'JetBrains Mono',monospace;font-size:12.5px;line-height:2;word-break:break-all}
+.mut-badge{
+  display:inline-block;font-size:11.5px;font-weight:700;border-radius:5px;
+  padding:2px 10px;margin-left:8px;
+}
+.mut-badge.synonym{background:#E0F0E0;color:#2A7A2A}
+.mut-badge.missense{background:#FDF0E0;color:#9A6A10}
+.mut-badge.nonsense{background:#FBE0E0;color:#9A2A2A}
+.mut-badge.frameshift{background:#F0E0F8;color:#6A2A9A}
+.mut-explain{margin-top:14px;padding:12px 16px;background:var(--teal-soft);border-radius:9px;font-size:13.5px;color:var(--teal-dark)}
+
+/* 引物设计 */
+.primer-params{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:16px}
+.primer-params label{font-size:12.5px;color:var(--ink-soft);display:block;margin-bottom:4px}
+.primer-params input,.primer-params select{
+  width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:7px;
+  font-family:inherit;font-size:13px;background:var(--field);color:var(--ink);
+}
+.primer-result{margin-top:16px}
+.primer-card{
+  background:var(--field);border:1px solid var(--line);border-radius:10px;
+  padding:16px 18px;margin-bottom:12px;
+}
+.primer-card .primer-name{font-weight:700;font-size:14.5px;margin-bottom:8px;color:var(--teal-dark)}
+.primer-card .primer-seq{font-family:'JetBrains Mono',monospace;font-size:13px;background:var(--card);padding:8px 12px;border-radius:6px;border:1px solid var(--line);margin-bottom:10px;word-break:break-all}
+.primer-stats{display:flex;gap:18px;flex-wrap:wrap;font-size:12.5px;color:var(--ink-soft)}
+.primer-stats span strong{color:var(--ink)}
+.primer-warn{color:var(--red);font-weight:500}
+
+/* 密码子优化 */
+.opt-toolbar{display:flex;gap:12px;align-items:center;margin-bottom:16px;flex-wrap:wrap}
+.opt-compare{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:16px}
+@media(max-width:720px){.opt-compare{grid-template-columns:1fr}}
+.opt-box{background:var(--field);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+.opt-box h4{font-size:13px;color:var(--ink-soft);margin-bottom:8px;font-weight:500}
+.opt-box .seq{font-family:'JetBrains Mono',monospace;font-size:11.5px;line-height:1.9;word-break:break-all}
+.opt-stats{margin-top:14px;display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px}
+.opt-stat{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:10px 12px;text-align:center}
+.opt-stat .k{font-size:11.5px;color:var(--ink-soft)}
+.opt-stat .v{font-size:18px;font-weight:700;font-family:'JetBrains Mono',monospace;margin-top:2px}
+
+/* 引导教程 */
+.tutorial-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9999;
+  display:none;align-items:center;justify-content:center;padding:20px;
+}
+.tutorial-overlay.show{display:flex}
+.tutorial-card{
+  background:var(--card);border-radius:16px;max-width:480px;width:100%;
+  padding:28px 26px;box-shadow:0 20px 60px rgba(0,0,0,.3);position:relative;
+}
+.tutorial-card h3{font-size:18px;margin-bottom:10px;color:var(--teal-dark)}
+.tutorial-card p{font-size:14px;color:var(--ink-soft);line-height:1.7;margin-bottom:18px}
+.tutorial-progress{display:flex;gap:6px;margin-bottom:18px}
+.tutorial-progress .dot{width:8px;height:8px;border-radius:50%;background:var(--line);transition:all .3s}
+.tutorial-progress .dot.active{background:var(--teal);width:24px;border-radius:4px}
+.tutorial-actions{display:flex;justify-content:space-between;gap:10px}
+
+/* 课程对齐标签 */
+.course-tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.course-tag{
+  font-size:11.5px;background:var(--amber-soft);color:var(--amber);
+  padding:3px 10px;border-radius:5px;font-weight:500;
+}
+
+/* 示例序列下拉 */
+.sample-dropdown{position:relative;display:inline-block}
+.sample-menu{
+  display:none;position:absolute;top:100%;left:0;margin-top:4px;
+  background:var(--card);border:1px solid var(--line);border-radius:9px;
+  box-shadow:var(--shadow);z-index:50;min-width:220px;overflow:hidden;
+}
+.sample-menu.show{display:block}
+.sample-menu button{
+  display:block;width:100%;text-align:left;padding:10px 16px;
+  background:none;border:none;font-family:inherit;font-size:13px;
+  color:var(--ink);cursor:pointer;
+}
+.sample-menu button:hover{background:var(--teal-soft)}
+.sample-menu button small{display:block;color:var(--ink-soft);font-size:11.5px;margin-top:2px}
+
+
+/* ===== 高中题库 ===== */
+.quiz-container{max-width:900px;margin:0 auto}
+.quiz-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:12px}
+.quiz-stats{display:flex;gap:16px;flex-wrap:wrap}
+.quiz-stat{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:10px 18px;text-align:center;min-width:90px}
+.quiz-stat .v{font-size:24px;font-weight:700;color:var(--teal);font-family:'JetBrains Mono',monospace}
+.quiz-stat .k{font-size:12px;color:var(--ink-soft);margin-top:2px}
+.quiz-progress-bar{width:100%;height:6px;background:var(--line);border-radius:3px;margin-bottom:20px;overflow:hidden}
+.quiz-progress-fill{height:100%;background:linear-gradient(90deg,var(--teal),var(--teal-dark));border-radius:3px;transition:width .3s}
+.quiz-card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:24px;margin-bottom:20px}
+.quiz-qmeta{display:flex;gap:10px;align-items:center;margin-bottom:14px;flex-wrap:wrap}
+.quiz-qnum{background:var(--teal);color:#fff;font-weight:700;padding:3px 12px;border-radius:5px;font-size:13px}
+.quiz-qcat{background:var(--teal-soft);color:var(--teal-dark);padding:3px 10px;border-radius:5px;font-size:12px}
+.quiz-qtext{font-size:16px;line-height:1.7;margin-bottom:18px;color:var(--ink)}
+.quiz-options{display:flex;flex-direction:column;gap:10px}
+.quiz-option{display:flex;align-items:flex-start;gap:12px;padding:14px 16px;border:2px solid var(--line);border-radius:8px;cursor:pointer;transition:all .2s;background:var(--field)}
+.quiz-option:hover{border-color:var(--teal);background:var(--teal-soft)}
+.quiz-option.selected{border-color:var(--teal);background:var(--teal-soft)}
+.quiz-option.correct{border-color:#2A7A2A;background:rgba(42,122,42,.12)}
+.quiz-option.wrong{border-color:#9A2A2A;background:rgba(154,42,42,.12)}
+.quiz-option.disabled{cursor:default;pointer-events:none}
+.quiz-option .letter{width:28px;height:28px;border-radius:50%;background:var(--card);border:2px solid var(--line);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;flex-shrink:0;color:var(--ink-soft)}
+.quiz-option.selected .letter{background:var(--teal);border-color:var(--teal);color:#fff}
+.quiz-option.correct .letter{background:#2A7A2A;border-color:#2A7A2A;color:#fff}
+.quiz-option.wrong .letter{background:#9A2A2A;border-color:#9A2A2A;color:#fff}
+.quiz-option .text{font-size:14.5px;line-height:1.6;padding-top:3px;color:var(--ink)}
+.quiz-explain{margin-top:16px;padding:14px 18px;background:var(--teal-soft);border-left:4px solid var(--teal);border-radius:0 8px 8px 0;display:none}
+.quiz-explain.show{display:block}
+.quiz-explain h4{font-size:14px;color:var(--teal-dark);margin-bottom:8px}
+.quiz-explain p{font-size:13.5px;line-height:1.7;color:var(--ink)}
+.quiz-actions{display:flex;gap:12px;justify-content:space-between;margin-top:20px;flex-wrap:wrap}
+.quiz-actions .left{display:flex;gap:12px}
+.quiz-nav{display:grid;grid-template-columns:repeat(auto-fill,minmax(36px,1fr));gap:6px;margin-top:20px}
+.quiz-nav button{width:36px;height:36px;border-radius:6px;border:1px solid var(--line);background:var(--card);cursor:pointer;font-size:13px;font-weight:600;color:var(--ink-soft);transition:all .15s}
+.quiz-nav button:hover{border-color:var(--teal);color:var(--teal)}
+.quiz-nav button.current{background:var(--teal);color:#fff;border-color:var(--teal)}
+.quiz-nav button.answered{background:var(--teal-soft);color:var(--teal-dark);border-color:var(--teal)}
+.quiz-nav button.correct{background:rgba(42,122,42,.2);color:#2A7A2A;border-color:#2A7A2A}
+.quiz-nav button.wrong{background:rgba(154,42,42,.2);color:#9A2A2A;border-color:#9A2A2A}
+.quiz-result{text-align:center;padding:40px 20px}
+.quiz-result .score{font-size:64px;font-weight:800;color:var(--teal);font-family:'JetBrains Mono',monospace;line-height:1}
+.quiz-result .score-label{font-size:18px;color:var(--ink-soft);margin-top:8px}
+.quiz-result .detail{display:flex;justify-content:center;gap:30px;margin-top:24px;flex-wrap:wrap}
+.quiz-result .detail-item{text-align:center}
+.quiz-result .detail-item .n{font-size:28px;font-weight:700;font-family:'JetBrains Mono',monospace}
+.quiz-result .detail-item .n.right{color:#2A7A2A}
+.quiz-result .detail-item .n.wrong{color:#9A2A2A}
+.quiz-result .detail-item .l{font-size:13px;color:var(--ink-soft);margin-top:4px}
+.quiz-filter{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.quiz-filter button{padding:6px 14px;border-radius:6px;border:1px solid var(--line);background:var(--card);cursor:pointer;font-size:13px;color:var(--ink-soft);transition:all .15s}
+.quiz-filter button:hover{border-color:var(--teal);color:var(--teal)}
+.quiz-filter button.active{background:var(--teal);color:#fff;border-color:var(--teal)}
+[data-theme="dark"] .quiz-option{background:var(--field)}
+[data-theme="dark"] .quiz-option:hover{background:var(--teal-soft)}
+[data-theme="dark"] .quiz-explain{background:var(--teal-soft)}
+
 </style>
 </head>
 <body>
@@ -396,6 +590,11 @@ body{padding-top:var(--nav-h)}
       <a href="#nav-align">序列比对</a>
       <a href="#nav-codon">密码子</a>
       <a href="#nav-charts">可视化</a>
+      <a href="#nav-dogma">中心法则</a>
+      <a href="#nav-mutation">突变模拟</a>
+      <a href="#nav-primer">引物设计</a>
+      <a href="#nav-optimize">密码优化</a>
+
     </div>
     <div class="actions">
       <button class="theme-btn" id="btnTheme" title="切换深色 / 浅色">
@@ -435,7 +634,7 @@ body{padding-top:var(--nav-h)}
     <textarea id="seq-input" spellcheck="false" placeholder="例如：ATGGCCATTGTAATGGGCCGCTGAAAGGGTGCCCGATAG..."></textarea>
     <div class="controls">
       <button class="btn btn-primary" id="btnAnalyze">开始分析</button>
-      <button class="btn btn-ghost" id="btnSample">加载示例序列</button>
+      <div class="sample-dropdown"><button class="btn btn-ghost" id="btnSample">加载示例序列 ▾</button><div class="sample-menu" id="sampleMenu"></div></div>
       <button class="btn btn-text" id="btnClear">清空</button>
     </div>
     <div class="msg" id="inputMsg"></div>
@@ -479,10 +678,65 @@ body{padding-top:var(--nav-h)}
     </div>
   </section>
 
+
+  
+<!-- ===== 高中题库 ===== -->
+<section class="panel" id="panel-quiz">
+  <h2>高中生物题库 <span class="tag">DNA结构 · DNA复制 · 转录 · 翻译 · 密码子 · 中心法则 · 基因突变 · 基因表达</span></h2>
+  <p class="hint">围绕高中生物中心法则相关知识点，精选题目练习。答题后即时显示答案与详细解析，适合课后巩固与考前复习。</p>
+  <div class="quiz-container" id="quizContainer">
+    <!-- 由JS渲染 -->
+  </div>
+</section>
+
+<section class="panel" id="nav-dogma">
+    <h2>中心法则交互式动画 <span class="tag">分步演示</span></h2>
+    <p class="hint">点击"下一步"或"自动播放"，逐步观看 DNA → DNA → mRNA → 蛋白质的完整过程，每一步都有文字说明和序列高亮。</p>
+    <div class="dogma-step-indicator" id="dogmaDots"></div>
+    <div class="dogma-stage" id="dogmaStage">
+      <div class="dogma-content" id="dogmaContent"></div>
+      <div class="dogma-visual" id="dogmaVisual"></div>
+    </div>
+    <div class="dogma-controls">
+      <button class="btn btn-text" id="dogmaPrev">上一步</button>
+      <button class="btn btn-primary" id="dogmaNext">下一步</button>
+      <button class="btn btn-ghost" id="dogmaAuto">▶ 自动播放</button>
+      <button class="btn btn-ghost" id="dogmaReset">重新开始</button>
+      <span style="font-size:13px;color:var(--ink-soft)" id="dogmaCounter"></span>
+    </div>
+  </section>
+
   <section class="panel" id="nav-frames">
     <h2>六框翻译与开放阅读框 <span class="tag">中心法则 · 第二步</span></h2>
     <p class="hint">从三个不同位置起读，同一条序列能读出三种完全不同的蛋白质；再加上反向互补链的三种，共六个读码框。开放阅读框（ORF）从起始密码子 ATG 开始，到终止密码子（TAA/TAG/TGA）结束。</p>
     <div id="framesBox"></div>
+  </section>
+
+
+  <section class="panel" id="nav-mutation">
+    <h2>突变模拟器 <span class="tag">创新功能</span></h2>
+    <p class="hint">在序列上引入点突变、插入或缺失，实时观察对蛋白质序列的影响——理解为什么一个碱基的改变会导致镰刀型贫血等遗传病。</p>
+    <div class="mut-toolbar">
+      <label>突变类型：
+        <select id="mutType">
+          <option value="point">点突变（替换）</option>
+          <option value="insert">插入</option>
+          <option value="delete">缺失</option>
+        </select>
+      </label>
+      <label>位置（bp）：<input type="number" id="mutPos" value="7" min="1" style="width:80px"></label>
+      <label id="mutBaseLabel">替换为：
+        <select id="mutBase">
+          <option value="A">A 腺嘌呤</option>
+          <option value="T">T 胸腺嘧啶</option>
+          <option value="G">G 鸟嘌呤</option>
+          <option value="C">C 胞嘧啶</option>
+        </select>
+      </label>
+      <button class="btn btn-primary" id="mutApply">应用突变</button>
+      <button class="btn btn-text" id="mutReset">恢复原序列</button>
+    </div>
+    <div id="mutResult"></div>
   </section>
 
   <section class="panel" id="nav-protein">
@@ -517,6 +771,20 @@ body{padding-top:var(--nav-h)}
     <div class="gel-box" id="gelBox"></div>
   </section>
 
+
+  <section class="panel" id="nav-primer">
+    <h2>引物设计助手 <span class="tag">PCR工具</span></h2>
+    <p class="hint">基于输入序列自动推荐正向和反向 PCR 引物，计算 Tm、GC 含量、长度，并检测二聚体和发夹结构风险。</p>
+    <div class="primer-params">
+      <div><label>引物长度（bp）</label><input type="number" id="primerLen" value="20" min="15" max="30"></div>
+      <div><label>目标 Tm（°C）</label><input type="number" id="primerTm" value="60" min="50" max="70"></div>
+      <div><label>产物长度（bp）</label><input type="number" id="primerProduct" value="300" min="100" max="2000"></div>
+      <div><label>起始位置偏移</label><input type="number" id="primerOffset" value="0" min="0"></div>
+    </div>
+    <button class="btn btn-primary" id="primerDesign">设计引物</button>
+    <div class="primer-result" id="primerResult"></div>
+  </section>
+
   <section class="panel" id="nav-align">
     <h2>双序列全局比对 <span class="tag">Needleman–Wunsch</span></h2>
     <p class="hint">把两条序列逐位对齐，允许插入空位（-），使总得分最高。这是判断序列同源性的基础算法。</p>
@@ -535,6 +803,24 @@ body{padding-top:var(--nav-h)}
     <h2>密码子使用频率 <span class="tag">Codon Usage</span></h2>
     <p class="hint" id="codonHint">统计最长 ORF 中 64 种密码子的出现次数与每千个密码子的频率——不同物种有明显的密码子使用偏好。</p>
     <div class="codon-grid" id="codonGrid"></div>
+  </section>
+
+
+  <section class="panel" id="nav-optimize">
+    <h2>密码子优化器 <span class="tag">表达优化</span></h2>
+    <p class="hint">选择目标表达系统，根据该物种的密码子使用偏好优化编码序列，提高异源表达效率。同时显示优化前后的密码子频率对比。</p>
+    <div class="opt-toolbar">
+      <label>目标物种：
+        <select id="optSpecies">
+          <option value="ecoli">大肠杆菌 (E. coli)</option>
+          <option value="yeast">酿酒酵母 (S. cerevisiae)</option>
+          <option value="human">人 (H. sapiens)</option>
+        </select>
+      </label>
+      <button class="btn btn-primary" id="optApply">优化密码子</button>
+      <button class="btn btn-ghost" id="optCopy">复制优化后序列</button>
+    </div>
+    <div id="optResult"></div>
   </section>
 
   <div class="charts-grid" id="nav-charts">
@@ -592,6 +878,19 @@ body{padding-top:var(--nav-h)}
   </details>
 </section>
 
+
+<div class="tutorial-overlay" id="tutorialOverlay">
+  <div class="tutorial-card">
+    <h3 id="tutorialTitle">欢迎使用序列工坊</h3>
+    <p id="tutorialText"></p>
+    <div class="tutorial-progress" id="tutorialProgress"></div>
+    <div class="tutorial-actions">
+      <button class="btn btn-text" id="tutorialSkip">跳过引导</button>
+      <button class="btn btn-primary" id="tutorialNext">下一步</button>
+    </div>
+  </div>
+</div>
+
 <footer>
   <div class="wrap">
     <span>序列工坊 · 中心法则交互式工作台</span>
@@ -601,6 +900,293 @@ body{padding-top:var(--nav-h)}
 
 <!-- ECharts：本地 assets 优先；缺失时 document.write 回退 jsDelivr；再失败由 renderCharts 动态尝试 cdnjs -->
 <script src="assets/echarts.min.js"></script>
+<script>
+/* ============================================================
+   高中题库系统
+   ============================================================ */
+var QUIZ_DATA = [
+  {cat:'DNA结构', q:'下列关于DNA分子结构的叙述，正确的是？', options:['DNA分子由两条同向平行的脱氧核苷酸链组成','DNA分子中的脱氧核糖和磷酸交替连接，排列在外侧','碱基对通过肽键连接','A与T之间形成3个氢键，G与C之间形成2个氢键'], answer:1, explain:'DNA分子由两条反向平行的脱氧核苷酸链组成；脱氧核糖和磷酸交替连接排列在外侧，构成基本骨架；碱基对通过氢键连接；A与T之间形成2个氢键，G与C之间形成3个氢键。'},
+  {cat:'DNA复制', q:'DNA分子复制时，解旋酶作用的部位是？', options:['磷酸二酯键','氢键','肽键','高能磷酸键'], answer:1, explain:'解旋酶的作用是断裂碱基对之间的氢键，使DNA双链解开。磷酸二酯键是连接脱氧核苷酸的化学键，由DNA聚合酶催化形成；肽键连接氨基酸；高能磷酸键存在于ATP中。'},
+  {cat:'DNA复制', q:'一个DNA分子经过3次复制后，含有原始母链的DNA分子占总数的？', options:['1/2','1/4','1/8','1/16'], answer:1, explain:'DNA复制为半保留复制。1个DNA复制3次后产生2³=8个DNA分子，其中只有2个DNA分子含有原始母链（每个原始母链进入一个子代DNA），所以比例为2/8=1/4。'},
+  {cat:'转录', q:'下列关于转录的叙述，错误的是？', options:['转录的场所主要是细胞核','转录需要RNA聚合酶催化','转录的原料是4种核糖核苷酸','转录时DNA两条链同时作为模板'], answer:3, explain:'转录时只有DNA的一条链作为模板（模板链），另一条链为编码链。转录的场所主要是细胞核（线粒体、叶绿体中也可发生）；需要RNA聚合酶催化；原料是4种核糖核苷酸（ATP、UTP、GTP、CTP）。'},
+  {cat:'转录', q:'某DNA分子的模板链碱基序列为5′-ATGCAT-3′，其转录出的mRNA碱基序列为？', options:['5′-AUGCAU-3′','5′-UACGUA-3′','5′-ATGCAT-3′','5′-TACGTA-3′'], answer:1, explain:'转录时mRNA与模板链互补，且方向相反。模板链5′-ATGCAT-3′，互补链为3′-TACGTA-5′，即5′-ATGCAT-3′（注意：mRNA中T替换为U）。所以mRNA为5′-AUGCAU-3′。'},
+  {cat:'翻译', q:'下列关于翻译过程的叙述，正确的是？', options:['翻译的场所是细胞核','一种tRNA只能识别并转运一种氨基酸','mRNA上的密码子与氨基酸一一对应','翻译时核糖体沿mRNA从3′端向5′端移动'], answer:1, explain:'翻译的场所是核糖体（细胞质中）；一种tRNA只能识别并转运一种氨基酸（但一种氨基酸可由多种tRNA转运）；mRNA上的密码子有64种，其中3种是终止密码子不编码氨基酸，所以不是一一对应；翻译时核糖体沿mRNA从5′端向3′端移动。'},
+  {cat:'密码子', q:'下列关于密码子的叙述，错误的是？', options:['密码子是mRNA上决定一个氨基酸的3个相邻碱基','一种氨基酸可以由多种密码子决定','密码子具有通用性，所有生物共用一套密码子','密码子共有64种，其中编码氨基酸的有64种'], answer:3, explain:'密码子共有64种，其中3种（UAA、UAG、UGA）是终止密码子，不编码氨基酸，所以编码氨基酸的密码子有61种。一种氨基酸可以由一种或多种密码子决定（简并性）；密码子具有通用性（几乎所有生物共用一套密码子）。'},
+  {cat:'密码子', q:'mRNA上的碱基序列为5′-AUGGGUUAA-3′，这段序列编码的氨基酸数为？', options:['2个','3个','4个','1个'], answer:0, explain:'每3个相邻碱基构成一个密码子。AUG（甲硫氨酸，起始密码子）、GGU（甘氨酸）、UAA（终止密码子，不编码氨基酸）。所以编码2个氨基酸。'},
+  {cat:'中心法则', q:'下列关于中心法则的叙述，错误的是？', options:['中心法则包括DNA复制、转录、翻译等过程','逆转录是以RNA为模板合成DNA的过程','RNA复制只发生在RNA病毒中','中心法则中遗传信息只能从DNA流向RNA，不能反向'], answer:3, explain:'中心法则中遗传信息可以从DNA流向RNA（转录），也可以从RNA流向DNA（逆转录），逆转录过程发生在某些RNA病毒（如HIV）中。中心法则包括DNA复制、转录、翻译、逆转录、RNA复制等过程。'},
+  {cat:'中心法则', q:'HIV病毒侵入人体后，其遗传信息的流动方向是？', options:['DNA→RNA→蛋白质','RNA→DNA→RNA→蛋白质','RNA→蛋白质','DNA→蛋白质'], answer:1, explain:'HIV是逆转录病毒，其遗传物质是RNA。侵入宿主细胞后，先在逆转录酶作用下以RNA为模板合成DNA（逆转录），然后DNA整合到宿主基因组中，再经转录和翻译合成病毒蛋白。所以流动方向是RNA→DNA→RNA→蛋白质。'},
+  {cat:'基因突变', q:'镰刀型细胞贫血症的根本原因是？', options:['血红蛋白中一个氨基酸发生改变','DNA中一个碱基对发生替换','mRNA中一个碱基发生改变','染色体结构发生变异'], answer:1, explain:'镰刀型细胞贫血症的根本原因是DNA中一个碱基对发生替换（T-A替换为A-T），导致转录出的mRNA中一个密码子改变（GAG变为GUG），翻译出的血红蛋白中一个氨基酸改变（谷氨酸变为缬氨酸）。根本原因是基因突变（碱基对替换），直接原因是蛋白质结构改变。'},
+  {cat:'基因突变', q:'下列关于基因突变的叙述，正确的是？', options:['基因突变一定会导致生物性状改变','基因突变只能发生在细胞分裂间期','基因突变是新基因产生的途径','基因突变对生物体都是有害的'], answer:2, explain:'基因突变不一定导致生物性状改变（如密码子简并性、隐性突变等）；基因突变可以发生在个体发育的任何时期，主要发生在细胞分裂间期DNA复制时；基因突变是新基因产生的途径，是生物变异的根本来源；基因突变对生物体大多是有害的，也有有利或中性的。'},
+  {cat:'基因表达', q:'下列关于基因表达的叙述，错误的是？', options:['基因表达包括转录和翻译两个过程','基因表达具有选择性，不同细胞中表达的基因不同','基因表达的产物都是蛋白质','基因表达受环境因素影响'], answer:2, explain:'基因表达的产物不都是蛋白质，有些基因表达的产物是RNA（如tRNA、rRNA、microRNA等），这些基因称为非编码RNA基因。基因表达包括转录和翻译（编码蛋白质的基因）；具有选择性（细胞分化的实质是基因的选择性表达）；受环境因素影响。'},
+  {cat:'基因表达', q:'胰岛B细胞能合成胰岛素，而胰岛A细胞不能，其根本原因是？', options:['两种细胞中含有的基因不同','两种细胞中含有的mRNA不同','两种细胞中核糖体的结构不同','两种细胞中tRNA的种类不同'], answer:1, explain:'胰岛B细胞和胰岛A细胞都来自同一个受精卵的有丝分裂，含有相同的基因。两种细胞功能不同的根本原因是基因的选择性表达，即转录出的mRNA不同，进而翻译出的蛋白质不同。核糖体结构和tRNA种类在不同细胞中是相同的。'},
+  {cat:'DNA结构', q:'在一个DNA分子中，腺嘌呤与胸腺嘧啶之和占全部碱基的42%，则鸟嘌呤占全部碱基的？', options:['29%','21%','42%','58%'], answer:0, explain:'根据碱基互补配对原则，A=T，G=C。A+T=42%，所以G+C=100%-42%=58%，G=58%/2=29%。'},
+  {cat:'DNA复制', q:'用¹⁵N标记的一个DNA分子放在含有¹⁴N的培养基中复制3次，则含¹⁵N的DNA分子占全部DNA分子的比例和含¹⁵N的单链占全部单链的比例分别是？', options:['1/4和1/8','1/8和1/16','1/2和1/4','1/4和1/4'], answer:0, explain:'复制3次产生8个DNA分子（16条单链）。根据半保留复制，含¹⁵N的DNA分子有2个（每个含一条¹⁵N链和一条¹⁴N链），比例为2/8=1/4。含¹⁵N的单链有2条，比例为2/16=1/8。'},
+  {cat:'转录', q:'真核细胞中，mRNA从细胞核进入细胞质需要穿过几层生物膜？', options:['0层','1层','2层','4层'], answer:0, explain:'mRNA是大分子，通过核孔从细胞核进入细胞质，不穿过生物膜（核孔是核膜上的通道，物质通过核孔进出不穿过膜结构）。所以穿过0层生物膜。'},
+  {cat:'翻译', q:'一条多肽链中有100个氨基酸，则作为合成该多肽链模板的mRNA分子和用来转录mRNA的DNA分子至少分别有碱基多少个？', options:['300个和600个','300个和300个','600个和600个','100个和200个'], answer:0, explain:'mRNA上3个相邻碱基决定一个氨基酸，所以100个氨基酸至少需要mRNA上100×3=300个碱基（不考虑终止密码子）。DNA是双链，转录时以一条链为模板，所以DNA分子至少有300×2=600个碱基。'},
+  {cat:'基因突变', q:'某基因的模板链中一个碱基A被替换为G，该基因突变属于？', options:['同义突变','错义突变','无义突变','移码突变'], answer:1, explain:'模板链中A被替换为G，导致mRNA中相应密码子改变（U变为C），编码的氨基酸可能改变，属于错义突变。同义突变是密码子改变但氨基酸不变；无义突变是产生终止密码子导致翻译提前终止；移码突变是碱基对的增添或缺失导致阅读框改变。碱基替换不属于移码突变。'},
+  {cat:'中心法则', q:'下列过程中，不发生碱基互补配对的是？', options:['DNA复制','转录','翻译','蛋白质的加工'], answer:3, explain:'DNA复制时母链与子链之间碱基互补配对；转录时DNA模板链与mRNA之间碱基互补配对；翻译时mRNA密码子与tRNA反密码子之间碱基互补配对。蛋白质的加工（如折叠、糖基化等）不涉及碱基互补配对。'},
+  {cat:'基因表达', q:'下列关于基因、蛋白质与性状关系的叙述，错误的是？', options:['基因可以通过控制酶的合成来控制代谢过程，进而控制生物性状','基因可以通过控制蛋白质的结构直接控制生物性状','生物性状只由基因决定，与环境无关','一个基因可以影响多个性状，一个性状也可以由多个基因控制'], answer:2, explain:'生物性状是基因与环境共同作用的结果，不是只由基因决定。例如，同一株水毛茛，裸露在空气中的叶和浸在水中的叶形态不同，说明环境影响性状表现。基因控制性状有两条途径：间接控制（通过控制酶的合成控制代谢）和直接控制（通过控制蛋白质结构）。基因与性状之间不是简单的一一对应关系。'},
+  {cat:'密码子', q:'下列关于tRNA的叙述，正确的是？', options:['tRNA的合成场所是核糖体','一种tRNA可以转运多种氨基酸','tRNA上的反密码子与mRNA上的密码子互补配对','tRNA含有密码子'], answer:2, explain:'tRNA是在细胞核中通过转录合成的（不是核糖体）；一种tRNA只能识别并转运一种氨基酸（专一性）；tRNA一端的反密码子与mRNA上的密码子互补配对；密码子位于mRNA上，tRNA上含有的是反密码子。'},
+  {cat:'DNA结构', q:'下列关于DNA分子特性的叙述，错误的是？', options:['DNA分子具有多样性','DNA分子具有特异性','DNA分子具有稳定性','DNA分子的多样性由碱基配对方式决定'], answer:3, explain:'DNA分子的多样性由碱基对的排列顺序决定，而不是由碱基配对方式决定（碱基配对方式只有A-T、G-C两种，是固定的）。DNA分子具有多样性（碱基排列顺序千变万化）、特异性（每个DNA分子有特定的碱基排列顺序）、稳定性（双螺旋结构和氢键维持稳定）。'},
+  {cat:'转录', q:'下列关于RNA的叙述，错误的是？', options:['RNA分子通常是单链结构','RNA分子中不含胸腺嘧啶','mRNA是翻译的直接模板','RNA分子中不含有氢键'], answer:3, explain:'RNA分子通常是单链结构，但tRNA分子中存在局部双链区域，含有氢键（如tRNA的三叶草结构中，互补碱基之间形成氢键）。RNA分子中含有的碱基是A、U、G、C，不含T（胸腺嘧啶）；mRNA是翻译的直接模板。'}
+];
+
+var quizState = {
+  current: 0,
+  answers: {},  // {index: selectedOption}
+  submitted: {},  // {index: true/false}
+  filter: 'all'
+};
+
+function renderQuiz(){
+  var container = document.getElementById('quizContainer');
+  if(!container) return;
+  
+  var filtered = getFilteredQuestions();
+  if(filtered.length === 0){
+    container.innerHTML = '<div style="text-align:center;padding:40px;color:var(--ink-soft)">该分类暂无题目</div>';
+    return;
+  }
+  
+  var q = filtered[quizState.current];
+  var qIndex = QUIZ_DATA.indexOf(q);
+  var isSubmitted = quizState.submitted[qIndex];
+  var selected = quizState.answers[qIndex];
+  var total = filtered.length;
+  var answered = Object.keys(quizState.submitted).length;
+  var correct = 0;
+  for(var k in quizState.submitted){
+    if(quizState.submitted[k] && quizState.answers[k] === QUIZ_DATA[k].answer) correct++;
+  }
+  
+  var html = '';
+  
+  // 统计栏
+  html += '<div class="quiz-header">';
+  html += '<div class="quiz-stats">';
+  html += '<div class="quiz-stat"><div class="v">'+total+'</div><div class="k">总题数</div></div>';
+  html += '<div class="quiz-stat"><div class="v">'+answered+'</div><div class="k">已作答</div></div>';
+  html += '<div class="quiz-stat"><div class="v" style="color:#2A7A2A">'+correct+'</div><div class="k">正确</div></div>';
+  html += '<div class="quiz-stat"><div class="v" style="color:#9A2A2A">'+(answered-correct)+'</div><div class="k">错误</div></div>';
+  html += '</div>';
+  html += '<button class="btn btn-ghost" onclick="resetQuiz()">重新开始</button>';
+  html += '</div>';
+  
+  // 进度条
+  html += '<div class="quiz-progress-bar"><div class="quiz-progress-fill" style="width:'+((quizState.current+1)/total*100)+'%"></div></div>';
+  
+  // 分类筛选
+  var cats = getCategories();
+  html += '<div class="quiz-filter">';
+  html += '<button class="'+(quizState.filter==='all'?'active':'')+'" onclick="filterQuiz(\'all\')">全部</button>';
+  for(var c=0;c<cats.length;c++){
+    html += '<button class="'+(quizState.filter===cats[c]?'active':'')+'" onclick="filterQuiz(\''+cats[c]+'\')">'+cats[c]+'</button>';
+  }
+  html += '</div>';
+  
+  // 题目卡片
+  html += '<div class="quiz-card">';
+  html += '<div class="quiz-qmeta">';
+  html += '<span class="quiz-qnum">第 '+(quizState.current+1)+' / '+total+' 题</span>';
+  html += '<span class="quiz-qcat">'+q.cat+'</span>';
+  if(isSubmitted){
+    html += '<span class="quiz-qcat" style="background:'+(selected===q.answer?'rgba(42,122,42,.15)':'rgba(154,42,42,.15)')+';color:'+(selected===q.answer?'#2A7A2A':'#9A2A2A')+'">'+(selected===q.answer?'回答正确 ✓':'回答错误 ✗')+'</span>';
+  }
+  html += '</div>';
+  html += '<div class="quiz-qtext">'+q.q+'</div>';
+  html += '<div class="quiz-options">';
+  for(var i=0;i<q.options.length;i++){
+    var optClass = 'quiz-option';
+    if(selected === i) optClass += ' selected';
+    if(isSubmitted){
+      optClass += ' disabled';
+      if(i === q.answer) optClass += ' correct';
+      if(i === selected && selected !== q.answer) optClass += ' wrong';
+    }
+    html += '<div class="'+optClass+'" onclick="'+(isSubmitted?'':'selectQuizOption('+i+')')+'">';
+    html += '<div class="letter">'+String.fromCharCode(65+i)+'</div>';
+    html += '<div class="text">'+q.options[i]+'</div>';
+    html += '</div>';
+  }
+  html += '</div>';
+  
+  // 解析
+  html += '<div class="quiz-explain '+(isSubmitted?'show':'')+'">';
+  html += '<h4>答案与解析</h4>';
+  html += '<p><strong>正确答案：</strong>'+String.fromCharCode(65+q.answer)+'。'+q.options[q.answer]+'</p>';
+  html += '<p><strong>解析：</strong>'+q.explain+'</p>';
+  html += '</div>';
+  
+  // 操作按钮
+  html += '<div class="quiz-actions">';
+  html += '<div class="left">';
+  html += '<button class="btn btn-ghost" onclick="prevQuiz()" '+(quizState.current===0?'disabled':'')+'>上一题</button>';
+  html += '<button class="btn btn-primary" onclick="nextQuiz()">'+(quizState.current===total-1?'查看成绩':'下一题')+'</button>';
+  html += '</div>';
+  if(!isSubmitted && selected !== undefined){
+    html += '<button class="btn btn-primary" style="background:#2A7A2A" onclick="submitQuiz()">提交答案</button>';
+  }
+  html += '</div>';
+  html += '</div>';
+  
+  // 题目导航
+  html += '<div class="quiz-nav">';
+  for(var n=0;n<total;n++){
+    var navQ = filtered[n];
+    var navIdx = QUIZ_DATA.indexOf(navQ);
+    var navClass = '';
+    if(n === quizState.current) navClass = 'current';
+    else if(quizState.submitted[navIdx]){
+      navClass = quizState.answers[navIdx] === QUIZ_DATA[navIdx].answer ? 'correct' : 'wrong';
+    }
+    html += '<button class="'+navClass+'" onclick="goQuiz('+n+')">'+(n+1)+'</button>';
+  }
+  html += '</div>';
+  
+  container.innerHTML = html;
+}
+
+function getCategories(){
+  var cats = [];
+  for(var i=0;i<QUIZ_DATA.length;i++){
+    if(cats.indexOf(QUIZ_DATA[i].cat) === -1) cats.push(QUIZ_DATA[i].cat);
+  }
+  return cats;
+}
+
+function getFilteredQuestions(){
+  if(quizState.filter === 'all') return QUIZ_DATA.slice();
+  return QUIZ_DATA.filter(function(q){return q.cat === quizState.filter;});
+}
+
+function filterQuiz(cat){
+  quizState.filter = cat;
+  quizState.current = 0;
+  renderQuiz();
+}
+
+function selectQuizOption(idx){
+  var filtered = getFilteredQuestions();
+  var q = filtered[quizState.current];
+  var qIndex = QUIZ_DATA.indexOf(q);
+  quizState.answers[qIndex] = idx;
+  renderQuiz();
+}
+
+function submitQuiz(){
+  var filtered = getFilteredQuestions();
+  var q = filtered[quizState.current];
+  var qIndex = QUIZ_DATA.indexOf(q);
+  if(quizState.answers[qIndex] === undefined) return;
+  quizState.submitted[qIndex] = true;
+  renderQuiz();
+}
+
+function prevQuiz(){
+  if(quizState.current > 0){
+    quizState.current--;
+    renderQuiz();
+  }
+}
+
+function nextQuiz(){
+  var filtered = getFilteredQuestions();
+  if(quizState.current < filtered.length - 1){
+    quizState.current++;
+    renderQuiz();
+  } else {
+    showQuizResult();
+  }
+}
+
+function goQuiz(n){
+  quizState.current = n;
+  renderQuiz();
+}
+
+function resetQuiz(){
+  quizState.current = 0;
+  quizState.answers = {};
+  quizState.submitted = {};
+  quizState.filter = 'all';
+  renderQuiz();
+}
+
+function showQuizResult(){
+  var container = document.getElementById('quizContainer');
+  var total = QUIZ_DATA.length;
+  var answered = Object.keys(quizState.submitted).length;
+  var correct = 0;
+  for(var k in quizState.submitted){
+    if(quizState.submitted[k] && quizState.answers[k] === QUIZ_DATA[k].answer) correct++;
+  }
+  var percent = answered > 0 ? Math.round(correct / answered * 100) : 0;
+  
+  var html = '<div class="quiz-result">';
+  html += '<div class="score">'+percent+'<span style="font-size:28px">分</span></div>';
+  html += '<div class="score-label">答题正确率（已作答 '+answered+' / '+total+' 题）</div>';
+  html += '<div class="detail">';
+  html += '<div class="detail-item"><div class="n right">'+correct+'</div><div class="l">答对</div></div>';
+  html += '<div class="detail-item"><div class="n wrong">'+(answered-correct)+'</div><div class="l">答错</div></div>';
+  html += '<div class="detail-item"><div class="n">'+(total-answered)+'</div><div class="l">未作答</div></div>';
+  html += '</div>';
+  html += '<div style="margin-top:30px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap">';
+  html += '<button class="btn btn-primary" onclick="renderQuiz()">继续练习</button>';
+  html += '<button class="btn btn-ghost" onclick="resetQuiz()">重新开始</button>';
+  html += '<button class="btn btn-ghost" onclick="showWrongQuestions()">查看错题</button>';
+  html += '</div>';
+  html += '</div>';
+  
+  container.innerHTML = html;
+}
+
+function showWrongQuestions(){
+  var wrongIndices = [];
+  for(var k in quizState.submitted){
+    if(quizState.submitted[k] && quizState.answers[k] !== QUIZ_DATA[k].answer){
+      wrongIndices.push(parseInt(k));
+    }
+  }
+  if(wrongIndices.length === 0){
+    alert('没有错题，太棒了！');
+    return;
+  }
+  // 只显示错题
+  quizState.filter = 'wrong';
+  quizState.current = 0;
+  // 临时修改QUIZ_DATA为只含错题的方式：用filter特殊处理
+  renderWrongQuiz(wrongIndices);
+}
+
+function renderWrongQuiz(wrongIndices){
+  var container = document.getElementById('quizContainer');
+  var html = '<div style="margin-bottom:16px;display:flex;justify-content:space-between;align-items:center">';
+  html += '<h3 style="color:var(--teal)">错题回顾（共'+wrongIndices.length+'题）</h3>';
+  html += '<button class="btn btn-ghost" onclick="resetQuiz()">返回全部题目</button>';
+  html += '</div>';
+  
+  for(var i=0;i<wrongIndices.length;i++){
+    var idx = wrongIndices[i];
+    var q = QUIZ_DATA[idx];
+    html += '<div class="quiz-card" style="margin-bottom:16px">';
+    html += '<div class="quiz-qmeta"><span class="quiz-qnum">第 '+(idx+1)+' 题</span><span class="quiz-qcat">'+q.cat+'</span></div>';
+    html += '<div class="quiz-qtext">'+q.q+'</div>';
+    html += '<div class="quiz-options">';
+    for(var j=0;j<q.options.length;j++){
+      var cls = 'quiz-option disabled';
+      if(j === q.answer) cls += ' correct';
+      if(j === quizState.answers[idx]) cls += ' wrong';
+      html += '<div class="'+cls+'"><div class="letter">'+String.fromCharCode(65+j)+'</div><div class="text">'+q.options[j]+'</div></div>';
+    }
+    html += '</div>';
+    html += '<div class="quiz-explain show"><h4>答案与解析</h4><p><strong>正确答案：</strong>'+String.fromCharCode(65+q.answer)+'。'+q.options[q.answer]+'</p><p><strong>你的答案：</strong>'+String.fromCharCode(65+quizState.answers[idx])+'</p><p><strong>解析：</strong>'+q.explain+'</p></div>';
+    html += '</div>';
+  }
+  
+  container.innerHTML = html;
+}
+
+</script>
 <script>
 if(typeof echarts==='undefined'){
   document.write('<script src="https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js"><\/script>');
@@ -1234,7 +1820,8 @@ function renderCodonGrid(seq,gBest){
       if(CODON[key]===aa){
         var n=counts[key]||0,per=total?(n/total*1000):0;
         var op=Math.min(.45,per/1000*1.5);
-        h+='<div class="codon-cell" style="background:rgba(14,124,123,'+op.toFixed(2)+')">'+
+        var codonBg=isDarkTheme()?'rgba(43,163,161,':'rgba(14,124,123,';
+        h+='<div class="codon-cell" style="background:'+codonBg+op.toFixed(2)+';border:1px solid '+(isDarkTheme()?'rgba(43,163,161,.2)':'rgba(14,124,123,.15)')+'">'+
           '<span class="c">'+key+'</span><span class="a">'+n+'</span><span class="f">'+per.toFixed(1)+'‰</span></div>';
       }
     }
@@ -1331,25 +1918,24 @@ document.addEventListener('click',function(e){
 
 function analyze(){
   var raw=document.getElementById('seq-input').value;
-  var parsed=parseInput(raw);
-  if(!parsed.seq){
-    setMsg('err','请先粘贴一段 DNA 序列，或点击“加载示例序列”快速体验。');
+  var parsed=enhancedParseInput(raw);
+  if(parsed.error){
+    setMsg('err',parsed.error);
     document.getElementById('results').hidden=true;
     return;
   }
-  var notes=[];
-  if(raw.toUpperCase().indexOf('U')>=0)notes.push('检测到 RNA（含 U），已按 U→T 转为 DNA 处理');
-  if(parsed.removed>0)notes.push('已自动忽略 '+parsed.removed+' 个非法字符（仅接受 A/T/C/G）');
-  if(parsed.seq.length<30)notes.push('序列较短（'+parsed.seq.length+' bp），翻译与 GC 曲线仅供参考');
-  if(notes.length)setMsg('warn',notes.join('；')+'。');else clearMsg();
-  renderResults(parsed.seq);
+  if(parsed.warning)setMsg('info',parsed.warning);else clearMsg();
+  var seq=parsed.seq;
+  window._currentSeq=seq;
+  renderResults(seq);
+  initNewFeatures();
   document.getElementById('results').scrollIntoView({behavior:'smooth',block:'start'});
 }
 
 document.getElementById('btnAnalyze').addEventListener('click',analyze);
-document.getElementById('btnSample').addEventListener('click',function(){
-  document.getElementById('seq-input').value=SAMPLE_DNA;
-  analyze();
+document.getElementById('btnSample').addEventListener('click',function(e){
+  e.stopPropagation();
+  document.getElementById('sampleMenu').classList.toggle('show');
 });
 document.getElementById('btnClear').addEventListener('click',function(){
   document.getElementById('seq-input').value='';
@@ -1443,6 +2029,752 @@ document.getElementById('btnAlign').addEventListener('click',function(){
     '<div>'+colorDNA(r.b)+'</div></div>';
   out.innerHTML=h;
 });
+
+/* ============================================================
+   二、新增功能：数据与工具函数
+   ============================================================ */
+
+// 更多示例序列
+var SAMPLE_SEQUENCES = [
+  {name:'教学示例序列（含酶切位点）', desc:'390bp，覆盖20种氨基酸，含AluI/SalI/ScaI切点', seq:null}, // null=用buildSampleDNA
+  {name:'人类β-珠蛋白基因片段', desc:'含镰刀型贫血突变位点A→T（第7位）', seq:'ATGGTGCACCTGACTCCTGAGGAGAAGTCTGCCGTTACTGCCCTGTGGGGCAAGGTGAACGTGGATGAAGTTGGTGGTGAGGCCCTGGGCAGGCTGCTGGTGGTCTACCCTTGGACCCAGAGGTTCTTTGAGTCCTTTGGGGATCTGTCCACTCCTGATGCTGTTATGGGCAACCCTAAGGTGAAGGCTCATGGCAAGAAAGTGCTCGGTGCCTTTAGTGATGGCCTGGCTCACCTGGACAACCTCAAGGGCACCTTTGCCACACTGAGTGAGCTGCACTGTGACAAGCTGCACGTGGATCCTGAGAACTTCAGGCTCCTGGGCAACGTGCTGGTCTGTGTGCTGGCCCATCACTTTGGCAAAGAATTCACCCCACCAGTGCAGGCTGCCTATCAGAAAGTGGTGGCTGGTGTGGCTAATGCCCTGGCCCACAAGTATCACTAA'},
+  {name:'大肠杆菌lacZ基因片段', desc:'β-半乳糖苷酶N端α-互补片段', seq:'ATGACCATGATTACGGATTCACTGGCCGTCGTTTTACAACGTCGTGACTGGGAAAACCCTGGCGTTACCCAACTTAATCGCCTTGCAGCACATCCCCCTTTCGCCAGCTGGCGTAATAGCGAAGAGGCCCGCACCGATCGCCCTTCCCAACAGTTGCGCAGCCTGAATGGCGAATGGCGCTTTGCCTGGTTTCCGGCACCAGAAGCGGTGCCGGAAAGCTGGCTGGAGTGCGATCTTCCTGAGGCCGATACTGTCGTCGTCCCCTCAAACTGGCAGATGCACGGTTACGATGCGCCCATCTACACCAACGTGACCTATCCCATTACGGTCAATCCGCCGTTTGTTCCCACGGAGAATCCGACGGGTTGTTACTCGCTCACATTTAATGTTGATGAAAGCTGGCTACAGGAAGGCCAGACGCGAATTATTTTTGATGGCGTTAACTCGGCGTTTCATCTGTGGTGCAACGGGCGCTGGGTCGGTTACGGCCAGGACAGTCGTTTGCCGTCTGAACGATGAGCTACCGCTGGGCAGCCTCTCCGGCGGTGGTGGTGATGCCCATCTGGTACCGGCCATGGCAGCGGCGGTGCCGATCACCTGATCTATCCCGGCGTCATCTACACGCCCGATGACGCGCTGGCGCTGATCTATCAGGGCCGCCAGTTCGATCAGGGCCGCGTGCTGGCGCTGATCTATCAGGGCCGCCAGTTCGATCAGGGCCGCGTGCTGGC'},
+  {name:'短序列（快速演示）', desc:'60bp，适合快速查看各功能', seq:'ATGGCTAGCATGACTGGTGGACAGCAAATGGGTCGCGGATCCGAATTCGAGCTCCGTCGACAAGCTTGCGGCCGCACTAGTG'}
+];
+
+// 物种密码子使用偏好（每氨基酸选最高频密码子，简化版）
+var SPECIES_CODON_BIAS = {
+  ecoli:{
+    F:['TTC','TTT'],L:['CTG','TTA','TTG','CTC','CTT','CTA'],I:['ATT','ATC','ATA'],M:['ATG'],
+    V:['GTG','GTT','GTA','GTC'],S:['AGC','TCT','TCC','TCG','TCA','AGT'],P:['CCG','CCA','CCC','CCT'],
+    T:['ACC','ACG','ACA','ACT'],A:['GCG','GCA','GCC','GCT'],Y:['TAT','TAC'],H:['CAT','CAC'],
+    Q:['CAG','CAA'],N:['AAC','AAT'],K:['AAA','AAG'],D:['GAT','GAC'],E:['GAA','GAG'],
+    C:['TGC','TGT'],W:['TGG'],R:['CGT','CGC','CGA','CGG','AGA','AGG'],G:['GGC','GGT','GGA','GGG'],
+    '*':['TAA','TAG','TGA']
+  },
+  yeast:{
+    F:['TTC','TTT'],L:['TTG','TTA','CTT','CTC','CTA','CTG'],I:['ATT','ATC','ATA'],M:['ATG'],
+    V:['GTT','GTA','GTG','GTC'],S:['TCT','TCC','TCG','TCA','AGC','AGT'],P:['CCA','CCG','CCC','CCT'],
+    T:['ACT','ACA','ACC','ACG'],A:['GCT','GCC','GCA','GCG'],Y:['TAT','TAC'],H:['CAT','CAC'],
+    Q:['CAA','CAG'],N:['AAT','AAC'],K:['AAG','AAA'],D:['GAT','GAC'],E:['GAA','GAG'],
+    C:['TGT','TGC'],W:['TGG'],R:['AGA','AGG','CGT','CGC','CGA','CGG'],G:['GGT','GGA','GGC','GGG'],
+    '*':['TAA','TAG','TGA']
+  },
+  human:{
+    F:['TTC','TTT'],L:['CTG','CTC','TTG','TTA','CTT','CTA'],I:['ATC','ATT','ATA'],M:['ATG'],
+    V:['GTG','GTC','GTT','GTA'],S:['AGC','TCC','TCT','TCG','TCA','AGT'],P:['CCC','CCA','CCT','CCG'],
+    T:['ACC','ACT','ACA','ACG'],A:['GCC','GCT','GCA','GCG'],Y:['TAC','TAT'],H:['CAC','CAT'],
+    Q:['CAG','CAA'],N:['AAC','AAT'],K:['AAG','AAA'],D:['GAC','GAT'],E:['GAG','GAA'],
+    C:['TGC','TGT'],W:['TGG'],R:['CGC','AGG','AGA','CGT','CGA','CGG'],G:['GGC','GGG','GGA','GGT'],
+    '*':['TAA','TAG','TGA']
+  }
+};
+
+// 引导教程步骤
+var TUTORIAL_STEPS = [
+  {title:'欢迎使用序列工坊 👋', text:'这是一个把分子生物学中心法则变成可交互体验的在线工具。所有计算都在你的浏览器本地完成，序列不会上传到任何服务器。'},
+  {title:'第一步：输入序列', text:'在上方输入框粘贴一段 DNA 序列，或点击"加载示例序列"选择预设的示例（包括人类β-珠蛋白基因、大肠杆菌lacZ等）。支持 FASTA 格式。'},
+  {title:'第二步：开始分析', text:'点击"开始分析"，工具会自动计算序列长度、GC含量、解链温度等指标，并展示反向互补、转录、六框翻译的完整流程。'},
+  {title:'探索更多功能', text:'导航栏提供酶切位点分析、双序列比对、密码子频率、突变模拟器、引物设计、密码子优化等生信常用工具。底部还有教学问答和学习测验。'},
+  {title:'开始体验吧！', text:'点击"加载示例序列"→"开始分析"，亲手拨动中心法则的每一步。如果有任何问题，可以随时参考底部的教学问答区。'}
+];
+
+/* ============================================================
+   三、中心法则交互式动画
+   ============================================================ */
+var dogmaStep = 0;
+var dogmaAutoTimer = null;
+var dogmaSteps = [
+  {title:'第一步：DNA 双链', desc:'DNA 是由两条反向平行的多核苷酸链组成的双螺旋结构。两条链通过碱基互补配对（A-T、G-C）连接，A 和 T 之间有2个氢键，G 和 C 之间有3个氢键。', visualFn:function(seq){
+    var rc = reverseComplement(seq);
+    var top = seqHTML(seq.substring(0,40));
+    var bot = seqHTML(rc.substring(0,40));
+    return '<div style="text-align:center"><div style="font-size:11px;color:var(--ink-soft);margin-bottom:4px">编码链 5\'→3\'</div>'+top+'<div style="font-size:11px;color:var(--ink-soft);margin:8px 0 4px">模板链 3\'→5\'</div>'+bot+'</div>';
+  }},
+  {title:'第二步：DNA 复制', desc:'DNA 复制是半保留复制：双链解开后，每条母链作为模板，按照碱基互补原则合成一条新的子链。最终一个 DNA 分子变成两个完全相同的 DNA 分子，每个分子都含一条母链和一条新合成的子链。', visualFn:function(seq){
+    var rc = reverseComplement(seq);
+    return '<div style="text-align:center"><div style="color:var(--ink-soft);font-size:11px;margin-bottom:4px">亲代 DNA（母链）</div>'+seqHTML(seq.substring(0,30))+'<div style="margin:8px 0;color:var(--teal);font-size:12px;font-weight:700">↓ 半保留复制 ↓</div><div style="display:flex;justify-content:space-around;gap:20px"><div><div style="font-size:11px;color:var(--ink-soft);margin-bottom:4px">子代 DNA 1（母链+新链）</div>'+seqHTML(seq.substring(0,30))+'</div><div><div style="font-size:11px;color:var(--ink-soft);margin-bottom:4px">子代 DNA 2（新链+母链）</div>'+seqHTML(rc.substring(0,30))+'</div></div></div>';
+  }},
+  {title:'第三步：DNA 解旋', desc:'在转录开始前，DNA 双链在 RNA 聚合酶的作用下局部解开，形成转录泡。模板链（反义链）将作为合成 mRNA 的模板，编码链（正义链）不参与转录。', visualFn:function(seq){
+    var rc = reverseComplement(seq);
+    return '<div style="text-align:center"><div style="color:var(--ink-soft);font-size:11px;margin-bottom:4px">编码链（不参与转录）</div>'+seqHTML(seq.substring(0,40))+'<div style="margin:6px 0;color:var(--red);font-size:12px;font-weight:700">↓ RNA 聚合酶结合，双链解开 ↓</div><div style="color:var(--ink-soft);font-size:11px;margin-bottom:4px">模板链（转录模板）</div>'+seqHTML(rc.substring(0,40))+'</div>';
+  }},
+  {title:'第四步：转录成 mRNA', desc:'RNA 聚合酶沿着模板链 3\'→5\' 方向移动，按照碱基互补原则合成 mRNA。注意：mRNA 中用尿嘧啶（U）替代了胸腺嘧啶（T）。最终 mRNA 的序列与 DNA 编码链几乎相同，只是 T→U。', visualFn:function(seq){
+    var mrna = transcribe(seq);
+    return '<div style="text-align:center"><div style="color:var(--ink-soft);font-size:11px;margin-bottom:4px">DNA 编码链</div>'+seqHTML(seq.substring(0,40))+'<div style="margin:6px 0;color:var(--teal);font-size:12px;font-weight:700">↓ 转录（T→U）↓</div><div style="color:var(--ink-soft);font-size:11px;margin-bottom:4px">mRNA</div>'+seqHTML(mrna.substring(0,40),true)+'</div>';
+  }},
+  {title:'第五步：mRNA 出核', desc:'在真核生物中，转录完成后，mRNA 经过加工（5\'加帽、3\'加 polyA 尾、剪接去除内含子），从细胞核进入细胞质，与核糖体结合，准备开始翻译。', visualFn:function(seq){
+    var mrna = transcribe(seq);
+    return '<div style="text-align:center;padding:16px 0"><div style="display:inline-block;background:var(--teal-soft);border:2px solid var(--teal);border-radius:12px;padding:20px 30px;margin-bottom:14px"><div style="display:flex;align-items:center;gap:12px"><div style="width:40px;height:40px;border-radius:50%;background:var(--teal);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:18px">N</div><div style="color:var(--ink-soft);font-size:20px">→</div><div style="width:40px;height:40px;border-radius:50%;background:var(--amber);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:18px">C</div></div><div style="margin-top:8px;font-size:12px;color:var(--teal-dark);font-weight:600">细胞核 → 细胞质 → 核糖体</div></div><div style="font-family:JetBrains Mono,monospace;font-size:12px;color:var(--ink-soft)">5\'-m7G cap  '+mrna.substring(0,20)+'...  AAAAAAAA-3\'</div></div>';
+  }},
+  {title:'第六步：翻译起始', desc:'核糖体识别 mRNA 上的起始密码子 AUG（编码甲硫氨酸 M），翻译开始。tRNA 携带对应的氨基酸进入核糖体，通过反密码子与 mRNA 上的密码子配对。', visualFn:function(seq){
+    var mrna = transcribe(seq);
+    var codons = [];
+    for(var i=0;i<Math.min(9,Math.floor(mrna.length/3));i++){
+      var c = mrna.substring(i*3,i*3+3);
+      var aa = CODON[c.replace(/U/g,'T')] || '?';
+      codons.push('<span style="display:inline-block;margin:2px;padding:3px 8px;background:var(--card);border:1px solid var(--line);border-radius:5px"><span class="mono" style="color:var(--bU)">'+c+'</span> → <strong>'+aa+'</strong></span>');
+    }
+    return '<div style="text-align:center"><div style="color:var(--amber);font-weight:700;margin-bottom:10px">起始密码子 AUG → 甲硫氨酸（M）</div>'+codons.join('')+'</div>';
+  }},
+  {title:'第七步：肽链延伸', desc:'核糖体沿着 mRNA 5\'→3\' 方向移动，每读取一个密码子，对应的 tRNA 携带氨基酸进入，氨基酸之间通过肽键连接，肽链不断延伸。直到遇到终止密码子（UAA、UAG、UGA），翻译结束。', visualFn:function(seq){
+    var mrna = transcribe(seq);
+    var prot = '';
+    for(var i=0;i+3<=mrna.length;i+=3){
+      var aa = CODON[mrna.substring(i,i+3).replace(/U/g,'T')];
+      if(aa==='*'){prot += '<span style="color:var(--red);font-weight:700">*</span>';break;}
+      prot += aa || '?';
+    }
+    return '<div style="text-align:center"><div style="color:var(--ink-soft);font-size:11px;margin-bottom:6px">mRNA（每3个碱基=1个密码子）</div><div class="mono" style="font-size:12px;letter-spacing:1px">'+mrna.substring(0,60)+'...</div><div style="margin:12px 0;color:var(--teal);font-weight:700">↓ 翻译 ↓</div><div style="color:var(--ink-soft);font-size:11px;margin-bottom:6px">多肽链（氨基酸序列）</div><div class="mono" style="font-size:14px;letter-spacing:2px;color:var(--teal-dark);font-weight:600">'+prot.substring(0,40)+'...</div></div>';
+  }},
+  {title:'中心法则完成！', desc:'遗传信息从 DNA → DNA（复制）→ mRNA（转录）→ 蛋白质（翻译）的完整流动过程结束了。这就是分子生物学的中心法则。序列工坊让你可以亲手拨动这个过程的每一步——从粘贴一段 DNA 开始，亲眼看着它变成蛋白质。', visualFn:function(seq){
+    return '<div style="text-align:center;padding:24px 0"><div style="display:inline-flex;align-items:center;gap:10px;margin-bottom:18px"><div style="width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,var(--teal),var(--teal-dark));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:22px">DNA</div><div style="color:var(--teal);font-size:24px;font-weight:700">→</div><div style="width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,var(--amber),#d4941a);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:18px">RNA</div><div style="color:var(--teal);font-size:24px;font-weight:700">→</div><div style="width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,var(--red),#a02828);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:16px">Pro</div></div><div style="font-size:18px;font-weight:700;color:var(--teal-dark);margin-bottom:6px">DNA → mRNA → 蛋白质</div><div style="font-size:14px;color:var(--ink-soft)">中心法则，看得见、摸得着</div></div>';
+  }}
+];
+
+function renderDogmaDots(){
+  var box = document.getElementById('dogmaDots');
+  if(!box) return;
+  box.innerHTML = '';
+  for(var i=0;i<dogmaSteps.length;i++){
+    (function(idx){
+      var d = document.createElement('div');
+      d.className = 'dogma-dot' + (idx===dogmaStep?' active':'') + (idx<dogmaStep?' done':'');
+      d.textContent = idx+1;
+      d.title = dogmaSteps[idx].title;
+      d.onclick = function(){
+        stopDogmaAuto();
+        dogmaStep = idx;
+        renderDogmaStep();
+      };
+      box.appendChild(d);
+    })(i);
+  }
+}
+
+function renderDogmaStep(){
+  var step = dogmaSteps[dogmaStep];
+  var seq = window._currentSeq || '';
+  var content = document.getElementById('dogmaContent');
+  var visual = document.getElementById('dogmaVisual');
+  content.classList.add('dogma-fade');
+  visual.classList.add('dogma-fade');
+  setTimeout(function(){
+    content.innerHTML = '<strong style="font-size:16px;color:var(--teal-dark)">'+step.title+'</strong><p style="margin-top:8px">'+step.desc+'</p>';
+    visual.innerHTML = step.visualFn(seq);
+    content.classList.remove('dogma-fade');
+    visual.classList.remove('dogma-fade');
+  }, 200);
+  document.getElementById('dogmaCounter').textContent = '第 '+(dogmaStep+1)+' / '+dogmaSteps.length+' 步';
+  document.getElementById('dogmaPrev').disabled = dogmaStep===0;
+  document.getElementById('dogmaNext').textContent = dogmaStep===dogmaSteps.length-1?'完成':'下一步';
+  renderDogmaDots();
+}
+
+function stopDogmaAuto(){
+  if(dogmaAutoTimer){
+    clearInterval(dogmaAutoTimer);
+    dogmaAutoTimer = null;
+    var btn = document.getElementById('dogmaAuto');
+    if(btn){ btn.textContent = '▶ 自动播放'; btn.classList.remove('dogma-auto-playing'); }
+  }
+}
+
+function startDogmaAuto(){
+  if(dogmaStep >= dogmaSteps.length-1){ dogmaStep = 0; renderDogmaStep(); }
+  var btn = document.getElementById('dogmaAuto');
+  if(btn){ btn.textContent = '⏸ 暂停'; btn.classList.add('dogma-auto-playing'); }
+  dogmaAutoTimer = setInterval(function(){
+    if(dogmaStep < dogmaSteps.length-1){
+      dogmaStep++;
+      renderDogmaStep();
+    } else {
+      stopDogmaAuto();
+    }
+  }, 2200);
+}
+
+function initDogmaAnimation(){
+  document.getElementById('dogmaNext').onclick = function(){
+    stopDogmaAuto();
+    if(dogmaStep<dogmaSteps.length-1){dogmaStep++;renderDogmaStep();}
+  };
+  document.getElementById('dogmaPrev').onclick = function(){
+    stopDogmaAuto();
+    if(dogmaStep>0){dogmaStep--;renderDogmaStep();}
+  };
+  document.getElementById('dogmaReset').onclick = function(){stopDogmaAuto();dogmaStep=0;renderDogmaStep();};
+  document.getElementById('dogmaAuto').onclick = function(){
+    if(dogmaAutoTimer){ stopDogmaAuto(); } else { startDogmaAuto(); }
+  };
+  document.addEventListener('keydown', function(e){
+    var panel = document.getElementById('nav-dogma');
+    if(!panel) return;
+    var rect = panel.getBoundingClientRect();
+    var visible = rect.top < window.innerHeight && rect.bottom > 0;
+    if(!visible) return;
+    if(e.key === 'ArrowRight' || e.key === 'ArrowDown'){
+      e.preventDefault();
+      stopDogmaAuto();
+      if(dogmaStep<dogmaSteps.length-1){dogmaStep++;renderDogmaStep();}
+    } else if(e.key === 'ArrowLeft' || e.key === 'ArrowUp'){
+      e.preventDefault();
+      stopDogmaAuto();
+      if(dogmaStep>0){dogmaStep--;renderDogmaStep();}
+    } else if(e.key === ' '){
+      e.preventDefault();
+      if(dogmaAutoTimer){ stopDogmaAuto(); } else { startDogmaAuto(); }
+    }
+  });
+  renderDogmaStep();
+}
+
+/* ============================================================
+   四、突变模拟器
+   ============================================================ */
+function applyMutation(seq, type, pos, base){
+  pos = parseInt(pos) - 1; // 转为0-based
+  if(pos<0 || pos>=seq.length) return {error:'位置超出序列范围（1-' + seq.length + '）'};
+  var mutated = seq;
+  var detail = '';
+  if(type==='point'){
+    var old = seq[pos];
+    if(old===base) return {error:'该位置已经是 ' + base + '，无需替换'};
+    mutated = seq.substring(0,pos) + base + seq.substring(pos+1);
+    detail = '第 '+(pos+1)+' 位：' + old + ' → ' + base;
+  } else if(type==='insert'){
+    mutated = seq.substring(0,pos) + base + seq.substring(pos);
+    detail = '在第 '+(pos+1)+' 位前插入 ' + base;
+  } else if(type==='delete'){
+    var del = seq[pos];
+    mutated = seq.substring(0,pos) + seq.substring(pos+1);
+    detail = '删除第 '+(pos+1)+' 位的 ' + del;
+  }
+  return {seq:mutated, detail:detail, type:type, pos:pos, base:base};
+}
+
+function classifyMutation(origSeq, mutSeq, type, pos){
+  // 找最长ORF并翻译
+  function bestProt(s){
+    var best = '', bestLen = 0;
+    for(var f=0;f<3;f++){
+      var orfs = findORFs(s,f);
+      for(var i=0;i<orfs.length;i++){
+        if(orfs[i].prot.length > bestLen){bestLen=orfs[i].prot.length;best=orfs[i].prot;}
+      }
+    }
+    return best;
+  }
+  var p1 = bestProt(origSeq);
+  var p2 = bestProt(mutSeq);
+  if(type==='insert' || type==='delete'){
+    return {type:'frameshift', label:'移码突变', color:'#6A2A9A',
+      explain:'插入或缺失非3的倍数个碱基会导致阅读框移位，突变位点之后的所有氨基酸都会改变，通常会产生完全不同的蛋白质或提前终止。这是最严重的突变类型之一。'};
+  }
+  if(p1===p2){
+    return {type:'synonym', label:'同义突变', color:'#2A7A2A',
+      explain:'虽然碱基发生了改变，但由于遗传密码的简并性（多个密码子编码同一个氨基酸），翻译出的蛋白质序列没有变化。同义突变通常不影响蛋白质功能。'};
+  }
+  if(p2.indexOf('*')>=0 && (p1.indexOf('*')<0 || p2.length < p1.length)){
+    return {type:'nonsense', label:'无义突变', color:'#9A2A2A',
+      explain:'突变产生了提前的终止密码子，导致蛋白质合成提前终止，产生截短的蛋白质。无义突变通常会严重影响蛋白质功能，很多遗传病（如β-地中海贫血）就是由无义突变引起的。'};
+  }
+  return {type:'missense', label:'错义突变', color:'#9A6A10',
+    explain:'碱基改变导致对应的氨基酸发生了变化。错义突变的影响取决于氨基酸的位置和性质变化——如果发生在关键功能区或化学性质差异大（如亲水→疏水），可能严重影响蛋白质功能。著名的镰刀型贫血就是β-珠蛋白第6位谷氨酸→缬氨酸的错义突变。'};
+}
+
+function renderMutationResult(){
+  var origSeq = window._currentSeq || '';
+  if(!origSeq){document.getElementById('mutResult').innerHTML='<div class="msg info">请先在上方输入序列并点击"开始分析"</div>';return;}
+  var type = document.getElementById('mutType').value;
+  var pos = document.getElementById('mutPos').value;
+  var base = document.getElementById('mutBase').value;
+  var result = applyMutation(origSeq, type, pos, base);
+  if(result.error){document.getElementById('mutResult').innerHTML='<div class="msg err">'+result.error+'</div>';return;}
+  var cls = classifyMutation(origSeq, result.seq, type, result.pos);
+  // 翻译对比
+  function bestProt(s){
+    var best='',bestLen=0;
+    for(var f=0;f<3;f++){var orfs=findORFs(s,f);for(var i=0;i<orfs.length;i++){if(orfs[i].prot.length>bestLen){bestLen=orfs[i].prot.length;best=orfs[i].prot;}}}
+    return best;
+  }
+  var p1 = bestProt(origSeq), p2 = bestProt(result.seq);
+  // 高亮突变位置
+  var mutPos = result.pos;
+  var origDisplay = '';
+  for(var i=0;i<origSeq.length;i++){
+    var ch = origSeq[i];
+    var cls2 = 'b'+ch;
+    if(i===mutPos && type==='point') cls2 += '" style="background:#FBE0E0;padding:1px 3px;border-radius:3px;font-weight:700';
+    if(i===mutPos && type==='delete') cls2 += '" style="background:#FBE0E0;padding:1px 3px;border-radius:3px;text-decoration:line-through';
+    origDisplay += '<span class="'+cls2+'">'+ch+'</span>';
+  }
+  var mutDisplay = '';
+  for(var i=0;i<result.seq.length;i++){
+    var ch = result.seq[i];
+    var cls2 = 'b'+ch;
+    if(i===mutPos && type==='point') cls2 += '" style="background:#E0F0E0;padding:1px 3px;border-radius:3px;font-weight:700';
+    if(i===mutPos && type==='insert') cls2 += '" style="background:#E0F0E0;padding:1px 3px;border-radius:3px;font-weight:700';
+    mutDisplay += '<span class="'+cls2+'">'+ch+'</span>';
+  }
+  var html = '<div class="mut-explain"><strong>突变详情：</strong>'+result.detail+' <span class="mut-badge '+cls.type+'">'+cls.label+'</span></div>';
+  html += '<div class="mut-result-grid">';
+  html += '<div class="mut-compare"><h4>原始 DNA 序列</h4><div class="seq">'+origDisplay+'</div><h4 style="margin-top:12px">原始蛋白（最长ORF，'+p1.length+'aa）</h4><div class="seq mono" style="font-size:11px">'+p1+'</div></div>';
+  html += '<div class="mut-compare"><h4>突变后 DNA 序列</h4><div class="seq">'+mutDisplay+'</div><h4 style="margin-top:12px">突变后蛋白（最长ORF，'+p2.length+'aa）</h4><div class="seq mono" style="font-size:11px">'+p2+'</div></div>';
+  html += '</div>';
+  html += '<div class="mut-explain" style="margin-top:14px"><strong>'+cls.label+'说明：</strong>'+cls.explain+'</div>';
+  document.getElementById('mutResult').innerHTML = html;
+}
+
+function initMutationSimulator(){
+  document.getElementById('mutApply').onclick = renderMutationResult;
+  document.getElementById('mutReset').onclick = function(){
+    document.getElementById('mutResult').innerHTML = '<div class="msg info">已恢复原序列，点击"应用突变"查看效果</div>';
+  };
+  document.getElementById('mutType').onchange = function(){
+    var v = this.value;
+    var label = document.getElementById('mutBaseLabel');
+    if(v==='point') label.innerHTML='替换为：<select id="mutBase"><option value="A">A 腺嘌呤</option><option value="T">T 胸腺嘧啶</option><option value="G">G 鸟嘌呤</option><option value="C">C 胞嘧啶</option></select>';
+    else if(v==='insert') label.innerHTML='插入：<select id="mutBase"><option value="A">A 腺嘌呤</option><option value="T">T 胸腺嘧啶</option><option value="G">G 鸟嘌呤</option><option value="C">C 胞嘧啶</option></select>';
+    else label.innerHTML='（删除无需选择碱基）';
+  };
+}
+
+/* ============================================================
+   五、引物设计助手
+   ============================================================ */
+function calcPrimerTm(seq){
+  // 简化版 Wallace 公式 + 最近邻修正
+  var c = baseCounts(seq);
+  var len = seq.length;
+  if(len<=13) return (c.A+c.T)*2 + (c.G+c.C)*4;
+  // 超过13bp用更精确的公式
+  return 64.9 + 41*(c.G+c.C-16.4)/len;
+}
+
+function checkDimer(p1, p2){
+  // 简化二聚体检测：检查互补碱基配对
+  var maxMatch = 0;
+  for(var offset=-p1.length+1; offset<p2.length; offset++){
+    var match = 0;
+    for(var i=0;i<p1.length;i++){
+      var j = i + offset;
+      if(j>=0 && j<p2.length){
+        var a=p1[i], b=p2[p2.length-1-j]; // p2反向
+        if((a==='A'&&b==='T')||(a==='T'&&b==='A')||(a==='G'&&b==='C')||(a==='C'&&b==='G')) match++;
+      }
+    }
+    if(match>maxMatch) maxMatch=match;
+  }
+  return maxMatch;
+}
+
+function checkHairpin(seq){
+  // 简化发夹结构检测
+  var maxStem = 0;
+  for(var stemLen=3; stemLen<=8; stemLen++){
+    for(var loopLen=3; loopLen<=10; loopLen++){
+      for(var start=0; start+stemLen*2+loopLen<=seq.length; start++){
+        var s1=seq.substring(start,start+stemLen);
+        var s2=seq.substring(start+stemLen+loopLen,start+stemLen*2+loopLen);
+        var match=0;
+        for(var i=0;i<stemLen;i++){
+          var a=s1[i],b=s2[stemLen-1-i];
+          if((a==='A'&&b==='T')||(a==='T'&&b==='A')||(a==='G'&&b==='C')||(a==='C'&&b==='G')) match++;
+        }
+        if(match===stemLen && stemLen>maxStem) maxStem=stemLen;
+      }
+    }
+  }
+  return maxStem;
+}
+
+function designPrimers(){
+  var seq = window._currentSeq || '';
+  if(!seq){document.getElementById('primerResult').innerHTML='<div class="msg info">请先在上方输入序列并点击"开始分析"</div>';return;}
+  var len = parseInt(document.getElementById('primerLen').value);
+  var targetTm = parseFloat(document.getElementById('primerTm').value);
+  var productLen = parseInt(document.getElementById('primerProduct').value);
+  var offset = parseInt(document.getElementById('primerOffset').value);
+
+  if(seq.length < productLen + len*2 + offset){
+    document.getElementById('primerResult').innerHTML='<div class="msg err">序列长度不足，无法设计产物长度为 '+productLen+'bp 的引物</div>';
+    return;
+  }
+
+  // 正向引物：从offset开始，找Tm最接近targetTm的len-bp序列
+  var fStart = offset;
+  var fSeq = seq.substring(fStart, fStart+len);
+  var fTm = calcPrimerTm(fSeq);
+  // 微调起始位置使Tm更接近目标
+  var bestFDiff = Math.abs(fTm-targetTm), bestFStart = fStart;
+  for(var s=Math.max(0,offset-10); s<=offset+10 && s+len<=seq.length; s++){
+    var t = calcPrimerTm(seq.substring(s,s+len));
+    if(Math.abs(t-targetTm)<bestFDiff){bestFDiff=Math.abs(t-targetTm);bestFStart=s;}
+  }
+  fSeq = seq.substring(bestFStart, bestFStart+len);
+  fTm = calcPrimerTm(fSeq);
+
+  // 反向引物：在fStart+productLen附近，取反向互补
+  var rEnd = bestFStart + productLen;
+  var rStart = rEnd - len;
+  var rSeqRaw = seq.substring(rStart, rEnd);
+  var rSeq = reverseComplement(rSeqRaw);
+  var rTm = calcPrimerTm(rSeq);
+  // 微调
+  var bestRDiff = Math.abs(rTm-targetTm), bestREnd = rEnd;
+  for(var e=Math.max(len,rEnd-10); e<=rEnd+10 && e<=seq.length; e++){
+    var rs = reverseComplement(seq.substring(e-len,e));
+    var t = calcPrimerTm(rs);
+    if(Math.abs(t-targetTm)<bestRDiff){bestRDiff=Math.abs(t-targetTm);bestREnd=e;}
+  }
+  rSeqRaw = seq.substring(bestREnd-len, bestREnd);
+  rSeq = reverseComplement(rSeqRaw);
+  rTm = calcPrimerTm(rSeq);
+
+  var actualProduct = bestREnd - bestFStart;
+  var fc = baseCounts(fSeq), rc = baseCounts(rSeq);
+  var fGC = ((fc.G+fc.C)/len*100).toFixed(1);
+  var rGC = ((rc.G+rc.C)/len*100).toFixed(1);
+  var dimerScore = checkDimer(fSeq, rSeq);
+  var fHairpin = checkHairpin(fSeq), rHairpin = checkHairpin(rSeq);
+
+  var warnings = [];
+  if(Math.abs(fTm-targetTm)>3) warnings.push('正向引物Tm（'+fTm.toFixed(1)+'°C）偏离目标超过3°C');
+  if(Math.abs(rTm-targetTm)>3) warnings.push('反向引物Tm（'+rTm.toFixed(1)+'°C）偏离目标超过3°C');
+  if(Math.abs(fTm-rTm)>5) warnings.push('正反向引物Tm差异超过5°C（'+fTm.toFixed(1)+' vs '+rTm.toFixed(1)+'°C）');
+  if(dimerScore>=5) warnings.push('引物二聚体风险较高（互补配对'+dimerScore+'bp）');
+  if(fHairpin>=4) warnings.push('正向引物可能形成发夹结构（茎长'+fHairpin+'bp）');
+  if(rHairpin>=4) warnings.push('反向引物可能形成发夹结构（茎长'+rHairpin+'bp）');
+  if(fGC<40||fGC>60) warnings.push('正向引物GC含量（'+fGC+'%）不在40-60%理想范围');
+  if(rGC<40||rGC>60) warnings.push('反向引物GC含量（'+rGC+'%）不在40-60%理想范围');
+
+  var html = '<div class="primer-card"><div class="primer-name">正向引物 (Forward)</div>';
+  html += '<div class="primer-seq">5\'-'+fSeq+'-3\'</div>';
+  html += '<div class="primer-stats"><span>长度：<strong>'+len+' bp</strong></span><span>Tm：<strong>'+fTm.toFixed(1)+'°C</strong></span><span>GC：<strong>'+fGC+'%</strong></span><span>起始位置：<strong>'+(bestFStart+1)+'</strong></span></div></div>';
+  html += '<div class="primer-card"><div class="primer-name">反向引物 (Reverse)</div>';
+  html += '<div class="primer-seq">5\'-'+rSeq+'-3\'</div>';
+  html += '<div class="primer-stats"><span>长度：<strong>'+len+' bp</strong></span><span>Tm：<strong>'+rTm.toFixed(1)+'°C</strong></span><span>GC：<strong>'+rGC+'%</strong></span><span>结合位置：<strong>'+(bestREnd-len+1)+'-'+bestREnd+'</strong></span></div></div>';
+  html += '<div class="primer-card"><div class="primer-name">产物信息</div>';
+  html += '<div class="primer-stats"><span>产物长度：<strong>'+actualProduct+' bp</strong></span><span>Tm差异：<strong>'+Math.abs(fTm-rTm).toFixed(1)+'°C</strong></span><span>二聚体评分：<strong>'+dimerScore+' bp</strong></span></div></div>';
+  if(warnings.length>0){
+    html += '<div class="primer-card" style="border-color:#F0C9C9;background:#FDF5F5"><div class="primer-name primer-warn">⚠ 注意事项</div><ul style="margin:8px 0 0 18px;font-size:13px;color:var(--ink-soft)">';
+    for(var i=0;i<warnings.length;i++) html += '<li>'+warnings[i]+'</li>';
+    html += '</ul></div>';
+  } else {
+    html += '<div class="primer-card" style="border-color:#C4DEDC;background:#F0F8F7"><div class="primer-name" style="color:#2A7A2A">✓ 引物质量良好</div><p style="font-size:13px;color:var(--ink-soft);margin-top:6px">各项指标均在理想范围内，可用于 PCR 实验。</p></div>';
+  }
+  document.getElementById('primerResult').innerHTML = html;
+}
+
+function initPrimerDesign(){
+  document.getElementById('primerDesign').onclick = designPrimers;
+}
+
+/* ============================================================
+   六、密码子优化器
+   ============================================================ */
+function optimizeCodons(seq, species){
+  var bias = SPECIES_CODON_BIAS[species];
+  var mrna = transcribe(seq);
+  var optimized = '';
+  var changes = 0;
+  for(var i=0;i+3<=mrna.length;i+=3){
+    var codon = mrna.substring(i,i+3);
+    var aa = CODON[codon.replace(/U/g,'T')];
+    if(!aa){optimized+=codon;continue;}
+    var preferred = bias[aa][0]; // 取该物种最高频密码子
+    if(preferred !== codon) changes++;
+    optimized += preferred;
+  }
+  // 处理末尾不足3个碱基的部分
+  if(mrna.length % 3 !== 0) optimized += mrna.substring(Math.floor(mrna.length/3)*3);
+  // 转回DNA（U→T）
+  var optDNA = optimized.replace(/U/g,'T');
+  return {seq:optDNA, changes:changes, totalCodons:Math.floor(mrna.length/3)};
+}
+
+function calcCodonFreq(seq){
+  var freq = {};
+  var total = 0;
+  for(var i=0;i+3<=seq.length;i+=3){
+    var c = seq.substring(i,i+3);
+    freq[c] = (freq[c]||0)+1;
+    total++;
+  }
+  return {freq:freq, total:total};
+}
+
+function renderOptimizeResult(){
+  var seq = window._currentSeq || '';
+  if(!seq){document.getElementById('optResult').innerHTML='<div class="msg info">请先在上方输入序列并点击"开始分析"</div>';return;}
+  var species = document.getElementById('optSpecies').value;
+  var speciesName = {ecoli:'大肠杆菌',yeast:'酿酒酵母',human:'人'}[species];
+  var result = optimizeCodons(seq, species);
+
+  // 计算优化前后的CAI（密码子适应指数，简化版）
+  var bias = SPECIES_CODON_BIAS[species];
+  function calcCAI(s){
+    var mrna = transcribe(s);
+    var score = 0, count = 0;
+    for(var i=0;i+3<=mrna.length;i+=3){
+      var codon = mrna.substring(i,i+3);
+      var aa = CODON[codon.replace(/U/g,'T')];
+      if(aa && aa!=='*'){
+        var idx = bias[aa].indexOf(codon);
+        if(idx>=0) score += Math.log(1.0/(idx+1)); // 简化权重
+        count++;
+      }
+    }
+    return count>0 ? Math.exp(score/count) : 0;
+  }
+  var caiBefore = calcCAI(seq);
+  var caiAfter = calcCAI(result.seq);
+
+  // 找最长ORF的蛋白对比
+  function bestProt(s){
+    var best='',bestLen=0;
+    for(var f=0;f<3;f++){var orfs=findORFs(s,f);for(var i=0;i<orfs.length;i++){if(orfs[i].prot.length>bestLen){bestLen=orfs[i].prot.length;best=orfs[i].prot;}}}
+    return best;
+  }
+  var p1 = bestProt(seq), p2 = bestProt(result.seq);
+  var proteinSame = p1===p2;
+
+  var html = '<div class="opt-compare">';
+  html += '<div class="opt-box"><h4>原始序列（'+seq.length+'bp）</h4><div class="seq">'+seqHTML(seq)+'</div></div>';
+  html += '<div class="opt-box"><h4>优化后序列（'+result.seq.length+'bp，'+speciesName+'偏好）</h4><div class="seq">'+seqHTML(result.seq)+'</div></div>';
+  html += '</div>';
+  html += '<div class="opt-stats">';
+  html += '<div class="opt-stat"><div class="k">密码子改变</div><div class="v">'+result.changes+'/'+result.totalCodons+'</div></div>';
+  html += '<div class="opt-stat"><div class="k">优化前 CAI</div><div class="v">'+caiBefore.toFixed(3)+'</div></div>';
+  html += '<div class="opt-stat"><div class="k">优化后 CAI</div><div class="v" style="color:var(--teal)">'+caiAfter.toFixed(3)+'</div></div>';
+  html += '<div class="opt-stat"><div class="k">蛋白序列</div><div class="v" style="color:'+(proteinSame?'#2A7A2A':'#9A2A2A')+'">'+(proteinSame?'一致 ✓':'改变 ✗')+'</div></div>';
+  html += '</div>';
+  if(proteinSame){
+    html += '<div class="mut-explain" style="margin-top:14px"><strong>优化说明：</strong>密码子优化在不改变蛋白质序列的前提下，将稀有密码子替换为'+speciesName+'的高频密码子，从而提高翻译效率和表达量。CAI（密码子适应指数）越接近1，表示密码子使用越接近该物种的偏好。</div>';
+  } else {
+    html += '<div class="mut-explain" style="margin-top:14px;background:#FBE0E0;color:#9A2A2A"><strong>注意：</strong>优化后蛋白质序列发生了改变！这可能是因为序列中存在终止密码子或序列长度不是3的倍数。请检查输入序列是否为完整的编码区。</div>';
+  }
+  document.getElementById('optResult').innerHTML = html;
+  window._optimizedSeq = result.seq;
+}
+
+function initCodonOptimizer(){
+  document.getElementById('optApply').onclick = renderOptimizeResult;
+  document.getElementById('optCopy').onclick = function(){
+    if(!window._optimizedSeq){alert('请先点击"优化密码子"');return;}
+    var ta = document.createElement('textarea');
+    ta.value = window._optimizedSeq;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    this.textContent = '已复制 ✓';
+    var btn = this;
+    setTimeout(function(){btn.textContent='复制优化后序列';},2000);
+  };
+}
+
+/* ============================================================
+   七、导出功能
+   ============================================================ */
+function exportCSV(filename, rows){
+  var csv = rows.map(function(r){return r.map(function(c){return '"'+String(c).replace(/"/g,'""')+'"';}).join(',');}).join('\n');
+  var blob = new Blob(['\ufeff'+csv], {type:'text/csv;charset=utf-8'});
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = filename;
+  a.click();
+}
+
+function exportFasta(seq, name){
+  var fasta = '>'+name+'\n';
+  for(var i=0;i<seq.length;i+=60) fasta += seq.substring(i,i+60)+'\n';
+  var blob = new Blob([fasta], {type:'text/plain;charset=utf-8'});
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = name+'.fasta';
+  a.click();
+}
+
+function addExportButtons(){
+  // 在统计卡片区域添加导出按钮
+  var statsPanel = document.querySelector('#nav-complement');
+  if(statsPanel && !document.getElementById('exportBar')){
+    var bar = document.createElement('div');
+    bar.className = 'export-bar';
+    bar.id = 'exportBar';
+    bar.innerHTML = '<button class="btn btn-ghost btn-sm" onclick="exportFasta(window._currentSeq,\'序列工坊_输入序列\')">导出 FASTA</button>' +
+      '<button class="btn btn-ghost btn-sm" onclick="exportResultsCSV()">导出分析结果 CSV</button>' +
+      '<button class="btn btn-ghost btn-sm" onclick="exportProteinCSV()">导出蛋白序列 CSV</button>';
+    statsPanel.appendChild(bar);
+  }
+}
+
+function exportResultsCSV(){
+  var seq = window._currentSeq;
+  if(!seq) return;
+  var c = baseCounts(seq);
+  var rows = [
+    ['指标','数值'],
+    ['序列长度(bp)', seq.length],
+    ['A含量', c.A],
+    ['T含量', c.T],
+    ['G含量', c.G],
+    ['C含量', c.C],
+    ['GC含量(%)', ((c.G+c.C)/seq.length*100).toFixed(2)],
+    ['AT含量(%)', ((c.A+c.T)/seq.length*100).toFixed(2)],
+    ['解链温度Tm(°C)', calcTm(c, seq.length).toFixed(1)],
+    ['单链分子量(kDa)', (calcMW(c)/1000).toFixed(2)]
+  ];
+  exportCSV('序列工坊_分析结果.csv', rows);
+}
+
+function exportProteinCSV(){
+  var seq = window._currentSeq;
+  if(!seq) return;
+  var rows = [['读码框','方向','ORF长度(aa)','蛋白序列']];
+  for(var f=0;f<3;f++){
+    var orfs = findORFs(seq,f);
+    for(var i=0;i<orfs.length;i++){
+      rows.push(['Frame '+(f+1),'正向',orfs[i].prot.length,orfs[i].prot]);
+    }
+    var rc = reverseComplement(seq);
+    var rorfs = findORFs(rc,f);
+    for(var j=0;j<rorfs.length;j++){
+      rows.push(['Frame '+(f+1),'反向',rorfs[j].prot.length,rorfs[j].prot]);
+    }
+  }
+  exportCSV('序列工坊_蛋白序列.csv', rows);
+}
+
+/* ============================================================
+   八、示例序列菜单
+   ============================================================ */
+function buildSampleMenu(){
+  var menu = document.getElementById('sampleMenu');
+  if(!menu) return;
+  menu.innerHTML = '';
+  for(var i=0;i<SAMPLE_SEQUENCES.length;i++){
+    (function(idx){
+      var btn = document.createElement('button');
+      btn.innerHTML = SAMPLE_SEQUENCES[idx].name + '<small>'+SAMPLE_SEQUENCES[idx].desc+'</small>';
+      btn.onclick = function(){
+        var seq = SAMPLE_SEQUENCES[idx].seq;
+        if(!seq) seq = buildSampleDNA();
+        document.getElementById('seq-input').value = seq;
+        document.getElementById('sampleMenu').classList.remove('show');
+        analyze();
+      };
+      menu.appendChild(btn);
+    })(i);
+  }
+  // 点击外部关闭
+  document.addEventListener('click', function(e){
+    if(!e.target.closest('.sample-dropdown')){
+      document.getElementById('sampleMenu').classList.remove('show');
+    }
+  });
+}
+
+/* ============================================================
+   九、引导教程
+   ============================================================ */
+var tutorialStep = 0;
+function showTutorial(){
+  if(localStorage.getItem('seqworkshop_tutorial_done')) return;
+  tutorialStep = 0;
+  renderTutorial();
+  document.getElementById('tutorialOverlay').classList.add('show');
+}
+function renderTutorial(){
+  var step = TUTORIAL_STEPS[tutorialStep];
+  document.getElementById('tutorialTitle').textContent = step.title;
+  document.getElementById('tutorialText').textContent = step.text;
+  var prog = document.getElementById('tutorialProgress');
+  prog.innerHTML = '';
+  for(var i=0;i<TUTORIAL_STEPS.length;i++){
+    var d = document.createElement('div');
+    d.className = 'dot' + (i<=tutorialStep?' active':'');
+    prog.appendChild(d);
+  }
+  document.getElementById('tutorialNext').textContent = tutorialStep===TUTORIAL_STEPS.length-1?'开始使用':'下一步';
+}
+function initTutorial(){
+  document.getElementById('tutorialNext').onclick = function(){
+    if(tutorialStep<TUTORIAL_STEPS.length-1){tutorialStep++;renderTutorial();}
+    else{closeTutorial();}
+  };
+  document.getElementById('tutorialSkip').onclick = closeTutorial;
+}
+function closeTutorial(){
+  document.getElementById('tutorialOverlay').classList.remove('show');
+  localStorage.setItem('seqworkshop_tutorial_done','1');
+}
+
+/* ============================================================
+   十一、增强输入校验
+   ============================================================ */
+function enhancedParseInput(raw){
+  if(!raw || !raw.trim()) return {error:'请输入 DNA 序列'};
+  // 去除FASTA头和空白
+  var lines = raw.trim().split(/\r?\n/);
+  var seq = '';
+  var fastaHeader = '';
+  for(var i=0;i<lines.length;i++){
+    var line = lines[i].trim();
+    if(line.startsWith('>')){fastaHeader = line.substring(1);continue;}
+    seq += line.replace(/\s+/g,'');
+  }
+  seq = seq.toUpperCase();
+  // 检查无效碱基
+  var invalid = seq.match(/[^ATCGUN]/g);
+  if(invalid){
+    var unique = [];
+    for(var i=0;i<invalid.length;i++) if(unique.indexOf(invalid[i])<0) unique.push(invalid[i]);
+    return {error:'序列中包含无效碱基：'+unique.join('、')+'（仅支持 A/T/C/G，U会自动转为T）'};
+  }
+  // U→T
+  seq = seq.replace(/U/g,'T');
+  // 长度检查
+  if(seq.length<3) return {error:'序列过短，至少需要3个碱基'};
+  if(seq.length>50000) return {error:'序列过长（'+seq.length+'bp），本工具建议不超过50000bp以保证流畅运行'};
+  return {seq:seq, header:fastaHeader, warning: seq.length>10000 ? '序列较长（'+seq.length+'bp），计算可能需要几秒' : null};
+}
+
+/* ============================================================
+   十二、初始化所有新功能（在 analyze() 中调用）
+   ============================================================ */
+function initNewFeatures(){
+  initDogmaAnimation();
+  initMutationSimulator();
+  initPrimerDesign();
+  initCodonOptimizer();
+  buildSampleMenu();
+  initTutorial();
+  renderQuiz();
+  addExportButtons();
+  // 示例按钮下拉菜单切换已在页面加载时通过 addEventListener 绑定，此处不重复绑定
+}
+
+/* ============================================================
+   页面加载初始化（不依赖序列分析的功能提前就绪）
+   ============================================================ */
+(function(){
+  // 构建示例序列下拉菜单
+  if(typeof buildSampleMenu==='function') buildSampleMenu();
+  // 初始化高中生物题库
+  if(typeof renderQuiz==='function') renderQuiz();
+  // 初始化中心法则交互动画
+  if(typeof initDogmaAnimation==='function') initDogmaAnimation();
+  // 初始化引导教程按钮事件
+  if(typeof initTutorial==='function') initTutorial();
+  // 首次使用自动显示引导（延迟1秒，等页面渲染完成）
+  setTimeout(function(){
+    if(typeof showTutorial==='function') showTutorial();
+  }, 1000);
+})();
+
 </script>
 </body>
 </html>
