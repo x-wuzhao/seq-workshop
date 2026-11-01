@@ -6,7 +6,7 @@ const fs = require('node:fs');
 const vm = require('node:vm');
 const assert = require('node:assert/strict');
 
-const html = fs.readFileSync('index.html', 'utf8').replace(/\r\n/g, '\n');
+const html = fs.readFileSync('assets/js/app-bundle.js', 'utf8').replace(/\r\n/g, '\n');
 const start = html.indexOf('十三、v3 生信增强');
 assert.ok(start > 0, 'v3 block should exist');
 const endMark = 'var _v3Ready = true;';

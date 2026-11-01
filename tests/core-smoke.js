@@ -3,7 +3,7 @@ const vm = require('node:vm');
 const assert = require('node:assert/strict');
 
 const html = fs.readFileSync('index.html', 'utf8').replace(/\r\n/g, '\n');
-const scripts = [...html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g)].map(m => m[1]);
+const scripts = [fs.readFileSync('assets/js/app-bundle.js','utf8')];
 const coreMarker = '/* =========================================================\n   三、渲染与交互';
 const core = scripts.find(script => script.includes(coreMarker));
 assert.ok(core, 'core script should be present');

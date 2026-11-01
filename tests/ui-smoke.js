@@ -28,4 +28,6 @@ const single = fs.readFileSync('序列工坊_离线单文件版.html', 'utf8');
 assert.match(single, /inlined: assets\/vendor\/three\.min\.js/);
 assert.match(single, /inlined: assets\/structures\/structures\.js/);
 assert.doesNotMatch(single, /<script[^>]+src="assets\//);
+assert.doesNotMatch(single, /<link rel="stylesheet"/);
+assert.match(single, /inlined: assets\/css\/module-shell\.css/);
 console.log('ui smoke tests passed');

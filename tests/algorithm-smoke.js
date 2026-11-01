@@ -3,7 +3,7 @@ const vm = require('node:vm');
 const assert = require('node:assert/strict');
 
 const html = fs.readFileSync('index.html', 'utf8');
-const scripts = [...html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g)].map(m => m[1]);
+const scripts = [fs.readFileSync('assets/js/app-bundle.js','utf8')];
 
 function makeElement() {
   return {

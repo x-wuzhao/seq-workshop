@@ -1,11 +1,11 @@
 {
   "name": "sequence-workshop-next",
-  "version": "4.0.0",
+  "version": "4.1.0",
   "private": true,
   "description": "Local-first DNA workbench; independent product branch with a frozen competition deployment.",
   "engines": {"node": ">=22"},
   "scripts": {
-    "test": "node tools/check.js && node tests/core-smoke.js && node tests/algorithm-smoke.js && node tests/v3-bio.js && node tests/product-regressions.js && node tests/service-worker.js && node tests/ui-smoke.js && node tools/revision.js --check",
-    "build:offline": "node tools/revision.js && python tools/build_single_file.py"
+    "test": "node tools/build_app.js --check && node tools/check.js && node tests/core-smoke.js && node tests/algorithm-smoke.js && node tests/v3-bio.js && node tests/product-regressions.js && node tests/service-worker.js && node tests/ui-smoke.js && node tests/module-routes.js && node tools/revision.js --check",
+    "build:offline": "node tools/build_app.js && node tools/revision.js && python tools/build_single_file.py"
   }
 }

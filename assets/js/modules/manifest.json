@@ -1,0 +1,19 @@
+[
+  "learning-quiz.js",
+  "reference-and-algorithms.js",
+  "results-view.js",
+  "structure-view.js",
+  "digest-and-charts.js",
+  "input-and-navigation.js",
+  "samples-and-preferences.js",
+  "central-dogma.js",
+  "mutation.js",
+  "primer-design.js",
+  "codon-optimizer.js",
+  "exports.js",
+  "onboarding.js",
+  "advanced-bio.js",
+  "ui-feedback.js",
+  "sequence-map.js",
+  "workspace.js"
+]

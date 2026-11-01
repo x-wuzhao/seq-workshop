@@ -31,6 +31,13 @@ def inline_scripts(html):
 def main():
     html = io.open(SRC, encoding="utf-8").read()
     out = inline_scripts(html)
+    def inline_style(match):
+        rel = match.group(1)
+        css = io.open(os.path.join(ROOT, rel.replace('/', os.sep)), encoding='utf-8').read()
+        return '<style>\n/* inlined: %s */\n%s\n</style>' % (rel, css)
+    out = re.sub(r'<link rel="stylesheet" href="([^"]+)">', inline_style, out)
+    # The direct-open artifact does not install as a PWA or request sidecar icons.
+    out = re.sub(r'<link rel="(?:manifest|apple-touch-icon)"[^>]*>\s*', '', out)
     banner = ("<!-- 序列工坊 · 离线单文件版（由 tools/build_single_file.py 生成）\n"
               "     图表、三维引擎与 PDB 结构数据均已内联，双击即可运行；PWA 安装需 HTTPS/localhost。 -->\n")
     out = out.replace("<!DOCTYPE html>", "<!DOCTYPE html>\n" + banner, 1)

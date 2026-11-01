@@ -8,6 +8,7 @@ module.exports=function loadApp(){
   const ctx={SeqCore:require('../assets/js/sequence-core'),SeqWorkspaceFormat:require('../assets/js/workspace-format'),document,window,console,navigator:{serviceWorker:null},location:{protocol:'http:',hostname:'localhost'},localStorage:storage,setTimeout(){return 0;},clearTimeout(){},setInterval(){return 0;},clearInterval(){},requestAnimationFrame(){return 0;},cancelAnimationFrame(){},Blob:function(){},URL:{createObjectURL(){return '';},revokeObjectURL(){}},alert(){},matchMedia(){return {matches:false};}};
   ctx.globalThis=ctx;vm.createContext(ctx);
   const html=fs.readFileSync('index.html','utf8');
-  for(const match of html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g))vm.runInContext(match[1],ctx);
+  vm.runInContext(fs.readFileSync('assets/js/app-bundle.js','utf8'),ctx);
+  vm.runInContext(fs.readFileSync('assets/js/product-workspace.js','utf8'),ctx);
   return ctx;
 };

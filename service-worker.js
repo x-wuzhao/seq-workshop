@@ -1,6 +1,6 @@
 /* 序列工坊 app shell service worker. Requires HTTPS (or localhost). */
 const CACHE_PREFIX = 'seq-workshop-next-' + encodeURIComponent(self.registration.scope) + '-';
-const CACHE_NAME = CACHE_PREFIX + 'v4-dee8c6a82240d50d';
+const CACHE_NAME = CACHE_PREFIX + 'v4-57935b17164c6695';
 const INDEX_URL = new URL('./index.html', self.registration.scope).href;
 const SHELL_URLS = [
   new URL('./', self.registration.scope).href,
@@ -13,6 +13,11 @@ const SHELL_URLS = [
   new URL('./assets/js/sequence-core.js', self.registration.scope).href,
   new URL('./assets/js/workspace-format.js', self.registration.scope).href,
   new URL('./assets/js/product-workspace.js', self.registration.scope).href,
+  new URL('./assets/js/app-bundle.js', self.registration.scope).href,
+  new URL('./assets/js/module-config.js', self.registration.scope).href,
+  new URL('./assets/js/module-router.js', self.registration.scope).href,
+  new URL('./assets/css/base.css', self.registration.scope).href,
+  new URL('./assets/css/module-shell.css', self.registration.scope).href,
   new URL('./icons/icon.svg', self.registration.scope).href,
   new URL('./icons/icon-192.png', self.registration.scope).href,
   new URL('./icons/icon-512.png', self.registration.scope).href
