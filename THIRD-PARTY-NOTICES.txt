@@ -1,0 +1,52 @@
+# Third-party notices
+
+## ECharts
+
+- Project: Apache ECharts 5.5.1
+- Local file: `assets/echarts.min.js`
+- License: Apache License 2.0
+- Project page: https://echarts.apache.org/
+- Source distribution: https://github.com/apache/echarts/releases/tag/5.5.1
+
+The ECharts license text is available at https://www.apache.org/licenses/LICENSE-2.0.
+
+## Three.js
+
+- Project: Three.js 0.152.2
+- Local file: `assets/vendor/three.min.js`
+- License: MIT License
+- Project page: https://threejs.org/
+- Source distribution: https://github.com/mrdoob/three.js/tree/r152
+
+The Three.js license text is available at https://github.com/mrdoob/three.js/blob/dev/LICENSE.
+Three.js is used only as a WebGL rendering engine; the molecular geometry (B-DNA generation,
+PDB parsing, cartoon ribbons, ball-and-stick models), camera fitting and interaction code are
+original work in `assets/js/structure3d.js`.
+
+## RCSB Protein Data Bank structure data
+
+- Local files: `assets/structures/structures.js` and `assets/structures/*.pdb`
+- Source: https://www.rcsb.org/
+- License / terms: RCSB PDB data are released into the public domain (CC0 1.0) —
+  https://www.rcsb.org/pages/policies
+- Included examples:
+  - `1BNA` — Drew–Dickerson B-DNA dodecamer (CGCGAATTCGCG)
+  - `1EHZ` — tRNA-Phe
+  - `1L2Y` — Trp-cage miniprotein (NMR)
+  - `1GFL` — green fluorescent protein
+  - `2HHB` — deoxyhemoglobin
+- Processing: `tools/pdb2json.py` removes water molecules and hydrogens, keeps heavy atoms for
+  small structures and Cα traces for large proteins, rounds coordinates to 0.01 Å, and stores the
+  result as compact JSON. No coordinates were modified or modeled by the project.
+- Use: local educational visualization only; each structure card links to its RCSB record.
+
+## Fonts
+
+The application uses system font stacks declared in `index.html` and does not load a third-party web-font stylesheet at runtime. If a future release bundles font files, add their source and license here before publication.
+
+## Original work
+
+The HTML, CSS, JavaScript, icon artwork, and service worker in this repository are original project work. All bioinformatics calculations (reverse complement, translation, ORF finding, restriction
+digest, pairwise alignment, nearest-neighbour Tm, primer scoring, GenBank generation) and the
+three-dimensional molecular geometry are implemented in this project. No user sequence is sent to a
+third-party service by the application logic.

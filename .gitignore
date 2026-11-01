@@ -1,0 +1,6 @@
+node_modules/
+artifacts/
+docs/screenshots/
+序列工坊_离线单文件版.html
+*.zip
+__pycache__/

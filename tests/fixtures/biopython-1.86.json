@@ -1,0 +1,248 @@
+{
+  "reference": "Biopython",
+  "version": "1.86",
+  "seed": 20261101,
+  "conditions": {
+    "Na_mM": 50,
+    "totalOligo_nM": 250,
+    "saltcorr": 5,
+    "nnTable": "DNA_NN3"
+  },
+  "sources": [
+    "https://www.ncbi.nlm.nih.gov/Taxonomy/Utils/wprintgc.cgi",
+    "https://github.com/biopython/biopython/blob/biopython-186/Bio/SeqUtils/MeltingTemp.py"
+  ],
+  "tables": {
+    "1": {
+      "translation": {
+        "AAA": "K",
+        "AAT": "N",
+        "AAC": "N",
+        "AAG": "K",
+        "ATA": "I",
+        "ATT": "I",
+        "ATC": "I",
+        "ATG": "M",
+        "ACA": "T",
+        "ACT": "T",
+        "ACC": "T",
+        "ACG": "T",
+        "AGA": "R",
+        "AGT": "S",
+        "AGC": "S",
+        "AGG": "R",
+        "TAA": "*",
+        "TAT": "Y",
+        "TAC": "Y",
+        "TAG": "*",
+        "TTA": "L",
+        "TTT": "F",
+        "TTC": "F",
+        "TTG": "L",
+        "TCA": "S",
+        "TCT": "S",
+        "TCC": "S",
+        "TCG": "S",
+        "TGA": "*",
+        "TGT": "C",
+        "TGC": "C",
+        "TGG": "W",
+        "CAA": "Q",
+        "CAT": "H",
+        "CAC": "H",
+        "CAG": "Q",
+        "CTA": "L",
+        "CTT": "L",
+        "CTC": "L",
+        "CTG": "L",
+        "CCA": "P",
+        "CCT": "P",
+        "CCC": "P",
+        "CCG": "P",
+        "CGA": "R",
+        "CGT": "R",
+        "CGC": "R",
+        "CGG": "R",
+        "GAA": "E",
+        "GAT": "D",
+        "GAC": "D",
+        "GAG": "E",
+        "GTA": "V",
+        "GTT": "V",
+        "GTC": "V",
+        "GTG": "V",
+        "GCA": "A",
+        "GCT": "A",
+        "GCC": "A",
+        "GCG": "A",
+        "GGA": "G",
+        "GGT": "G",
+        "GGC": "G",
+        "GGG": "G"
+      },
+      "starts": [
+        "TTG",
+        "CTG",
+        "ATG"
+      ],
+      "stops": [
+        "TAA",
+        "TAG",
+        "TGA"
+      ]
+    },
+    "2": {
+      "translation": {
+        "AAA": "K",
+        "AAT": "N",
+        "AAC": "N",
+        "AAG": "K",
+        "ATA": "M",
+        "ATT": "I",
+        "ATC": "I",
+        "ATG": "M",
+        "ACA": "T",
+        "ACT": "T",
+        "ACC": "T",
+        "ACG": "T",
+        "AGA": "*",
+        "AGT": "S",
+        "AGC": "S",
+        "AGG": "*",
+        "TAA": "*",
+        "TAT": "Y",
+        "TAC": "Y",
+        "TAG": "*",
+        "TTA": "L",
+        "TTT": "F",
+        "TTC": "F",
+        "TTG": "L",
+        "TCA": "S",
+        "TCT": "S",
+        "TCC": "S",
+        "TCG": "S",
+        "TGA": "W",
+        "TGT": "C",
+        "TGC": "C",
+        "TGG": "W",
+        "CAA": "Q",
+        "CAT": "H",
+        "CAC": "H",
+        "CAG": "Q",
+        "CTA": "L",
+        "CTT": "L",
+        "CTC": "L",
+        "CTG": "L",
+        "CCA": "P",
+        "CCT": "P",
+        "CCC": "P",
+        "CCG": "P",
+        "CGA": "R",
+        "CGT": "R",
+        "CGC": "R",
+        "CGG": "R",
+        "GAA": "E",
+        "GAT": "D",
+        "GAC": "D",
+        "GAG": "E",
+        "GTA": "V",
+        "GTT": "V",
+        "GTC": "V",
+        "GTG": "V",
+        "GCA": "A",
+        "GCT": "A",
+        "GCC": "A",
+        "GCG": "A",
+        "GGA": "G",
+        "GGT": "G",
+        "GGC": "G",
+        "GGG": "G"
+      },
+      "starts": [
+        "ATT",
+        "ATC",
+        "ATA",
+        "ATG",
+        "GTG"
+      ],
+      "stops": [
+        "TAA",
+        "TAG",
+        "AGA",
+        "AGG"
+      ]
+    }
+  },
+  "meltingTemperatures": [
+    {
+      "sequence": "ATGGCCATTGTAATGGGCCG",
+      "selfComplementary": false,
+      "temperature": 57.473196109677474
+    },
+    {
+      "sequence": "GTCGACCTGCAGCCCGGGAT",
+      "selfComplementary": false,
+      "temperature": 63.199298160924286
+    },
+    {
+      "sequence": "CGCGAATTCGCGATGGCCATTG",
+      "selfComplementary": false,
+      "temperature": 62.00773161347223
+    },
+    {
+      "sequence": "CGCGAATTCGCG",
+      "selfComplementary": true,
+      "temperature": 46.96872419752236
+    },
+    {
+      "sequence": "GCGCGCGC",
+      "selfComplementary": true,
+      "temperature": 42.74797701535965
+    },
+    {
+      "sequence": "ATGCATGCAT",
+      "selfComplementary": true,
+      "temperature": 28.394645364317228
+    },
+    {
+      "sequence": "AAGAAATCCTTGGAT",
+      "selfComplementary": false,
+      "temperature": 38.08992753144895
+    },
+    {
+      "sequence": "ACAGGAGATACTTCCATT",
+      "selfComplementary": false,
+      "temperature": 45.69621274451657
+    },
+    {
+      "sequence": "GCCTGGAAGGTCGTGGAGTG",
+      "selfComplementary": false,
+      "temperature": 59.2019648655546
+    },
+    {
+      "sequence": "GAATTGTGGTTATCGGCAATCC",
+      "selfComplementary": false,
+      "temperature": 54.25781051013962
+    },
+    {
+      "sequence": "CACCCGGTAGCTGTGAATAGTACC",
+      "selfComplementary": false,
+      "temperature": 58.46854136256462
+    },
+    {
+      "sequence": "CAGTTAGCTAGGCGGGGTTAAAGTAG",
+      "selfComplementary": false,
+      "temperature": 58.59123147044619
+    },
+    {
+      "sequence": "AAGATGCCAAGTATCGATTATAGGCTAG",
+      "selfComplementary": false,
+      "temperature": 56.221364957126696
+    },
+    {
+      "sequence": "CGGACACCATTCAGGAATACTGGGGCCGGG",
+      "selfComplementary": false,
+      "temperature": 68.38871637302077
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+const fs = require('node:fs');
+const assert = require('node:assert/strict');
+
+const html = fs.readFileSync('index.html', 'utf8').replace(/\r\n/g, '\n');
+assert.match(html, /id="nav-structure"/);
+// v3：三维结构改为 WebGL 画布 + 真实 PDB 结构库
+assert.match(html, /id="s3dHost"/);
+assert.match(html, /id="s3dLib"/);
+assert.match(html, /id="structurePosition"/);
+assert.match(html, /assets\/vendor\/three\.min\.js/);
+assert.match(html, /assets\/structures\/structures\.js/);
+assert.match(html, /assets\/js\/structure3d\.js/);
+assert.equal(fs.existsSync('assets/vendor/three.min.js'), true);
+assert.equal(fs.existsSync('assets/structures/structures.js'), true);
+assert.equal(fs.existsSync('assets/js/structure3d.js'), true);
+assert.match(html, /id="dogmaTimeline"/);
+assert.match(html, /role="dialog" aria-modal="true"/);
+assert.doesNotMatch(html, /miaoda\.feishu\.cn|cdn\.jsdelivr\.net|cdnjs\.cloudflare\.com/);
+const sw = fs.readFileSync('service-worker.js', 'utf8');
+assert.match(sw, /seq-workshop-next-/);
+assert.match(sw, /sequence-core\.js/);
+assert.match(sw, /workspace-format\.js/);
+assert.match(sw, /product-workspace\.js/);
+assert.match(sw, /assets\/vendor\/three\.min\.js/);
+assert.match(sw, /assets\/structures\/structures\.js/);
+assert.match(sw, /assets\/js\/structure3d\.js/);
+const single = fs.readFileSync('序列工坊_离线单文件版.html', 'utf8');
+assert.match(single, /inlined: assets\/vendor\/three\.min\.js/);
+assert.match(single, /inlined: assets\/structures\/structures\.js/);
+assert.doesNotMatch(single, /<script[^>]+src="assets\//);
+console.log('ui smoke tests passed');

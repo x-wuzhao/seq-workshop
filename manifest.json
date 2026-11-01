@@ -1,0 +1,50 @@
+{
+  "name": "序列工坊 Next · 本地 DNA 工作台",
+  "short_name": "序列工坊 Next",
+  "description": "本地分析、工作区备份与恢复、可复核计算记录的 DNA 工作台。",
+  "lang": "zh-CN",
+  "dir": "ltr",
+  "id": "./",
+  "start_url": "./?source=pwa",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone"],
+  "orientation": "any",
+  "theme_color": "#0E7C7B",
+  "background_color": "#F3F7F6",
+  "categories": ["education", "science"],
+  "icons": [
+    {
+      "src": "./icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "开始分析",
+      "short_name": "开始分析",
+      "url": "./?source=pwa#seq-input",
+      "icons": [{"src": "./icons/icon-192.png", "sizes": "192x192", "type": "image/png"}]
+    },
+    {
+      "name": "中心法则",
+      "short_name": "中心法则",
+      "url": "./?source=pwa#nav-dogma",
+      "icons": [{"src": "./icons/icon-192.png", "sizes": "192x192", "type": "image/png"}]
+    }
+  ]
+}
